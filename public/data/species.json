@@ -1,0 +1,112 @@
+[
+  {
+    "id": "tigrillo-001",
+    "scientificName": "Leopardus tigrinus",
+    "commonName": "Tigrillo",
+    "commonNameLocal": "Gato tigre",
+    "category": "mamiferos",
+    "family": "Felidae",
+    "description": "Pequeño felino manchado que habita los bosques húmedos del Chocó. Es un depredador nocturno que se alimenta de pequeños mamíferos, aves y reptiles.",
+    "habitat": "Bosques húmedos tropicales de tierras bajas y montanos",
+    "diet": "Carnívoro: roedores, aves pequeñas, reptiles e insectos",
+    "threatStatus": "VU",
+    "endemic": false,
+    "image": "https://images.unsplash.com/photo-1425082661705-1834bfd09dca?w=800",
+    "imageCredit": "Unsplash",
+    "funFacts": [
+      "Es el felino salvaje más pequeño de América",
+      "Puede trepar árboles con gran agilidad",
+      "Sus manchas son únicas como huellas dactilares"
+    ],
+    "conservationInfo": "La principal amenaza es la pérdida de hábitat por deforestación",
+    "iucnLink": "https://www.iucnredlist.org/"
+  },
+  {
+    "id": "ave-001",
+    "scientificName": "Chlorochrysa nitidissima",
+    "commonName": "Tangara Multicolor",
+    "commonNameLocal": "Siete colores del Chocó",
+    "category": "aves",
+    "family": "Thraupidae",
+    "description": "Ave endémica del Chocó biogeográfico, famosa por su plumaje brillante de múltiples colores. Habita el dosel de bosques primarios entre 600-1200 msnm.",
+    "habitat": "Dosel de bosques húmedos montanos",
+    "diet": "Frugívora: se alimenta principalmente de frutas y ocasionalmente insectos",
+    "threatStatus": "CR",
+    "endemic": true,
+    "image": "https://images.unsplash.com/photo-1444464666168-49d633b86797?w=800",
+    "imageCredit": "Unsplash",
+    "funFacts": [
+      "Solo existe en una pequeña área del Chocó colombiano",
+      "Sus colores incluyen verde, azul, amarillo, rojo y negro",
+      "Es una de las aves más buscadas por observadores de aves"
+    ],
+    "conservationInfo": "En peligro crítico debido a la deforestación de su hábitat muy limitado",
+    "iucnLink": "https://www.iucnredlist.org/"
+  },
+  {
+    "id": "ave-002",
+    "scientificName": "Grallaria alleni",
+    "commonName": "Tororoi Bigotudo",
+    "commonNameLocal": "Tororoi del Chocó",
+    "category": "aves",
+    "family": "Grallariidae",
+    "description": "Ave endémica que vive en el suelo de bosques muy húmedos. Es extremadamente tímida y difícil de observar, conocida por su distintivo canto.",
+    "habitat": "Sotobosque de bosques muy húmedos premontanos",
+    "diet": "Insectívora: se alimenta de invertebrados del suelo del bosque",
+    "threatStatus": "EN",
+    "endemic": true,
+    "image": "https://images.unsplash.com/photo-1552728089-57bdde30beb3?w=800",
+    "imageCredit": "Unsplash",
+    "funFacts": [
+      "Camina por el suelo del bosque buscando insectos",
+      "Su canto es una serie de silbidos melodiosos",
+      "Rara vez vuela, prefiere caminar entre la hojarasca"
+    ],
+    "conservationInfo": "Amenazada por la pérdida de bosques primarios en su pequeño rango de distribución",
+    "iucnLink": "https://www.iucnredlist.org/"
+  },
+  {
+    "id": "anfibio-001",
+    "scientificName": "Dendrobates truncatus",
+    "commonName": "Rana Venenosa de Patas Amarillas",
+    "commonNameLocal": "Ranita dorada",
+    "category": "anfibios",
+    "family": "Dendrobatidae",
+    "description": "Pequeña rana de colores brillantes que advierte a los depredadores sobre su toxicidad. Las comunidades indígenas han usado tradicionalmente sus toxinas.",
+    "habitat": "Hojarasca de bosques húmedos de tierras bajas",
+    "diet": "Insectívora: hormigas, ácaros y pequeños artrópodos",
+    "threatStatus": "LC",
+    "endemic": false,
+    "image": "https://images.unsplash.com/photo-1535083783855-76ae62b2914e?w=800",
+    "imageCredit": "Unsplash",
+    "funFacts": [
+      "Su piel contiene alcaloides tóxicos",
+      "Los colores brillantes advierten a los depredadores",
+      "Los machos transportan los renacuajos en su espalda"
+    ],
+    "conservationInfo": "Relativamente común pero sensible a cambios en la calidad del hábitat",
+    "iucnLink": "https://www.iucnredlist.org/"
+  },
+  {
+    "id": "planta-001",
+    "scientificName": "Wettinia quinaria",
+    "commonName": "Palma de Macana",
+    "commonNameLocal": "Tagua del Chocó",
+    "category": "plantas",
+    "family": "Arecaceae",
+    "description": "Palma de tallo múltiple característica de los bosques del Chocó. Sus semillas (tagua) se usan en artesanías locales.",
+    "habitat": "Bosques húmedos tropicales, a menudo cerca de ríos",
+    "diet": "N/A",
+    "threatStatus": "LC",
+    "endemic": false,
+    "image": "https://images.unsplash.com/photo-1558516622-0e06e243d38f?w=800",
+    "imageCredit": "Unsplash",
+    "funFacts": [
+      "Puede crecer hasta 20 metros de altura",
+      "Sus frutos son importantes para la fauna silvestre",
+      "Las comunidades locales usan sus hojas para techos"
+    ],
+    "conservationInfo": "Común pero afectada por deforestación en algunas áreas",
+    "iucnLink": "https://www.iucnredlist.org/"
+  }
+]

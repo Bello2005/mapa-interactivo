@@ -1,0 +1,18 @@
+Archivo,Tipo,Fuente,Fecha Acceso,Licencia,URL,Notas,Estado
+bioregion.geojson,GeoJSON,WWF Ecoregions,2024-01-XX,CC BY,https://www.worldwildlife.org/ecoregions,"Chocó-Darién Moist Forests, simplificado para web",Placeholder
+boundaries_admin.geojson,GeoJSON,GADM v4.1,2024-01-XX,Libre uso con atribución,https://gadm.org/,Departamento del Chocó Colombia,Placeholder
+species_ranges.geojson,GeoJSON,Generado manualmente,2024-01-XX,Original IIAP,N/A,Rangos aproximados para demo - REEMPLAZAR,Placeholder
+species.json,JSON,Múltiples fuentes,2024-01-XX,Mixta,Ver notas individuales,Fichas compiladas - verificar con investigadores IIAP,Placeholder
+trivia.json,JSON,Original,2024-01-XX,CC BY-NC-SA 4.0,N/A,Preguntas creadas para el proyecto,Listo
+hero-choco.jpg,Imagen,Unsplash,2024-01-XX,Unsplash License,https://unsplash.com/,Foto ilustrativa - buscar foto real del Chocó,Placeholder
+tigrillo.jpg,Imagen,Unsplash,2024-01-XX,Unsplash License,https://unsplash.com/,Foto genérica de felino - necesita foto real,Placeholder
+ave1.jpg,Imagen,Unsplash,2024-01-XX,Unsplash License,https://unsplash.com/,Tangara Multicolor - buscar en GBIF/Macaulay,Placeholder
+ave2.jpg,Imagen,Unsplash,2024-01-XX,Unsplash License,https://unsplash.com/,Tororoi - buscar en GBIF/Macaulay,Placeholder
+iiap-logo-placeholder.svg,Logo,Temporal,N/A,N/A,N/A,DEBE SER REEMPLAZADO por logo oficial IIAP,Placeholder crítico
+
+# INSTRUCCIONES DE USO:
+# 1. Actualizar columna "Estado" cuando se reemplacen placeholders
+# 2. Estado puede ser: Placeholder, En proceso, Verificado, Listo
+# 3. Añadir nuevas filas para cada archivo de datos que se agregue
+# 4. Mantener enlaces actualizados en columna URL
+# 5. Archivar citas completas en /for_IIAP/citations.txt
