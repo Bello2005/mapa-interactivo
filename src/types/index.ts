@@ -1,7 +1,7 @@
 // src/types/index.ts
 // Tipos TypeScript para el proyecto Chocó Biogeográfico
 
-import { LatLngBoundsExpression } from 'leaflet'
+import type { LatLngBoundsExpression } from 'leaflet'
 
 // ===== TIPOS GEOESPACIALES =====
 

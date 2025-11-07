@@ -13,7 +13,6 @@ import {
   Globe,
 } from 'lucide-react'
 import clsx from 'clsx'
-import { Button } from '@components/atoms/Button'
 import { useUIStore } from '@stores/uiStore'
 import { t } from '@utils/translations'
 

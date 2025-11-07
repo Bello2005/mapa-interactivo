@@ -1,8 +1,8 @@
 // src/hooks/useGameProgress.ts
 // Hook personalizado para gestionar el progreso del juego
 
-import { useState, useEffect, useCallback } from 'react'
-import type { UserProgress, Badge } from '@types/index'
+import { useState, useCallback } from 'react'
+import type { UserProgress, Badge } from '../types'
 import {
   getUserProgress,
   saveUserProgress,

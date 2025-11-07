@@ -9,7 +9,7 @@ import { motion } from 'framer-motion'
 import { Menu } from 'lucide-react'
 import clsx from 'clsx'
 
-import type { GeoJSONFeatureCollection, Species } from '@types/index'
+import type { GeoJSONFeatureCollection, Species } from '../../types'
 import { getBounds } from '@utils/geo'
 import { MapSidebar } from '@components/organisms/MapSidebar'
 import { useUIStore } from '@stores/uiStore'
@@ -72,7 +72,7 @@ export function MapView({ fullHeight = false }: MapViewProps) {
 
   const [bioregionData, setBioregionData] = useState<GeoJSONFeatureCollection | null>(null)
   const [adminData, setAdminData] = useState<GeoJSONFeatureCollection | null>(null)
-  const [speciesData, setSpeciesData] = useState<GeoJSONFeatureCollection | null>(null)
+  const [_speciesData, setSpeciesData] = useState<GeoJSONFeatureCollection | null>(null)
   const [species, setSpecies] = useState<Species[]>([])
 
   const [sidebarOpen, setSidebarOpen] = useState(true) // Panel lateral abierto por defecto
@@ -86,7 +86,6 @@ export function MapView({ fullHeight = false }: MapViewProps) {
   const [mouseCoordinates, setMouseCoordinates] = useState<{ lat: number; lng: number } | null>(null)
 
   const mapRef = useRef<L.Map | null>(null)
-  const tileLayerRef = useRef<L.TileLayer | null>(null)
 
   // Cargar datos GeoJSON
   useEffect(() => {
@@ -188,26 +187,6 @@ export function MapView({ fullHeight = false }: MapViewProps) {
     opacity: 0.9, // Opacidad del borde
   }
   
-
-  const adminStyle = {
-    fillColor: '#2563eb',
-    fillOpacity: 0.1,
-    color: '#1d4ed8',
-    weight: 2,
-    dashArray: '5, 5',
-  }
-
-  const speciesStyle = (feature: any) => {
-    const colors = ['#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4', '#ec4899']
-    const colorIndex = Math.abs(feature.properties.speciesId?.charCodeAt(0) || 0) % colors.length
-
-    return {
-      fillColor: colors[colorIndex],
-      fillOpacity: 0.3,
-      color: colors[colorIndex],
-      weight: 2,
-    }
-  }
 
   // Manejo de eventos - Mejorado con hover effects y mejor UX
   const onEachFeature = (feature: any, layer: L.Layer) => {

@@ -1,7 +1,7 @@
 // src/components/molecules/Card.tsx
 // Componente Card versátil con hover effects
 
-import { HTMLAttributes } from 'react'
+import type { HTMLAttributes } from 'react'
 import { motion } from 'framer-motion'
 import clsx from 'clsx'
 
@@ -41,6 +41,7 @@ export function Card({
     : {}
 
   return (
+    // @ts-expect-error - Framer Motion types conflict with React HTMLAttributes
     <Component
       className={clsx(
         'rounded-2xl',

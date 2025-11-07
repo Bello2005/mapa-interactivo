@@ -4,7 +4,7 @@
 import { motion } from 'framer-motion'
 import clsx from 'clsx'
 import { MapPin, AlertCircle } from 'lucide-react'
-import type { Species } from '@types/index'
+import type { Species } from '../../types'
 import { Badge } from '@components/atoms/Badge'
 import { categoryLabels, threatStatusLabels, threatStatusColors } from '@utils/colors'
 

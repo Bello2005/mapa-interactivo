@@ -1,7 +1,7 @@
 // src/utils/colors.ts
 // Paleta de colores y utilidades de visualización
 
-import type { ThreatStatus, SpeciesCategory } from '@types/index'
+import type { ThreatStatus, SpeciesCategory } from '../types'
 
 /**
  * Paleta Chocó Biogeográfico

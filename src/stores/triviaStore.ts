@@ -2,7 +2,7 @@
 // Store para el sistema de trivia con Zustand
 
 import { create } from 'zustand'
-import type { TriviaState } from '@types/index'
+import type { TriviaState } from '../types'
 import { saveTriviaState, getTriviaState, clearTriviaState } from '@utils/storage'
 
 interface TriviaStore extends TriviaState {

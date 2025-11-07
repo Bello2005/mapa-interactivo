@@ -2,7 +2,7 @@
 // Store global de UI con Zustand
 
 import { create } from 'zustand'
-import type { SpeciesCategory } from '@types/index'
+import type { SpeciesCategory } from '../types'
 import { getLanguage, saveLanguage } from '@utils/storage'
 
 interface UIStore {

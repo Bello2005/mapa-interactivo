@@ -129,6 +129,7 @@ interface Translations {
       percentage: string
       correctAnswers: string
       totalQuestions: string
+      total: string
       restart: string
       backHome: string
       summary: string
@@ -295,6 +296,7 @@ const translations: Record<Language, Translations> = {
         correctAnswers: 'Correctas',
         percentage: 'Acierto',
         score: 'Puntos',
+        totalQuestions: 'Total de preguntas',
         total: 'Total',
         restart: 'Intentar de Nuevo',
         backHome: 'Volver al Inicio',
@@ -460,6 +462,7 @@ const translations: Record<Language, Translations> = {
         correctAnswers: 'Correct',
         percentage: 'Accuracy',
         score: 'Points',
+        totalQuestions: 'Total questions',
         total: 'Total',
         restart: 'Try Again',
         backHome: 'Back to Home',

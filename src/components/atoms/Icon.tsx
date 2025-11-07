@@ -1,7 +1,7 @@
 // src/components/atoms/Icon.tsx
 // Wrapper para iconos de lucide-react con consistencia
 
-import { LucideIcon } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 import clsx from 'clsx'
 
 interface IconProps {

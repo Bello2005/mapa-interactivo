@@ -1,7 +1,7 @@
 // src/utils/storage.ts
 // Utilidades para localStorage y gestión de progreso del usuario
 
-import type { UserProgress, Badge, TriviaState } from '@types/index'
+import type { UserProgress, Badge, TriviaState } from '../types'
 
 const STORAGE_KEYS = {
   USER_PROGRESS: 'choco_user_progress',

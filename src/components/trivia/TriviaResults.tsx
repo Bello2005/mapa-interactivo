@@ -2,10 +2,10 @@
 // Pantalla de resultados de la trivia
 
 import { motion } from 'framer-motion'
-import { Trophy, Award, RotateCcw, Home, TrendingUp } from 'lucide-react'
+import { Trophy, Award, RotateCcw, Home } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useEffect } from 'react'
-import type { TriviaQuestion } from '@types/index'
+import type { TriviaQuestion } from '../../types'
 import { Button } from '@components/atoms/Button'
 import { useGameProgress } from '@hooks/useGameProgress'
 import { BadgeCard } from '@components/molecules/BadgeCard'
@@ -36,7 +36,6 @@ export function TriviaResults({
 
   const totalQuestions = questions.length
   const percentage = Math.round((correctAnswers / totalQuestions) * 100)
-  const maxScore = questions.reduce((sum, q) => sum + q.points, 0)
 
   // Guardar progreso cuando se monta el componente
   useEffect(() => {

@@ -4,7 +4,7 @@
 import { motion } from 'framer-motion'
 import clsx from 'clsx'
 import { Lock, Award } from 'lucide-react'
-import type { Badge } from '@types/index'
+import type { Badge } from '../../types'
 
 interface BadgeCardProps {
   badge: Badge

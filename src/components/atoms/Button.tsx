@@ -1,7 +1,8 @@
 // src/components/atoms/Button.tsx
 // Componente Button con variantes y animaciones
 
-import { ButtonHTMLAttributes, forwardRef } from 'react'
+import type { ButtonHTMLAttributes } from 'react'
+import { forwardRef } from 'react'
 import { motion } from 'framer-motion'
 import clsx from 'clsx'
 
@@ -45,6 +46,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     }
 
     return (
+      // @ts-expect-error - Framer Motion types conflict with React HTMLAttributes
       <motion.button
         ref={ref}
         whileHover={{ scale: disabled || loading ? 1 : 1.02 }}
