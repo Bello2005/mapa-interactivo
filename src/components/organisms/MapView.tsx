@@ -9,9 +9,10 @@ import { motion } from 'framer-motion'
 import { Menu } from 'lucide-react'
 import clsx from 'clsx'
 
-import type { GeoJSONFeatureCollection, Species } from '../../types'
+import type { GeoJSONFeatureCollection, Species, City } from '../../types'
 import { getBounds } from '@utils/geo'
 import { MapSidebar } from '@components/organisms/MapSidebar'
+import { CityMarker } from '@components/molecules/CityMarker'
 import { useUIStore } from '@stores/uiStore'
 import { useGameProgress } from '@hooks/useGameProgress'
 
@@ -84,8 +85,35 @@ export function MapView({ fullHeight = false }: MapViewProps) {
   const [showCoordinates, setShowCoordinates] = useState(false)
   const [currentCoordinates, setCurrentCoordinates] = useState<{ lat: number; lng: number } | null>(null)
   const [mouseCoordinates, setMouseCoordinates] = useState<{ lat: number; lng: number } | null>(null)
+  const [selectedCity, setSelectedCity] = useState<City | null>(null)
 
   const mapRef = useRef<L.Map | null>(null)
+
+  // Ciudades principales del Chocó biogeográfico
+  const cities: City[] = [
+    {
+      id: 'quibdo',
+      name: 'Quibdó',
+      country: 'Colombia',
+      lat: 5.6911,
+      lng: -76.6584,
+      population: 116000,
+      description: 'Capital del departamento del Chocó, ubicada a orillas del río Atrato, uno de los ríos más caudalosos de Colombia. Quibdó es el corazón del Chocó biogeográfico, una región reconocida mundialmente como uno de los 36 hotspots de biodiversidad del planeta. La ciudad se encuentra en medio de selvas tropicales que albergan más del 25% de las especies de aves del mundo, muchas de ellas endémicas. El Chocó biogeográfico es una de las regiones más lluviosas del planeta, con precipitaciones que pueden superar los 13,000 mm anuales, creando ecosistemas únicos de bosques húmedos tropicales.',
+      importance: 'Capital del departamento del Chocó y puerta de entrada a una de las regiones más biodiversas del mundo, reconocida como hotspot de biodiversidad global.',
+      imageUrl: '/media/images/quibdó.avif',
+    },
+    {
+      id: 'buenaventura',
+      name: 'Buenaventura',
+      country: 'Colombia',
+      lat: 3.8801,
+      lng: -77.0197,
+      population: 407000,
+      description: 'El puerto más importante de Colombia en el Pacífico y uno de los principales puertos del continente. Buenaventura se encuentra estratégicamente ubicada en el extremo sur del Chocó biogeográfico, donde la región se extiende desde Panamá hasta Ecuador. La ciudad es un punto crucial de conexión entre el Chocó biogeográfico y el resto del país, facilitando el comercio y el intercambio cultural. La región circundante forma parte del Chocó biogeográfico, caracterizado por sus bosques húmedos tropicales, manglares costeros y una biodiversidad excepcional que incluye miles de especies de plantas, aves, mamíferos y anfibios, muchas de las cuales son endémicas y no se encuentran en ningún otro lugar del mundo.',
+      importance: 'Principal puerto del Pacífico colombiano, centro económico estratégico y punto de conexión del Chocó biogeográfico con el resto del país y el mundo.',
+      imageUrl: '/media/images/buenaventura.avif',
+    },
+  ]
 
   // Cargar datos GeoJSON
   useEffect(() => {
@@ -390,7 +418,10 @@ export function MapView({ fullHeight = false }: MapViewProps) {
       {/* Panel lateral izquierdo - Componente aislado */}
       <MapSidebar
         isOpen={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
+        onClose={() => {
+          setSidebarOpen(false)
+          setSelectedCity(null)
+        }}
         activeLayers={activeLayers}
         toggleLayer={toggleLayer}
         bioregionOpacity={bioregionOpacity}
@@ -406,6 +437,12 @@ export function MapView({ fullHeight = false }: MapViewProps) {
         mapStyle={mapStyle}
         isFullscreen={isFullscreen}
         showCoordinates={showCoordinates}
+        selectedCity={selectedCity}
+        onBackToControls={() => {
+          setSelectedCity(null)
+          // Ajustar vista a posición inicial
+          handleFitBounds()
+        }}
       />
 
       {/* Botón para abrir panel (cuando está cerrado) - Estilo tarjeta flotante - Responsive mejorado */}
@@ -466,7 +503,7 @@ export function MapView({ fullHeight = false }: MapViewProps) {
 
       {/* Mapa */}
       <div className={clsx(
-        'flex-1 transition-all duration-300',
+        'flex-1 transition-all duration-300 relative',
         sidebarOpen && 'md:ml-0'
       )}>
         <MapContainer
@@ -535,6 +572,17 @@ export function MapView({ fullHeight = false }: MapViewProps) {
           />
         )}
 
+        {/* Marcadores de ciudades */}
+        {cities.map((city) => (
+          <CityMarker
+            key={city.id}
+            city={city}
+            onClick={(city) => {
+              setSelectedCity(city)
+              setSidebarOpen(true) // Asegurar que el sidebar esté abierto
+            }}
+          />
+        ))}
 
         <MapController
           bioregionData={bioregionData}

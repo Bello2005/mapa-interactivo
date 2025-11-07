@@ -29,6 +29,8 @@ import { Button } from '@components/atoms/Button'
 import { LayerToggle } from '@components/molecules/LayerToggle'
 import { useUIStore } from '@stores/uiStore'
 import { t } from '@utils/translations'
+import type { City } from '../../types'
+import { ArrowLeft, Users } from 'lucide-react'
 
 interface MapSidebarProps {
   isOpen: boolean
@@ -50,6 +52,8 @@ interface MapSidebarProps {
   mapStyle?: 'default' | 'satellite' | 'terrain'
   isFullscreen?: boolean
   showCoordinates?: boolean
+  selectedCity?: City | null
+  onBackToControls?: () => void
 }
 
 export function MapSidebar({
@@ -70,6 +74,8 @@ export function MapSidebar({
   mapStyle = 'default',
   isFullscreen = false,
   showCoordinates = false,
+  selectedCity = null,
+  onBackToControls,
 }: MapSidebarProps) {
   const [mounted, setMounted] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
@@ -147,14 +153,18 @@ export function MapSidebar({
                     whileHover={{ scale: 1.05 }}
                     className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-lg bg-gradient-to-br from-choco-forest-500 to-choco-pacific-500 flex items-center justify-center shadow-md flex-shrink-0"
                   >
-                    <Layers className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+                    {selectedCity ? (
+                      <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+                    ) : (
+                      <Layers className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+                    )}
                   </motion.div>
                   <div className="min-w-0 flex-1">
                     <h2 className="font-bold text-base sm:text-lg md:text-xl text-gray-900 tracking-tight truncate">
-                      {translations.map.title}
+                      {selectedCity ? selectedCity.name : translations.map.title}
                     </h2>
                     <p className="text-xs sm:text-sm md:text-base text-gray-500 font-medium truncate">
-                      Chocó Biogeográfico
+                      {selectedCity ? selectedCity.country : 'Chocó Biogeográfico'}
                     </p>
                   </div>
                 </div>
@@ -173,36 +183,106 @@ export function MapSidebar({
             {/* Contenido con scroll suave - Altura reducida para scroll */}
             <div className="flex-1 overflow-y-auto overflow-x-hidden custom-scrollbar min-h-0">
               <div className="px-3 sm:px-4 md:px-5 py-3 sm:py-4 md:py-5 space-y-3 sm:space-y-4 md:space-y-5">
-                {/* Card de información - Responsive */}
-                <motion.div
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.1 }}
-                  className="bg-gray-50 rounded-lg sm:rounded-xl p-3 sm:p-4 border border-gray-100"
-                >
-                  <div className="flex items-start gap-2 sm:gap-3">
-                    <motion.div
-                      whileHover={{ scale: 1.05 }}
-                      className="w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-lg sm:rounded-xl bg-gradient-to-br from-choco-forest-500 to-choco-pacific-500 flex items-center justify-center shadow-md flex-shrink-0"
-                    >
-                      <Sparkles className="w-5 h-5 sm:w-5.5 sm:h-5.5 md:w-6 md:h-6 text-white" />
-                    </motion.div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
-                        <h3 className="font-bold text-sm sm:text-base md:text-lg text-gray-900">
-                          Chocó Biogeográfico
-                        </h3>
-                        <span className="px-2 sm:px-2.5 py-0.5 sm:py-1 text-xs sm:text-sm font-bold bg-choco-forest-100 text-choco-forest-700 rounded-full whitespace-nowrap">
-                          Hotspot
-                        </span>
-                      </div>
-                      <p className="text-xs sm:text-sm md:text-base text-gray-600 leading-relaxed">
-                        {translations.map.bioregionDescription}, 
-                        caracterizada por su <span className="font-semibold text-choco-forest-700">alta biodiversidad</span> y endemismo.
+                {selectedCity ? (
+                  /* Vista de información de ciudad */
+                  <motion.div
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    className="space-y-4"
+                  >
+                    {/* Imagen de la ciudad */}
+                    {selectedCity.imageUrl && (
+                      <motion.div
+                        initial={{ scale: 0.95, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        transition={{ delay: 0.1 }}
+                        className="relative w-full h-48 sm:h-56 md:h-64 rounded-lg sm:rounded-xl overflow-hidden shadow-lg"
+                      >
+                        <img
+                          src={selectedCity.imageUrl}
+                          alt={selectedCity.name}
+                          className="w-full h-full object-cover object-center"
+                          style={{ objectFit: 'cover' }}
+                          onError={(e) => {
+                            // Fallback si la imagen no carga
+                            e.currentTarget.src = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=600&fit=crop&q=80'
+                          }}
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+                        <div className="absolute bottom-4 sm:bottom-5 left-4 sm:left-5 right-4 sm:right-5">
+                          <h3 className="font-display font-bold text-xl sm:text-2xl md:text-3xl text-white mb-1 drop-shadow-lg">
+                            {selectedCity.name}
+                          </h3>
+                          <p className="text-xs sm:text-sm text-white/90 drop-shadow-md">{selectedCity.country}</p>
+                        </div>
+                      </motion.div>
+                    )}
+
+                    {/* Descripción */}
+                    <div className="bg-gray-50 rounded-lg sm:rounded-xl p-3 sm:p-4 border border-gray-100">
+                      <p className="text-sm text-gray-700 leading-relaxed mb-4">
+                        {selectedCity.description}
                       </p>
+
+                      {selectedCity.population && (
+                        <div className="flex items-center gap-2 text-sm text-gray-600 mb-3">
+                          <Users className="w-4 h-4" />
+                          <span>Población: {selectedCity.population.toLocaleString()}</span>
+                        </div>
+                      )}
+
+                      {selectedCity.importance && (
+                        <div className="bg-choco-forest-50 rounded-lg p-3">
+                          <p className="text-sm font-medium text-choco-forest-700">
+                            {selectedCity.importance}
+                          </p>
+                        </div>
+                      )}
                     </div>
-                  </div>
-                </motion.div>
+
+                    {/* Botón de regresar */}
+                    <Button
+                      onClick={onBackToControls}
+                      variant="primary"
+                      fullWidth
+                      icon={<ArrowLeft className="w-4 h-4" />}
+                      iconPosition="left"
+                    >
+                      Regresar a Controles
+                    </Button>
+                  </motion.div>
+                ) : (
+                  <>
+                    {/* Card de información - Responsive */}
+                    <motion.div
+                      initial={{ y: 20, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ delay: 0.1 }}
+                      className="bg-gray-50 rounded-lg sm:rounded-xl p-3 sm:p-4 border border-gray-100"
+                    >
+                      <div className="flex items-start gap-2 sm:gap-3">
+                        <motion.div
+                          whileHover={{ scale: 1.05 }}
+                          className="w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-lg sm:rounded-xl bg-gradient-to-br from-choco-forest-500 to-choco-pacific-500 flex items-center justify-center shadow-md flex-shrink-0"
+                        >
+                          <Sparkles className="w-5 h-5 sm:w-5.5 sm:h-5.5 md:w-6 md:h-6 text-white" />
+                        </motion.div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
+                            <h3 className="font-bold text-sm sm:text-base md:text-lg text-gray-900">
+                              Chocó Biogeográfico
+                            </h3>
+                            <span className="px-2 sm:px-2.5 py-0.5 sm:py-1 text-xs sm:text-sm font-bold bg-choco-forest-100 text-choco-forest-700 rounded-full whitespace-nowrap">
+                              Hotspot
+                            </span>
+                          </div>
+                          <p className="text-xs sm:text-sm md:text-base text-gray-600 leading-relaxed">
+                            {translations.map.bioregionDescription}, 
+                            caracterizada por su <span className="font-semibold text-choco-forest-700">alta biodiversidad</span> y endemismo.
+                          </p>
+                        </div>
+                      </div>
+                    </motion.div>
 
                 {/* Sección de Capas - Responsive */}
                 <motion.div
@@ -524,18 +604,20 @@ export function MapSidebar({
                   </div>
                 </motion.div>
 
-                {/* Footer minimalista */}
-                <motion.div
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.4 }}
-                  className="pt-4 border-t border-gray-100"
-                >
-                  <div className="flex items-center justify-center gap-2 text-xs text-gray-400">
-                    <Sparkles className="w-3 h-3" />
-                    <span className="font-medium">Powered by IIAP</span>
-                  </div>
-                </motion.div>
+                    {/* Footer minimalista */}
+                    <motion.div
+                      initial={{ y: 20, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ delay: 0.4 }}
+                      className="pt-4 border-t border-gray-100"
+                    >
+                      <div className="flex items-center justify-center gap-2 text-xs text-gray-400">
+                        <Sparkles className="w-3 h-3" />
+                        <span className="font-medium">Powered by IIAP</span>
+                      </div>
+                    </motion.div>
+                  </>
+                )}
               </div>
             </div>
           </motion.aside>
