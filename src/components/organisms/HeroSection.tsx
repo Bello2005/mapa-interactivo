@@ -105,10 +105,10 @@ export function HeroSection() {
                 key={index}
                 className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 shadow-soft hover:shadow-medium transition-shadow"
               >
-                <div className="font-display font-bold text-2xl md:text-3xl text-choco-forest-600 mb-2">
+                <div className="font-display font-bold text-3xl md:text-4xl lg:text-5xl text-choco-forest-600 mb-2">
                   {stat.value}
                 </div>
-                <div className="text-sm text-choco-sand-700">
+                <div className="text-base md:text-lg text-choco-sand-700">
                   {stat.label}
                 </div>
               </div>

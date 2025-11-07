@@ -233,7 +233,7 @@ const translations: Record<Language, Translations> = {
       },
       features: {
         title: '¿Qué puedes hacer aquí?',
-        subtitle: 'Una plataforma educativa interactiva desarrollada en colaboración con el IIAP',
+        subtitle: 'Una plataforma educativa e interactiva desarrollada en colaboración con el IIAP',
         explore: {
           title: 'Explora el Mapa Interactivo',
           description: 'Descubre la extensión del Chocó biogeográfico, desde Panamá hasta Ecuador, y conoce su biodiversidad única.',

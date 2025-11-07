@@ -63,6 +63,27 @@ export function TriviaQuestion({
 
   const isCorrect = hasAnswered && currentAnswer === question.correctAnswer
 
+  // Funciones para formatear categoría y dificultad con tildes
+  const formatCategory = (category: string): string => {
+    const categoryMap: Record<string, string> = {
+      geografia: 'geografía',
+      fauna: 'fauna',
+      flora: 'flora',
+      conservacion: 'conservación',
+      cultura: 'cultura',
+    }
+    return categoryMap[category] || category
+  }
+
+  const formatDifficulty = (difficulty: string): string => {
+    const difficultyMap: Record<string, string> = {
+      facil: 'fácil',
+      medio: 'medio',
+      dificil: 'difícil',
+    }
+    return difficultyMap[difficulty] || difficulty
+  }
+
   return (
     <motion.div
       key={question.id}
@@ -75,10 +96,10 @@ export function TriviaQuestion({
       <div className="flex items-start justify-between mb-6">
         <div>
           <Badge variant="info" size="md">
-            {question.category}
+            {formatCategory(question.category)}
           </Badge>
           <Badge variant="warning" size="md" className="ml-2">
-            {question.difficulty}
+            {formatDifficulty(question.difficulty)}
           </Badge>
         </div>
         <div className="text-right">

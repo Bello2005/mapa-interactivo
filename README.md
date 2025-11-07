@@ -1,6 +1,6 @@
 # 🌿 Chocó Biogeográfico - Plataforma Educativa IIAP
 
-Plataforma educativa interactiva sobre el Chocó biogeográfico, desarrollada en colaboración con el **Instituto de Investigaciones Ambientales del Pacífico (IIAP) "John Von Neumann"**. Dirigida a jóvenes de 14-25 años para promover el conocimiento y conservación de una de las regiones más biodiversas del planeta.
+Plataforma educativa e interactiva sobre el Chocó biogeográfico, desarrollada en colaboración con el **Instituto de Investigaciones Ambientales del Pacífico (IIAP) "John Von Neumann"**. Dirigida a jóvenes de 14-25 años para promover el conocimiento y conservación de una de las regiones más biodiversas del planeta.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![React](https://img.shields.io/badge/React-19.1-blue.svg)](https://reactjs.org/)
