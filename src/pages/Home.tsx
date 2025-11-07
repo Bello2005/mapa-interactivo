@@ -71,7 +71,7 @@ export function Home() {
             <h2 className="font-display font-bold text-3xl md:text-4xl text-choco-sand-900 mb-4">
               {translations.home.features.title}
             </h2>
-            <p className="text-lg text-choco-sand-700 max-w-2xl mx-auto whitespace-nowrap">
+            <p className="text-lg text-choco-sand-700 max-w-2xl mx-auto whitespace-normal md:whitespace-nowrap">
               {translations.home.features.subtitle}
             </p>
           </div>
