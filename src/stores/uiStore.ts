@@ -10,6 +10,7 @@ interface UIStore {
   activeLayers: {
     bioregion: boolean
     adminBoundaries: boolean
+    blackCommunities: boolean
     speciesRanges: boolean
     heatmap: boolean
   }
@@ -43,8 +44,9 @@ interface UIStore {
 export const useUIStore = create<UIStore>((set) => ({
   // Estado inicial
   activeLayers: {
-    bioregion: true,
-    adminBoundaries: false,
+    bioregion: false, // Comentada - ahora usamos límites municipales como capa principal
+    adminBoundaries: true, // Capa principal activada por defecto
+    blackCommunities: false, // Comunidades Negras - alternativa a límites municipales
     speciesRanges: false, // Desactivada por defecto para evitar superposición con datos placeholder
     heatmap: false,
   },
@@ -118,8 +120,9 @@ export const useUIStore = create<UIStore>((set) => ({
   reset: () =>
     set({
       activeLayers: {
-        bioregion: true,
-        adminBoundaries: false,
+        bioregion: false, // Comentada - ahora usamos límites municipales como capa principal
+        adminBoundaries: true, // Capa principal activada por defecto
+        blackCommunities: false, // Comunidades Negras - alternativa a límites municipales
         speciesRanges: false, // Desactivada por defecto para evitar superposición con datos placeholder
         heatmap: false,
       },

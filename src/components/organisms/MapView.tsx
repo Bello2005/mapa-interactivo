@@ -32,37 +32,74 @@ interface MapViewProps {
 function MapController({
   bioregionData,
   adminData,
+  communitiesData,
   activeLayers,
 }: {
   bioregionData: GeoJSONFeatureCollection | null
   adminData: GeoJSONFeatureCollection | null
+  communitiesData: GeoJSONFeatureCollection | null
   activeLayers: any
 }) {
   const map = useMap()
   const [initialFitDone, setInitialFitDone] = useState(false)
 
   useEffect(() => {
-    // Hacer fitBounds inicial cuando se carga la bioregión por primera vez
-    if (!initialFitDone && activeLayers.bioregion && bioregionData) {
-      const bounds = getBounds(bioregionData)
+    // Hacer fitBounds inicial cuando se cargan los límites municipales o comunidades negras (capa principal)
+    // Priorizar límites municipales si ambas están activas
+    if (!initialFitDone && activeLayers.adminBoundaries && adminData) {
+      const bounds = getBounds(adminData)
       // Padding más pequeño para un zoom más cercano y atractivo
       map.fitBounds(bounds, { padding: [30, 30], animate: false })
       setInitialFitDone(true)
+    } else if (!initialFitDone && activeLayers.blackCommunities && communitiesData) {
+      const bounds = getBounds(communitiesData)
+      map.fitBounds(bounds, { padding: [30, 30], animate: false })
+      setInitialFitDone(true)
     }
-  }, [bioregionData, activeLayers.bioregion, map, initialFitDone])
+    // Código comentado - bioregión desactivada
+    // if (!initialFitDone && activeLayers.bioregion && bioregionData) {
+    //   const bounds = getBounds(bioregionData)
+    //   map.fitBounds(bounds, { padding: [30, 30], animate: false })
+    //   setInitialFitDone(true)
+    // }
+  }, [adminData, communitiesData, activeLayers.adminBoundaries, activeLayers.blackCommunities, map, initialFitDone])
 
   useEffect(() => {
     // Hacer fitBounds cuando cambian las capas activas (después del fit inicial)
+    // Si ambas están activas, combinar los bounds
     if (initialFitDone) {
-      if (activeLayers.bioregion && bioregionData) {
-        const bounds = getBounds(bioregionData)
-        map.fitBounds(bounds, { padding: [50, 50], animate: true })
+      if (activeLayers.adminBoundaries && activeLayers.blackCommunities && adminData && communitiesData) {
+        // Combinar bounds de ambas capas
+        const adminBounds = getBounds(adminData)
+        const communitiesBounds = getBounds(communitiesData)
+        const adminBoundsArray = adminBounds as [[number, number], [number, number]]
+        const communitiesBoundsArray = communitiesBounds as [[number, number], [number, number]]
+        
+        const combinedBounds = L.latLngBounds(
+          [
+            Math.min(adminBoundsArray[0][0], communitiesBoundsArray[0][0]),
+            Math.min(adminBoundsArray[0][1], communitiesBoundsArray[0][1])
+          ],
+          [
+            Math.max(adminBoundsArray[1][0], communitiesBoundsArray[1][0]),
+            Math.max(adminBoundsArray[1][1], communitiesBoundsArray[1][1])
+          ]
+        )
+        map.fitBounds([[combinedBounds.getSouth(), combinedBounds.getWest()], [combinedBounds.getNorth(), combinedBounds.getEast()]], { padding: [50, 50], animate: true })
       } else if (activeLayers.adminBoundaries && adminData) {
         const bounds = getBounds(adminData)
         map.fitBounds(bounds, { padding: [50, 50], animate: true })
+      } else if (activeLayers.blackCommunities && communitiesData) {
+        const bounds = getBounds(communitiesData)
+        map.fitBounds(bounds, { padding: [50, 50], animate: true })
       }
+      // Código comentado - bioregión desactivada
+      // if (activeLayers.bioregion && bioregionData) {
+      //   const bounds = getBounds(bioregionData)
+      //   map.fitBounds(bounds, { padding: [50, 50], animate: true })
+      // }
     }
-  }, [activeLayers.bioregion, activeLayers.adminBoundaries, bioregionData, adminData, map, initialFitDone])
+  }, [activeLayers.adminBoundaries, activeLayers.blackCommunities, adminData, communitiesData, map, initialFitDone])
 
   return null
 }
@@ -73,6 +110,7 @@ export function MapView({ fullHeight = false }: MapViewProps) {
 
   const [bioregionData, setBioregionData] = useState<GeoJSONFeatureCollection | null>(null)
   const [adminData, setAdminData] = useState<GeoJSONFeatureCollection | null>(null)
+  const [communitiesData, setCommunitiesData] = useState<GeoJSONFeatureCollection | null>(null)
   const [_speciesData, setSpeciesData] = useState<GeoJSONFeatureCollection | null>(null)
   const [species, setSpecies] = useState<Species[]>([])
 
@@ -121,54 +159,89 @@ export function MapView({ fullHeight = false }: MapViewProps) {
       try {
         setLoading(true)
 
-        // Cache busting para forzar recarga del archivo actualizado
+        // Cache busting mejorado para forzar recarga del archivo actualizado
         const timestamp = Date.now()
+        const randomId = Math.random().toString(36).substring(7)
 
-        const [bioregion, admin, speciesRanges, speciesList] = await Promise.all([
-          fetch(`/data/bioregion.geojson?t=${timestamp}`, { cache: 'no-store' }).then(r => {
+        const [bioregion, admin, communities, speciesRanges, speciesList] = await Promise.all([
+          fetch(`/data/bioregion.geojson?t=${timestamp}&r=${randomId}`, { 
+            cache: 'no-store',
+            headers: { 'Cache-Control': 'no-cache' }
+          }).then(r => {
             if (!r.ok) throw new Error(`Failed to load bioregion: ${r.status}`)
             return r.json()
           }),
-          fetch(`/data/boundaries_admin.geojson?t=${timestamp}`, { cache: 'no-store' }).then(r => {
+          fetch(`/data/boundaries_admin.geojson?t=${timestamp}&r=${randomId}`, { 
+            cache: 'no-store',
+            headers: { 
+              'Cache-Control': 'no-cache, no-store, must-revalidate',
+              'Pragma': 'no-cache',
+              'Expires': '0'
+            }
+          }).then(async r => {
             if (!r.ok) throw new Error(`Failed to load admin boundaries: ${r.status}`)
-            return r.json()
+            const data = await r.json()
+            console.log('📥 Datos administrativos cargados:', {
+              type: data.type,
+              featureCount: data.features?.length,
+              firstFeature: data.features?.[0]?.properties?.MpNombre || 'N/A'
+            })
+            return data
           }),
-          fetch(`/data/species_ranges.geojson?t=${timestamp}`, { cache: 'no-store' }).then(r => {
+          fetch(`/data/comunidades_negras.geojson?t=${timestamp}&r=${randomId}`, { 
+            cache: 'no-store',
+            headers: { 
+              'Cache-Control': 'no-cache, no-store, must-revalidate',
+              'Pragma': 'no-cache',
+              'Expires': '0'
+            }
+          }).then(async r => {
+            if (!r.ok) throw new Error(`Failed to load black communities: ${r.status}`)
+            const data = await r.json()
+            console.log('📥 Datos de comunidades negras cargados:', {
+              type: data.type,
+              featureCount: data.features?.length,
+              firstFeature: data.features?.[0]?.properties?.NOMBRE || 'N/A'
+            })
+            return data
+          }),
+          fetch(`/data/species_ranges.geojson?t=${timestamp}&r=${randomId}`, { 
+            cache: 'no-store',
+            headers: { 'Cache-Control': 'no-cache' }
+          }).then(r => {
             if (!r.ok) throw new Error(`Failed to load species ranges: ${r.status}`)
             return r.json()
           }),
-          fetch(`/data/species.json?t=${timestamp}`, { cache: 'no-store' }).then(r => {
+          fetch(`/data/species.json?t=${timestamp}&r=${randomId}`, { 
+            cache: 'no-store',
+            headers: { 'Cache-Control': 'no-cache' }
+          }).then(r => {
             if (!r.ok) throw new Error(`Failed to load species: ${r.status}`)
             return r.json()
           }),
         ])
 
-        // Filtrar el Departamento del Chocó de boundaries_admin para evitar solapamiento
-        const filteredAdmin = admin && admin.features ? {
-          ...admin,
-          features: admin.features.filter((f: any) => {
-            const name = (f.properties?.NAME || f.properties?.name || '').toLowerCase()
-            // Excluir el Departamento del Chocó ya que se solapa con el bioregion
-            return !name.includes('chocó') && !name.includes('choco')
-          })
-        } : admin
-
-        // Log para confirmar el filtro
-        if (admin && admin.features) {
-          const filteredCount = admin.features.length - (filteredAdmin.features?.length || 0)
-          if (filteredCount > 0) {
-            console.log(`✅ Filtrados ${filteredCount} features del Chocó de boundaries_admin para evitar solapamiento`)
-          }
-        }
-
+        // Usar directamente los datos administrativos del nuevo GeoJSON (límites municipales del Chocó)
+        // No necesitamos filtrar ya que este GeoJSON contiene específicamente los municipios del Chocó biogeográfico
         setBioregionData(bioregion)
-        setAdminData(filteredAdmin)
+        setAdminData(admin)
+        setCommunitiesData(communities)
+        
+        // Log detallado para confirmar la carga
+        if (admin && admin.features) {
+          console.log(`✅ Cargados ${admin.features.length} municipios del Chocó biogeográfico`)
+          console.log('📋 Muestra del primer municipio:', admin.features[0]?.properties)
+          console.log('🗺️ Tipo de GeoJSON:', admin.type)
+          console.log('📍 Total de features:', admin.features.length)
+        } else {
+          console.warn('⚠️ No se cargaron features administrativos')
+        }
         setSpeciesData(speciesRanges)
         setSpecies(speciesList)
         
-        // Calcular bounds del Chocó para limitar el movimiento del mapa
-        if (bioregion && bioregion.features && bioregion.features.length > 0) {
-          const bounds = getBounds(bioregion)
+        // Calcular bounds usando los límites municipales (capa principal)
+        if (admin && admin.features && admin.features.length > 0) {
+          const bounds = getBounds(admin)
           // Expandir ligeramente los bounds para permitir un poco de padding
           // bounds es [[minLat, minLng], [maxLat, maxLng]]
           const boundsArray = bounds as [[number, number], [number, number]]
@@ -179,23 +252,23 @@ export function MapView({ fullHeight = false }: MapViewProps) {
             [expandedBounds.getNorth(), expandedBounds.getEast()]
           ])
           
-          console.log('✅ Chocó biogeográfico cargado:', {
-            features: bioregion.features.length,
-            geometryType: bioregion.features[0]?.geometry?.type,
-            name: bioregion.features[0]?.properties?.name,
-            area: bioregion.features[0]?.properties?.area_km2,
+          console.log('✅ Límites municipales cargados - bounds calculados:', {
+            features: admin.features.length,
             bounds: bounds
           })
-          
-          // Validar que no haya features antiguos o inválidos
-          const invalidFeatures = bioregion.features.filter((f: any) => 
-            !f.properties?.name || 
-            f.properties.name !== 'Chocó Biogeográfico'
-          )
-          if (invalidFeatures.length > 0) {
-            console.warn('⚠️ Advertencia: Se encontraron features con nombres inválidos:', invalidFeatures)
-          }
         }
+        
+        // Código comentado - cálculo de bounds usando bioregión (desactivado)
+        // if (bioregion && bioregion.features && bioregion.features.length > 0) {
+        //   const bounds = getBounds(bioregion)
+        //   const boundsArray = bounds as [[number, number], [number, number]]
+        //   const leafletBounds = L.latLngBounds(boundsArray[0], boundsArray[1])
+        //   const expandedBounds = leafletBounds.pad(0.1)
+        //   setMapBounds([
+        //     [expandedBounds.getSouth(), expandedBounds.getWest()],
+        //     [expandedBounds.getNorth(), expandedBounds.getEast()]
+        //   ])
+        // }
       } catch (error) {
         console.error('❌ Error loading map data:', error)
       } finally {
@@ -206,14 +279,32 @@ export function MapView({ fullHeight = false }: MapViewProps) {
     loadData()
   }, [])
 
-  // Estilos para las capas - Verde uniforme
-  const bioregionStyle = {
-    fillColor: 'rgba(34, 139, 34, 0.45)', // ForestGreen con opacidad
-    fillOpacity: bioregionOpacity, // Opacidad controlable por el usuario
-    color: '#083f1a', // Borde oscuro para silueta clara
+  // Estilos para las capas - CAPA PRINCIPAL: Límites municipales (resaltada)
+  const adminBoundariesStyle = {
+    fillColor: 'rgba(34, 139, 34, 0.45)', // Verde con opacidad - estilo destacado
+    fillOpacity: bioregionOpacity, // Opacidad controlable (reutilizando el control existente)
+    color: '#083f1a', // Borde verde oscuro para silueta clara
+    weight: 2, // Grosor del borde más visible
+    opacity: 0.9, // Opacidad del borde
+  }
+
+  // Estilos para Comunidades Negras - Color azul/púrpura para diferenciación
+  const blackCommunitiesStyle = {
+    fillColor: 'rgba(139, 92, 246, 0.5)', // Púrpura/violeta con opacidad
+    fillOpacity: bioregionOpacity, // Opacidad controlable
+    color: '#5b21b6', // Borde púrpura oscuro para silueta clara
     weight: 2, // Grosor del borde
     opacity: 0.9, // Opacidad del borde
   }
+
+  // Estilos para bioregión - COMENTADA (capa secundaria desactivada)
+  // const bioregionStyle = {
+  //   fillColor: 'rgba(34, 139, 34, 0.45)', // ForestGreen con opacidad
+  //   fillOpacity: bioregionOpacity, // Opacidad controlable por el usuario
+  //   color: '#083f1a', // Borde oscuro para silueta clara
+  //   weight: 2, // Grosor del borde
+  //   opacity: 0.9, // Opacidad del borde
+  // }
   
 
   // Manejo de eventos - Mejorado con hover effects y mejor UX
@@ -221,8 +312,47 @@ export function MapView({ fullHeight = false }: MapViewProps) {
     if (feature.properties) {
       const props = feature.properties
 
+      // Popup para Comunidades Negras
+      if (props.NOMBRE || props.ULTIMO_NUM) {
+        const nombre = props.NOMBRE || 'Comunidad Negra'
+        const codigo = props.ULTIMO_NUM || props.CODIGO_DAN || ''
+        const municipio = props.MUNICIPIO || ''
+        const departamento = props.DEPARTAMEN || '27'
+        const areaHa = props.Ha_Total_CC || props.AREA_TOTAL
+        const area = areaHa ? `${areaHa.toFixed(2)} ha` : ''
+        
+        layer.bindPopup(`
+          <div class="p-3 min-w-[200px]">
+            <h3 class="font-bold text-base mb-1">${nombre}</h3>
+            ${codigo ? `<p class="text-xs text-gray-600 mb-1"><strong>Código:</strong> ${codigo}</p>` : ''}
+            ${departamento ? `<p class="text-xs text-gray-600 mb-1"><strong>Departamento:</strong> ${departamento}</p>` : ''}
+            ${municipio ? `<p class="text-xs text-gray-600 mb-1"><strong>Municipio:</strong> ${municipio}</p>` : ''}
+            ${area ? `<p class="text-xs text-gray-600"><strong>Área:</strong> ${area}</p>` : ''}
+          </div>
+        `)
+      }
+      // Popup para municipios (límites administrativos)
+      else if (props.MpNombre || props.MpCodigo) {
+        const municipio = props.MpNombre || props.NAME || props.name || 'Municipio'
+        const codigo = props.MpCodigo || props.CODIGO || ''
+        const depto = props.DeptoNom || props.DEPTO || 'Chocó'
+        const area = props.AreaHa ? `${(props.AreaHa / 1000).toFixed(2)} km²` : ''
+        const altitud = props.MpAltitud ? `${props.MpAltitud} m.s.n.m.` : ''
+        const subregion = props.Subregion || ''
+        
+        layer.bindPopup(`
+          <div class="p-3 min-w-[200px]">
+            <h3 class="font-bold text-base mb-1">${municipio}</h3>
+            ${codigo ? `<p class="text-xs text-gray-600 mb-1"><strong>Código:</strong> ${codigo}</p>` : ''}
+            ${depto ? `<p class="text-xs text-gray-600 mb-1"><strong>Departamento:</strong> ${depto}</p>` : ''}
+            ${subregion ? `<p class="text-xs text-gray-600 mb-1"><strong>Subregión:</strong> ${subregion}</p>` : ''}
+            ${area ? `<p class="text-xs text-gray-600 mb-1"><strong>Área:</strong> ${area}</p>` : ''}
+            ${altitud ? `<p class="text-xs text-gray-600"><strong>Altitud:</strong> ${altitud}</p>` : ''}
+          </div>
+        `)
+      }
       // Popup para bioregión - Simple
-      if (props.name || props.NAME || props.ecoregion) {
+      else if (props.name || props.NAME || props.ecoregion) {
         const ecoregion = props.ecoregion || props.eco_name || props.name || props.NAME
         const description = props.description || ''
         const countries = props.countries ? props.countries.join(', ') : ''
@@ -274,10 +404,41 @@ export function MapView({ fullHeight = false }: MapViewProps) {
   }
 
   const handleFitBounds = () => {
-    if (bioregionData && mapRef.current) {
-      const bounds = getBounds(bioregionData)
+    if (!mapRef.current) return
+    
+    // Si ambas capas están activas, combinar los bounds
+    if (activeLayers.adminBoundaries && activeLayers.blackCommunities && adminData && communitiesData) {
+      const adminBounds = getBounds(adminData)
+      const communitiesBounds = getBounds(communitiesData)
+      const adminBoundsArray = adminBounds as [[number, number], [number, number]]
+      const communitiesBoundsArray = communitiesBounds as [[number, number], [number, number]]
+      
+      const combinedBounds = L.latLngBounds(
+        [
+          Math.min(adminBoundsArray[0][0], communitiesBoundsArray[0][0]),
+          Math.min(adminBoundsArray[0][1], communitiesBoundsArray[0][1])
+        ],
+        [
+          Math.max(adminBoundsArray[1][0], communitiesBoundsArray[1][0]),
+          Math.max(adminBoundsArray[1][1], communitiesBoundsArray[1][1])
+        ]
+      )
+      mapRef.current.fitBounds(
+        [[combinedBounds.getSouth(), combinedBounds.getWest()], [combinedBounds.getNorth(), combinedBounds.getEast()]], 
+        { padding: [50, 50], animate: true }
+      )
+    } else if (activeLayers.blackCommunities && communitiesData) {
+      const bounds = getBounds(communitiesData)
+      mapRef.current.fitBounds(bounds, { padding: [50, 50], animate: true })
+    } else if (activeLayers.adminBoundaries && adminData) {
+      const bounds = getBounds(adminData)
       mapRef.current.fitBounds(bounds, { padding: [50, 50], animate: true })
     }
+    // Código comentado - bioregión desactivada
+    // if (bioregionData && mapRef.current) {
+    //   const bounds = getBounds(bioregionData)
+    //   mapRef.current.fitBounds(bounds, { padding: [50, 50], animate: true })
+    // }
   }
 
   // Búsqueda de ubicaciones
@@ -562,15 +723,35 @@ export function MapView({ fullHeight = false }: MapViewProps) {
         )}
 
 
-        {/* Capa de bioregión - Solo mostrar si está activa y tiene datos válidos */}
-        {activeLayers.bioregion && bioregionData && bioregionData.features && bioregionData.features.length > 0 && (
+        {/* CAPA PRINCIPAL: Límites administrativos (municipios) - Resaltada */}
+        {activeLayers.adminBoundaries && adminData && adminData.features && adminData.features.length > 0 && (
           <GeoJSON
-            key="bioregion-layer" // Key para forzar re-render si cambian los datos
+            key={`admin-boundaries-layer-${adminData.features.length}`}
+            data={adminData}
+            style={adminBoundariesStyle}
+            onEachFeature={onEachFeature}
+          />
+        )}
+
+        {/* CAPA: Comunidades Negras - Alternativa a límites municipales */}
+        {activeLayers.blackCommunities && communitiesData && communitiesData.features && communitiesData.features.length > 0 && (
+          <GeoJSON
+            key={`black-communities-layer-${communitiesData.features.length}`}
+            data={communitiesData}
+            style={blackCommunitiesStyle}
+            onEachFeature={onEachFeature}
+          />
+        )}
+
+        {/* Código comentado - Capa de bioregión desactivada */}
+        {/* {activeLayers.bioregion && bioregionData && bioregionData.features && bioregionData.features.length > 0 && (
+          <GeoJSON
+            key="bioregion-layer"
             data={bioregionData}
             style={bioregionStyle}
             onEachFeature={onEachFeature}
           />
-        )}
+        )} */}
 
         {/* Marcadores de ciudades */}
         {cities.map((city) => (
@@ -587,6 +768,7 @@ export function MapView({ fullHeight = false }: MapViewProps) {
         <MapController
           bioregionData={bioregionData}
           adminData={adminData}
+          communitiesData={communitiesData}
           activeLayers={activeLayers}
         />
         </MapContainer>

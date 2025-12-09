@@ -143,6 +143,7 @@ export interface UIStore {
   activeLayers: {
     bioregion: boolean
     adminBoundaries: boolean
+    blackCommunities: boolean
     speciesRanges: boolean
     heatmap: boolean
   }

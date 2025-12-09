@@ -37,8 +37,10 @@ interface MapSidebarProps {
   onClose: () => void
   activeLayers: {
     bioregion: boolean
+    adminBoundaries: boolean
+    blackCommunities: boolean
   }
-  toggleLayer: (layer: 'bioregion') => void
+  toggleLayer: (layer: 'bioregion' | 'adminBoundaries' | 'blackCommunities') => void
   bioregionOpacity: number
   onOpacityChange: (opacity: number) => void
   onZoomIn: () => void
@@ -352,15 +354,29 @@ export function MapSidebar({
                         <div className="flex-1 min-w-0">
                           <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
                             <h3 className="font-bold text-sm sm:text-base md:text-lg text-gray-900">
-                              Chocó Biogeográfico
+                              Capas del Mapa
                             </h3>
                             <span className="px-2 sm:px-2.5 py-0.5 sm:py-1 text-xs sm:text-sm font-bold bg-choco-forest-100 text-choco-forest-700 rounded-full whitespace-nowrap">
-                              Hotspot
+                              Chocó
                             </span>
                           </div>
                           <p className="text-xs sm:text-sm md:text-base text-gray-600 leading-relaxed">
-                            {translations.map.bioregionDescription}, 
-                            caracterizada por su <span className="font-semibold text-choco-forest-700">alta biodiversidad</span> y endemismo.
+                            {activeLayers.adminBoundaries && activeLayers.blackCommunities ? (
+                              <>
+                                Visualizando <span className="font-semibold text-choco-forest-700">límites municipales</span> y{' '}
+                                <span className="font-semibold text-purple-700">comunidades negras</span> del Chocó biogeográfico.
+                              </>
+                            ) : activeLayers.blackCommunities ? (
+                              <>
+                                Consejos comunitarios de comunidades negras del <span className="font-semibold text-purple-700">Chocó biogeográfico</span>, 
+                                territorios colectivos reconocidos para la preservación cultural y ambiental.
+                              </>
+                            ) : (
+                              <>
+                                Municipios del <span className="font-semibold text-choco-forest-700">Chocó biogeográfico</span>, 
+                                región reconocida mundialmente como hotspot de biodiversidad.
+                              </>
+                            )}
                           </p>
                         </div>
                       </div>
@@ -383,22 +399,22 @@ export function MapSidebar({
                   </div>
 
                   <div className="space-y-2 sm:space-y-3">
-                    {/* Layer Toggle - Responsive */}
+                    {/* Layer Toggle - Límites Municipales (CAPA PRINCIPAL) */}
                     <motion.div
                       whileHover={{ y: -1 }}
                       transition={{ type: 'spring', stiffness: 400 }}
                       className="bg-white rounded-lg sm:rounded-xl p-3 sm:p-4 border border-gray-100 shadow-sm hover:shadow-md transition-all"
                     >
                       <LayerToggle
-                        label="Chocó Biogeográfico"
-                        description={translations.map.bioregion}
-                        checked={activeLayers.bioregion}
-                        onChange={() => toggleLayer('bioregion')}
+                        label="Límites Municipales"
+                        description="Municipios del Chocó biogeográfico"
+                        checked={activeLayers.adminBoundaries}
+                        onChange={() => toggleLayer('adminBoundaries')}
                         color="#1b7a3a"
                       />
                       
                       {/* Control de opacidad - Tamaño aumentado */}
-                      {activeLayers.bioregion && (
+                      {activeLayers.adminBoundaries && (
                         <motion.div
                           initial={{ height: 0, opacity: 0 }}
                           animate={{ height: 'auto', opacity: 1 }}
@@ -436,6 +452,75 @@ export function MapSidebar({
                         </motion.div>
                       )}
                     </motion.div>
+
+                    {/* Layer Toggle - Comunidades Negras */}
+                    <motion.div
+                      whileHover={{ y: -1 }}
+                      transition={{ type: 'spring', stiffness: 400 }}
+                      className="bg-white rounded-lg sm:rounded-xl p-3 sm:p-4 border border-gray-100 shadow-sm hover:shadow-md transition-all"
+                    >
+                      <LayerToggle
+                        label="Comunidades Negras"
+                        description="Consejos comunitarios del Chocó biogeográfico"
+                        checked={activeLayers.blackCommunities}
+                        onChange={() => toggleLayer('blackCommunities')}
+                        color="#8b5cf6"
+                      />
+                      
+                      {/* Control de opacidad */}
+                      {activeLayers.blackCommunities && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          className="mt-4 pt-4 border-t border-gray-100"
+                        >
+                          <div className="flex items-center justify-between mb-3">
+                            <div className="flex items-center gap-2">
+                              <Sliders className="w-4 h-4 text-gray-500" />
+                              <label className="text-base font-semibold text-gray-700">
+                                {translations.map.opacity}
+                              </label>
+                            </div>
+                            <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-base font-bold">
+                              {Math.round(bioregionOpacity * 100)}%
+                            </span>
+                          </div>
+                          <div className="relative">
+                            <input
+                              type="range"
+                              min="0"
+                              max="100"
+                              value={bioregionOpacity * 100}
+                              onChange={(e) => onOpacityChange(parseInt(e.target.value) / 100)}
+                              className="w-full h-2 bg-gradient-to-r from-gray-200 via-purple-200 to-purple-400 rounded-full appearance-none cursor-pointer accent-purple-500 slider"
+                              style={{
+                                background: `linear-gradient(to right, #e5e7eb 0%, #e5e7eb ${bioregionOpacity * 100}%, #c4b5fd ${bioregionOpacity * 100}%, #8b5cf6 100%)`
+                              }}
+                            />
+                            <div className="flex justify-between mt-1.5 text-xs text-gray-400">
+                              <span>0%</span>
+                              <span>100%</span>
+                            </div>
+                          </div>
+                        </motion.div>
+                      )}
+                    </motion.div>
+
+                    {/* Código comentado - Layer Toggle Chocó Biogeográfico (desactivado) */}
+                    {/* <motion.div
+                      whileHover={{ y: -1 }}
+                      transition={{ type: 'spring', stiffness: 400 }}
+                      className="bg-white rounded-lg sm:rounded-xl p-3 sm:p-4 border border-gray-100 shadow-sm hover:shadow-md transition-all"
+                    >
+                      <LayerToggle
+                        label="Chocó Biogeográfico"
+                        description={translations.map.bioregion}
+                        checked={activeLayers.bioregion}
+                        onChange={() => toggleLayer('bioregion')}
+                        color="#1b7a3a"
+                      />
+                    </motion.div> */}
                   </div>
                 </motion.div>
 
