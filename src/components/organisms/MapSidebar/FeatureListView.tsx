@@ -91,7 +91,11 @@ export function FeatureListView({ layerId }: FeatureListViewProps) {
       {/* Header con botón volver */}
       <div className="p-3 border-b border-gray-200 bg-white">
         <button
-          onClick={exitFeatureListView}
+          onClick={() => {
+            exitFeatureListView()
+            // Asegurar que volvemos a la vista de capas
+            useUIStore.getState().setSidebarView('layers')
+          }}
           className="inline-flex items-center gap-1.5 text-sm font-medium text-choco-forest-700 hover:text-choco-forest-800 transition-colors mb-2"
         >
           <ArrowLeft className="w-4 h-4" />

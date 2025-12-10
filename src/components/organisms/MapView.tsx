@@ -979,7 +979,10 @@ export function MapView({ fullHeight = false }: MapViewProps) {
         </MapContainer>
 
         {activeLayersList.length > 0 && (
-          <div className="absolute bottom-4 left-4 z-[1000] bg-white/95 backdrop-blur-sm px-4 py-3 rounded-lg shadow-lg border border-gray-200 max-w-[260px]">
+          <div className={clsx(
+            'absolute bottom-4 z-[1000] bg-white/95 backdrop-blur-sm px-4 py-3 rounded-lg shadow-lg border border-gray-200 max-w-[260px]',
+            sidebarOpen ? 'left-[420px] md:left-[420px]' : 'left-4'
+          )}>
             <div className="text-xs font-semibold text-gray-600 mb-2">Capas activas</div>
             <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
               {activeLayersList.map((layer) => {

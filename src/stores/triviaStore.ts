@@ -23,6 +23,7 @@ const initialState: TriviaState = {
   completed: false,
   startTime: 0,
   endTime: undefined,
+  currentSectionId: undefined,
 }
 
 export const useTriviaStore = create<TriviaStore>((set, get) => ({

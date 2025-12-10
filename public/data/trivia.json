@@ -1,152 +1,189 @@
-[
-  {
-    "id": "q1",
-    "question": "¿Qué países abarca el Chocó biogeográfico?",
-    "options": [
-      "Solo Colombia",
-      "Colombia y Ecuador",
-      "Panamá, Colombia y Ecuador",
-      "Colombia, Venezuela y Ecuador"
-    ],
-    "correctAnswer": 2,
-    "explanation": "El Chocó biogeográfico se extiende desde el este de Panamá, a lo largo de toda la costa pacífica de Colombia, hasta el noroccidente de Ecuador.",
-    "category": "geografia",
-    "difficulty": "facil",
-    "points": 10
-  },
-  {
-    "id": "q2",
-    "question": "¿Aproximadamente cuántas especies de aves se encuentran en el Chocó?",
-    "options": [
-      "Menos de 500",
-      "Entre 500 y 700",
-      "Más de 900",
-      "Más de 2000"
-    ],
-    "correctAnswer": 2,
-    "explanation": "El Chocó biogeográfico alberga más de 900 especies de aves, representando aproximadamente el 25% de las especies de aves del mundo en solo el 0.01% de la superficie terrestre.",
-    "category": "fauna",
-    "difficulty": "medio",
-    "points": 15
-  },
-  {
-    "id": "q3",
-    "question": "¿Qué característica hace del Chocó uno de los bosques más húmedos del mundo?",
-    "options": [
-      "Está cerca del océano",
-      "Tiene ríos muy grandes",
-      "Recibe hasta 13,000 mm de lluvia al año",
-      "Tiene muchos lagos"
-    ],
-    "correctAnswer": 2,
-    "explanation": "El Chocó biogeográfico es uno de los lugares más lluviosos del planeta, con precipitaciones que pueden alcanzar hasta 13,000 mm anuales en algunas zonas.",
-    "category": "geografia",
-    "difficulty": "medio",
-    "points": 15
-  },
-  {
-    "id": "q4",
-    "question": "¿Qué porcentaje aproximado de las especies del Chocó son endémicas?",
-    "options": [
-      "Menos del 10%",
-      "Alrededor del 25%",
-      "Más del 50%",
-      "Casi el 100%"
-    ],
-    "correctAnswer": 1,
-    "explanation": "Aproximadamente el 25% de las especies de plantas y animales del Chocó son endémicas, lo que significa que no se encuentran naturalmente en ningún otro lugar del mundo.",
-    "category": "flora",
-    "difficulty": "medio",
-    "points": 15
-  },
-  {
-    "id": "q5",
-    "question": "¿Cuál es la principal amenaza para la biodiversidad del Chocó?",
-    "options": [
-      "El cambio climático",
-      "La deforestación",
-      "Las especies invasoras",
-      "La contaminación del aire"
-    ],
-    "correctAnswer": 1,
-    "explanation": "La deforestación es la principal amenaza para la biodiversidad del Chocó, causada principalmente por la expansión agrícola, la minería ilegal y la explotación maderera no sostenible.",
-    "category": "conservacion",
-    "difficulty": "facil",
-    "points": 10
-  },
-  {
-    "id": "q6",
-    "question": "¿Qué significa IIAP?",
-    "options": [
-      "Instituto Internacional de Análisis del Pacífico",
-      "Instituto de Investigaciones Ambientales del Pacífico",
-      "Iniciativa Interamericana para el Ambiente y la Paz",
-      "Instituto Indígena de Acción Pacífica"
-    ],
-    "correctAnswer": 1,
-    "explanation": "IIAP significa Instituto de Investigaciones Ambientales del Pacífico 'John Von Neumann', una institución dedicada a la investigación científica y tradicional del Chocó biogeográfico.",
-    "category": "cultura",
-    "difficulty": "facil",
-    "points": 10
-  },
-  {
-    "id": "q7",
-    "question": "¿Cuántas especies de plantas aproximadamente tiene el Chocó?",
-    "options": [
-      "Alrededor de 2,000",
-      "Alrededor de 4,000",
-      "Más de 8,000",
-      "Más de 15,000"
-    ],
-    "correctAnswer": 2,
-    "explanation": "El Chocó biogeográfico alberga más de 8,000 especies de plantas, muchas de ellas endémicas y aún por descubrir y catalogar.",
-    "category": "flora",
-    "difficulty": "dificil",
-    "points": 20
-  },
-  {
-    "id": "q8",
-    "question": "¿Qué comunidades étnicas habitan tradicionalmente el Chocó?",
-    "options": [
-      "Solo comunidades mestizas",
-      "Comunidades afrodescendientes e indígenas",
-      "Solo comunidades indígenas",
-      "Comunidades europeas"
-    ],
-    "correctAnswer": 1,
-    "explanation": "El Chocó está habitado principalmente por comunidades afrodescendientes (descendientes de africanos esclavizados) y varios grupos indígenas como los Emberá y Wounaan, quienes han desarrollado un profundo conocimiento del bosque.",
-    "category": "cultura",
-    "difficulty": "medio",
-    "points": 15
-  },
-  {
-    "id": "q9",
-    "question": "¿Por qué el Chocó es considerado un 'hotspot' de biodiversidad?",
-    "options": [
-      "Porque hace mucho calor",
-      "Por su alta biodiversidad y endemismo en un área relativamente pequeña",
-      "Porque tiene muchos volcanes",
-      "Porque es muy turístico"
-    ],
-    "correctAnswer": 1,
-    "explanation": "El Chocó es uno de los 36 hotspots de biodiversidad del mundo debido a su extraordinaria concentración de especies endémicas y su alta biodiversidad en un área geográfica relativamente pequeña, combinado con amenazas significativas.",
-    "category": "conservacion",
-    "difficulty": "medio",
-    "points": 15
-  },
-  {
-    "id": "q10",
-    "question": "¿Cuál es la capital del departamento del Chocó en Colombia?",
-    "options": [
-      "Quibdó",
-      "Tumaco",
-      "Buenaventura",
-      "Bahía Solano"
-    ],
-    "correctAnswer": 0,
-    "explanation": "Quibdó es la capital del departamento del Chocó, ubicada a orillas del río Atrato, uno de los ríos más caudalosos de Colombia.",
-    "category": "geografia",
-    "difficulty": "facil",
-    "points": 10
-  }
-]
+{
+  "sections": [
+    {
+      "id": "geografia",
+      "name": "Geografía",
+      "description": "Preguntas sobre ubicación, características geográficas y ciudades del Chocó biogeográfico",
+      "questions": [
+        {
+          "id": "q1",
+          "question": "¿Qué países abarca el Chocó biogeográfico?",
+          "options": [
+            "Solo Colombia",
+            "Colombia y Ecuador",
+            "Panamá, Colombia y Ecuador",
+            "Colombia, Venezuela y Ecuador"
+          ],
+          "correctAnswer": 2,
+          "explanation": "El Chocó biogeográfico se extiende desde el este de Panamá, a lo largo de toda la costa pacífica de Colombia, hasta el noroccidente de Ecuador.",
+          "category": "geografia",
+          "difficulty": "facil",
+          "points": 10
+        },
+        {
+          "id": "q3",
+          "question": "¿Qué característica hace del Chocó uno de los bosques más húmedos del mundo?",
+          "options": [
+            "Está cerca del océano",
+            "Tiene ríos muy grandes",
+            "Recibe hasta 13,000 mm de lluvia al año",
+            "Tiene muchos lagos"
+          ],
+          "correctAnswer": 2,
+          "explanation": "El Chocó biogeográfico es uno de los lugares más lluviosos del planeta, con precipitaciones que pueden alcanzar hasta 13,000 mm anuales en algunas zonas.",
+          "category": "geografia",
+          "difficulty": "medio",
+          "points": 15
+        },
+        {
+          "id": "q10",
+          "question": "¿Cuál es la capital del departamento del Chocó en Colombia?",
+          "options": [
+            "Quibdó",
+            "Tumaco",
+            "Buenaventura",
+            "Bahía Solano"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Quibdó es la capital del departamento del Chocó, ubicada a orillas del río Atrato, uno de los ríos más caudalosos de Colombia.",
+          "category": "geografia",
+          "difficulty": "facil",
+          "points": 10
+        }
+      ]
+    },
+    {
+      "id": "fauna",
+      "name": "Fauna",
+      "description": "Preguntas sobre animales, aves, mamíferos y otras especies del Chocó",
+      "questions": [
+        {
+          "id": "q2",
+          "question": "¿Aproximadamente cuántas especies de aves se encuentran en el Chocó?",
+          "options": [
+            "Menos de 500",
+            "Entre 500 y 700",
+            "Más de 900",
+            "Más de 2000"
+          ],
+          "correctAnswer": 2,
+          "explanation": "El Chocó biogeográfico alberga más de 900 especies de aves, representando aproximadamente el 25% de las especies de aves del mundo en solo el 0.01% de la superficie terrestre.",
+          "category": "fauna",
+          "difficulty": "medio",
+          "points": 15
+        }
+      ]
+    },
+    {
+      "id": "flora",
+      "name": "Flora",
+      "description": "Preguntas sobre plantas, árboles y vegetación del Chocó",
+      "questions": [
+        {
+          "id": "q4",
+          "question": "¿Qué porcentaje aproximado de las especies del Chocó son endémicas?",
+          "options": [
+            "Menos del 10%",
+            "Alrededor del 25%",
+            "Más del 50%",
+            "Casi el 100%"
+          ],
+          "correctAnswer": 1,
+          "explanation": "Aproximadamente el 25% de las especies de plantas y animales del Chocó son endémicas, lo que significa que no se encuentran naturalmente en ningún otro lugar del mundo.",
+          "category": "flora",
+          "difficulty": "medio",
+          "points": 15
+        },
+        {
+          "id": "q7",
+          "question": "¿Cuántas especies de plantas aproximadamente tiene el Chocó?",
+          "options": [
+            "Alrededor de 2,000",
+            "Alrededor de 4,000",
+            "Más de 8,000",
+            "Más de 15,000"
+          ],
+          "correctAnswer": 2,
+          "explanation": "El Chocó biogeográfico alberga más de 8,000 especies de plantas, muchas de ellas endémicas y aún por descubrir y catalogar.",
+          "category": "flora",
+          "difficulty": "dificil",
+          "points": 20
+        }
+      ]
+    },
+    {
+      "id": "conservacion",
+      "name": "Conservación",
+      "description": "Preguntas sobre protección, amenazas y conservación del Chocó",
+      "questions": [
+        {
+          "id": "q5",
+          "question": "¿Cuál es la principal amenaza para la biodiversidad del Chocó?",
+          "options": [
+            "El cambio climático",
+            "La deforestación",
+            "Las especies invasoras",
+            "La contaminación del aire"
+          ],
+          "correctAnswer": 1,
+          "explanation": "La deforestación es la principal amenaza para la biodiversidad del Chocó, causada principalmente por la expansión agrícola, la minería ilegal y la explotación maderera no sostenible.",
+          "category": "conservacion",
+          "difficulty": "facil",
+          "points": 10
+        },
+        {
+          "id": "q9",
+          "question": "¿Por qué el Chocó es considerado un 'hotspot' de biodiversidad?",
+          "options": [
+            "Porque hace mucho calor",
+            "Por su alta biodiversidad y endemismo en un área relativamente pequeña",
+            "Porque tiene muchos volcanes",
+            "Porque es muy turístico"
+          ],
+          "correctAnswer": 1,
+          "explanation": "El Chocó es uno de los 36 hotspots de biodiversidad del mundo debido a su extraordinaria concentración de especies endémicas y su alta biodiversidad en un área geográfica relativamente pequeña, combinado con amenazas significativas.",
+          "category": "conservacion",
+          "difficulty": "medio",
+          "points": 15
+        }
+      ]
+    },
+    {
+      "id": "cultura",
+      "name": "Cultura",
+      "description": "Preguntas sobre comunidades, tradiciones e instituciones del Chocó",
+      "questions": [
+        {
+          "id": "q6",
+          "question": "¿Qué significa IIAP?",
+          "options": [
+            "Instituto Internacional de Análisis del Pacífico",
+            "Instituto de Investigaciones Ambientales del Pacífico",
+            "Iniciativa Interamericana para el Ambiente y la Paz",
+            "Instituto Indígena de Acción Pacífica"
+          ],
+          "correctAnswer": 1,
+          "explanation": "IIAP significa Instituto de Investigaciones Ambientales del Pacífico 'John Von Neumann', una institución dedicada a la investigación científica y tradicional del Chocó biogeográfico.",
+          "category": "cultura",
+          "difficulty": "facil",
+          "points": 10
+        },
+        {
+          "id": "q8",
+          "question": "¿Qué comunidades étnicas habitan tradicionalmente el Chocó?",
+          "options": [
+            "Solo comunidades mestizas",
+            "Comunidades afrodescendientes e indígenas",
+            "Solo comunidades indígenas",
+            "Comunidades europeas"
+          ],
+          "correctAnswer": 1,
+          "explanation": "El Chocó está habitado principalmente por comunidades afrodescendientes (descendientes de africanos esclavizados) y varios grupos indígenas como los Emberá y Wounaan, quienes han desarrollado un profundo conocimiento del bosque.",
+          "category": "cultura",
+          "difficulty": "medio",
+          "points": 15
+        }
+      ]
+    }
+  ]
+}

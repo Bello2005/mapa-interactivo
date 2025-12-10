@@ -123,7 +123,10 @@ export function FeatureDetailView({ layerId, featureId }: FeatureDetailViewProps
     >
       {/* Header con botón volver */}
       <button
-        onClick={exitFeatureDrillDown}
+        onClick={() => {
+          exitFeatureDrillDown()
+          // Asegurar que mantenemos la vista de lista si existe
+        }}
         className="inline-flex items-center gap-1.5 text-sm font-medium text-choco-forest-700 hover:text-choco-forest-800 transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />

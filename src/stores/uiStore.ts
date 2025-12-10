@@ -220,11 +220,15 @@ export const useUIStore = create<UIStore>((set) => ({
     })),
 
   exitFeatureDrillDown: () =>
-    set((state) => ({
-      featureDrillDown: null,
-      // Volver a la lista de features si venimos de ahí
-      featureListView: state.featureDrillDown?.layerId || null,
-    })),
+    set((state) => {
+      // Si venimos de una lista de features, mantenerla; si no, limpiar todo
+      const currentLayerId = state.featureDrillDown?.layerId
+      return {
+        featureDrillDown: null,
+        // Mantener la lista si venimos de ahí
+        featureListView: currentLayerId || null,
+      }
+    }),
 
   activateSurpriseMe: (type) =>
     set(() => ({

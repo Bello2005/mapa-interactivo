@@ -5,12 +5,12 @@ import type { ThematicLayer } from '../types'
 
 // Capas rápidas (modo "Rápido") inspiradas en las 6 sugeridas
 export const quickLayers = [
-  'bioregion',
   'admin-boundaries',
   'comunidades-negras',
   'resguardos-indigenas',
   'runap',
   'manglares',
+  'sedes-iiap',
 ]
 
 export const thematicLayers: ThematicLayer[] = [
@@ -251,25 +251,26 @@ export const thematicLayers: ThematicLayer[] = [
   },
 
   // Físico
-  {
-    id: 'bioregion',
-    name: 'Chocó Biogeográfico',
-    description: 'Límite del Chocó biogeográfico',
-    category: 'fisico',
-    source: 'geojson',
-    storageType: 'filesystem',
-    geojsonPath: '/data/bioregion.geojson',
-    color: '#228B22',
-    opacity: 0.3,
-    visible: false,
-    order: 40,
-    enabled: true,
-    metadata: {
-      source: 'WWF TEOW 2017',
-      year: 2017,
-      resolution: '100k'
-    }
-  },
+  // Capa bioregion deshabilitada por solicitud del usuario
+  // {
+  //   id: 'bioregion',
+  //   name: 'Chocó Biogeográfico',
+  //   description: 'Límite del Chocó biogeográfico',
+  //   category: 'fisico',
+  //   source: 'geojson',
+  //   storageType: 'filesystem',
+  //   geojsonPath: '/data/bioregion.geojson',
+  //   color: '#228B22',
+  //   opacity: 0.3,
+  //   visible: false,
+  //   order: 40,
+  //   enabled: false,
+  //   metadata: {
+  //     source: 'WWF TEOW 2017',
+  //     year: 2017,
+  //     resolution: '100k'
+  //   }
+  // },
   {
     id: 'admin-boundaries',
     name: 'Límites Municipales',

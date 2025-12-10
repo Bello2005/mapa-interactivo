@@ -4,17 +4,20 @@
 import { useEffect, useState } from 'react'
 import type React from 'react'
 import { motion } from 'framer-motion'
-import type { TriviaQuestion } from '../../types'
+import type { TriviaQuestion, TriviaData, TriviaSection } from '../../types'
 import { useTriviaStore } from '@stores/triviaStore'
 import { TriviaQuestion as TriviaQuestionComponent } from './TriviaQuestion'
 import { TriviaResults } from './TriviaResults'
 import { TriviaProgress } from './TriviaProgress'
+import { TriviaSectionSelector } from './TriviaSectionSelector'
 import { Button } from '@components/atoms/Button'
 import { Play } from 'lucide-react'
 import { useUIStore } from '@stores/uiStore'
 import { t } from '@utils/translations'
 
 export function TriviaContainer() {
+  const [triviaData, setTriviaData] = useState<TriviaData | null>(null)
+  const [selectedSectionId, setSelectedSectionId] = useState<string | null>(null)
   const [questions, setQuestions] = useState<TriviaQuestion[]>([])
   const [loading, setLoading] = useState(true)
   const language = useUIStore((state) => state.language)
@@ -31,23 +34,56 @@ export function TriviaContainer() {
     loadSavedState,
   } = useTriviaStore()
 
-  // Cargar preguntas
+  // Cargar datos de trivia
   useEffect(() => {
-    async function loadQuestions() {
+    async function loadTriviaData() {
       try {
         const response = await fetch('/data/trivia.json')
         const data = await response.json()
-        setQuestions(data)
+        
+        // Manejar tanto formato antiguo (array) como nuevo (objeto con sections)
+        if (Array.isArray(data)) {
+          // Formato antiguo: convertir a formato con secciones
+          const sections: TriviaSection[] = [
+            {
+              id: 'all',
+              name: 'Todas las Preguntas',
+              description: 'Todas las preguntas disponibles',
+              questions: data
+            }
+          ]
+          setTriviaData({ sections })
+          setQuestions(data)
+        } else if (data.sections) {
+          // Formato nuevo con secciones
+          setTriviaData(data as TriviaData)
+        } else {
+          throw new Error('Formato de trivia inválido')
+        }
       } catch (error) {
-        console.error('Error loading trivia questions:', error)
+        console.error('Error loading trivia data:', error)
       } finally {
         setLoading(false)
       }
     }
 
-    loadQuestions()
+    loadTriviaData()
     loadSavedState()
   }, [loadSavedState])
+
+  // Actualizar preguntas cuando se selecciona una sección
+  useEffect(() => {
+    if (triviaData && selectedSectionId) {
+      const section = triviaData.sections.find(s => s.id === selectedSectionId)
+      if (section) {
+        setQuestions(section.questions)
+      }
+    } else if (triviaData && !selectedSectionId && triviaData.sections.length > 0) {
+      // Si no hay sección seleccionada, usar todas las preguntas de todas las secciones
+      const allQuestions = triviaData.sections.flatMap(s => s.questions)
+      setQuestions(allQuestions)
+    }
+  }, [triviaData, selectedSectionId])
 
   // Limpiar estado guardado si la trivia está completada
   useEffect(() => {
@@ -104,41 +140,58 @@ export function TriviaContainer() {
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="max-w-2xl mx-auto text-center py-12"
+        className="max-w-4xl mx-auto py-12"
       >
         <div className="bg-white rounded-3xl shadow-strong p-8 md:p-12">
           <div className="w-20 h-20 bg-gradient-pacific rounded-full flex items-center justify-center mx-auto mb-6">
             <Play className="w-10 h-10 text-white" />
           </div>
 
-          <h2 className="font-display font-bold text-3xl md:text-4xl text-choco-sand-900 mb-4">
+          <h2 className="font-display font-bold text-3xl md:text-4xl text-choco-sand-900 mb-4 text-center">
             {translations.trivia.ready}
           </h2>
 
-          <p className="text-lg text-choco-sand-700 mb-8">
+          <p className="text-lg text-choco-sand-700 mb-8 text-center">
             {translations.trivia.readyDescription.replace('{count}', questions.length.toString())}
           </p>
 
-          <div className="grid grid-cols-3 gap-4 mb-8">
-            <div className="bg-choco-pacific-50 rounded-xl p-4">
-              <div className="font-display font-bold text-2xl text-choco-pacific-700 mb-1">
-                {questions.length}
-              </div>
-              <div className="text-sm text-choco-sand-600">{translations.trivia.questions}</div>
+          {/* Selector de secciones */}
+          {triviaData && triviaData.sections.length > 1 && (
+            <div className="mb-8">
+              <TriviaSectionSelector
+                sections={triviaData.sections}
+                selectedSectionId={selectedSectionId}
+                onSelectSection={(sectionId) => {
+                  setSelectedSectionId(sectionId)
+                  reset() // Resetear trivia al cambiar de sección
+                }}
+              />
             </div>
-            <div className="bg-choco-gold-50 rounded-xl p-4">
-              <div className="font-display font-bold text-2xl text-choco-gold-700 mb-1">
-                {questions.reduce((sum, q) => sum + q.points, 0)}
+          )}
+
+          {/* Estadísticas */}
+          {questions.length > 0 && (
+            <div className="grid grid-cols-3 gap-4 mb-8">
+              <div className="bg-choco-pacific-50 rounded-xl p-4">
+                <div className="font-display font-bold text-2xl text-choco-pacific-700 mb-1">
+                  {questions.length}
+                </div>
+                <div className="text-sm text-choco-sand-600">{translations.trivia.questions}</div>
               </div>
-              <div className="text-sm text-choco-sand-600">{translations.trivia.maxPoints}</div>
-            </div>
-            <div className="bg-choco-forest-50 rounded-xl p-4">
-              <div className="font-display font-bold text-2xl text-choco-forest-700 mb-1">
-                ~{Math.ceil(questions.length * 1.5)}
+              <div className="bg-choco-gold-50 rounded-xl p-4">
+                <div className="font-display font-bold text-2xl text-choco-gold-700 mb-1">
+                  {questions.reduce((sum, q) => sum + q.points, 0)}
+                </div>
+                <div className="text-sm text-choco-sand-600">{translations.trivia.maxPoints}</div>
               </div>
-              <div className="text-sm text-choco-sand-600">{translations.trivia.minutes}</div>
+              <div className="bg-choco-forest-50 rounded-xl p-4">
+                <div className="font-display font-bold text-2xl text-choco-forest-700 mb-1">
+                  ~{Math.ceil(questions.length * 1.5)}
+                </div>
+                <div className="text-sm text-choco-sand-600">{translations.trivia.minutes}</div>
+              </div>
             </div>
-          </div>
+          )}
 
           <Button
             onClick={handleStart}
@@ -148,6 +201,7 @@ export function TriviaContainer() {
             disabled={questions.length === 0}
             icon={<Play className="w-5 h-5" />}
             iconPosition="right"
+            className="mx-auto max-w-md"
           >
             {translations.trivia.start}
           </Button>
