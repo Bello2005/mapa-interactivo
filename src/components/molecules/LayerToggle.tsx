@@ -1,9 +1,10 @@
 // src/components/molecules/LayerToggle.tsx
-// Toggle para capas del mapa - Diseño moderno y premium
+// Toggle para capas del mapa con estados claros y control de opacidad
 
 import { motion } from 'framer-motion'
 import clsx from 'clsx'
 import { Check } from 'lucide-react'
+import type { ReactNode, KeyboardEvent } from 'react'
 
 interface LayerToggleProps {
   label: string
@@ -11,7 +12,9 @@ interface LayerToggleProps {
   checked: boolean
   onChange: (checked: boolean) => void
   color?: string
-  icon?: React.ReactNode
+  icon?: ReactNode
+  opacity?: number
+  onOpacityChange?: (value: number) => void
 }
 
 export function LayerToggle({
@@ -21,90 +24,129 @@ export function LayerToggle({
   onChange,
   color = '#16a34a',
   icon,
+  opacity = 1,
+  onOpacityChange,
 }: LayerToggleProps) {
+  const handleToggle = () => onChange(!checked)
+  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault()
+      handleToggle()
+    }
+  }
+
+  const handleOpacityInput = (value: number) => {
+    const clamped = Math.min(100, Math.max(0, value))
+    onOpacityChange?.(clamped / 100)
+  }
+
   return (
-    <motion.button
-      onClick={() => onChange(!checked)}
-      whileHover={{ scale: 1.01 }}
-      whileTap={{ scale: 0.99 }}
+    <div className="space-y-2">
+    <motion.div
+      onClick={handleToggle}
+      onKeyDown={handleKeyDown}
+      tabIndex={0}
+        whileHover={{ scale: 1.005 }}
+        whileTap={{ scale: 0.995 }}
       className={clsx(
-        'w-full flex items-center gap-3 p-0',
-        'transition-all duration-300',
-        'focus:outline-none focus:ring-2 focus:ring-choco-forest-500 focus:ring-offset-2 rounded-xl',
-        checked && 'bg-gradient-to-r from-choco-forest-50 to-transparent'
+          'w-full flex items-center gap-2.5 p-2.5 cursor-pointer',
+          'transition-all duration-200 rounded-lg',
+          'focus:outline-none focus:ring-2 focus:ring-emerald-500/50',
+        checked
+            ? 'bg-emerald-50 hover:bg-emerald-100'
+            : 'bg-transparent hover:bg-gray-50'
       )}
       role="switch"
       aria-checked={checked}
+      aria-label={`Activar ${label}`}
     >
-      {/* Checkbox mejorado */}
       <motion.div
         className={clsx(
-          'flex-shrink-0 w-6 h-6 rounded-lg border-2',
+            'flex-shrink-0 w-5 h-5 rounded border-2',
           'flex items-center justify-center',
-          'transition-all duration-300',
+            'transition-all duration-200',
           checked
-            ? 'bg-gradient-to-br from-choco-forest-500 to-choco-forest-600 border-choco-forest-600 shadow-md'
-            : 'bg-white border-gray-300 hover:border-choco-forest-300'
+              ? 'bg-emerald-600 border-emerald-600'
+              : 'bg-white border-gray-300'
         )}
         animate={{
-          scale: checked ? [1, 1.1, 1] : 1,
+            scale: checked ? [1, 1.08, 1] : 1,
         }}
-        transition={{ duration: 0.3 }}
+          transition={{ duration: 0.2 }}
       >
         {checked && (
           <motion.div
-            initial={{ scale: 0, rotate: -180 }}
-            animate={{ scale: 1, rotate: 0 }}
-            transition={{ type: 'spring', stiffness: 500, damping: 25 }}
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.15 }}
           >
-            <Check className="w-4 h-4 text-white" strokeWidth={3} />
+              <Check className="w-3.5 h-3.5 text-white" strokeWidth={3} />
           </motion.div>
         )}
       </motion.div>
 
-      {/* Icon */}
       {icon && (
-        <motion.div 
-          className="flex-shrink-0 text-gray-500"
-          animate={{ color: checked ? color : '#6b7280' }}
-        >
+          <div className="flex-shrink-0" style={{ color: checked ? color : '#9ca3af' }}>
           {icon}
-        </motion.div>
+          </div>
       )}
 
-      {/* Label y descripción mejorados - Responsive */}
       <div className="flex-1 text-left min-w-0">
-        <motion.div 
-          className={clsx(
-            'font-semibold text-sm sm:text-base',
-            checked ? 'text-gray-900' : 'text-gray-700'
-          )}
-          animate={{ fontWeight: checked ? 600 : 500 }}
-        >
-          {label}
-        </motion.div>
-        {description && (
-          <motion.div 
+          <div
             className={clsx(
-              'text-xs sm:text-sm mt-0.5',
-              checked ? 'text-gray-600' : 'text-gray-500'
+              'font-medium text-sm leading-tight',
+              checked ? 'text-gray-900' : 'text-gray-700'
             )}
           >
+            {label}
+          </div>
+          {description && (
+            <div className="text-xs text-gray-500 mt-0.5 line-clamp-1">
             {description}
-          </motion.div>
+            </div>
+        )}
+        </div>
+
+        {checked && (
+          <motion.div
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="w-2 h-2 rounded-full flex-shrink-0"
+            style={{ backgroundColor: color }}
+          />
+        )}
+      </motion.div>
+
+      {checked && onOpacityChange && (
+        <motion.div
+          initial={{ height: 0, opacity: 0 }}
+          animate={{ height: 'auto', opacity: 1 }}
+          exit={{ height: 0, opacity: 0 }}
+          transition={{ duration: 0.2 }}
+          className="overflow-hidden"
+        >
+          <div
+            className="flex items-center gap-2 px-2.5 pb-1"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <span className="text-xs text-gray-500 font-medium flex-shrink-0">
+              Opacidad:
+            </span>
+            <input
+              type="range"
+              min={0}
+              max={100}
+              value={Math.round(opacity * 100)}
+              onChange={(e) => handleOpacityInput(Number(e.target.value))}
+              className="flex-1 h-1.5 accent-emerald-600 cursor-pointer"
+              aria-label={`Opacidad de ${label}`}
+            />
+            <span className="text-xs font-semibold text-gray-700 w-8 text-right">
+              {Math.round(opacity * 100)}%
+            </span>
+          </div>
+        </motion.div>
         )}
       </div>
-
-      {/* Color indicator mejorado */}
-      {checked && (
-        <motion.div
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          exit={{ scale: 0, opacity: 0 }}
-          className="flex-shrink-0 w-3 h-3 rounded-full shadow-sm"
-          style={{ backgroundColor: color }}
-        />
-      )}
-    </motion.button>
   )
 }

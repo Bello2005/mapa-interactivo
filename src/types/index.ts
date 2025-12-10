@@ -80,6 +80,37 @@ export interface MapBounds {
   label: string
 }
 
+// ===== CAPAS TEMÁTICAS =====
+
+export type LayerCategory = 'ecosistemas' | 'social' | 'hidrografia' | 'conservacion' | 'fisico'
+export type LayerSource = 'geojson' | 'geoserver' | 'static'
+export type LayerStorageType = 'mongodb' | 'gridfs' | 'filesystem' | 'geoserver'
+
+export interface ThematicLayer {
+  id: string
+  name: string
+  description: string
+  category: LayerCategory
+  source: LayerSource
+  storageType?: LayerStorageType
+  geojsonPath?: string
+  geoserverLayer?: string
+  geojsonData?: GeoJSONFeatureCollection
+  gridfsFileId?: string
+  color: string
+  opacity: number
+  visible: boolean
+  order: number
+  enabled?: boolean
+  fileSize?: number
+  featureCount?: number
+  metadata?: {
+    source: string
+    year?: number
+    resolution?: string
+  }
+}
+
 // ===== CIUDADES =====
 
 export interface City {
@@ -108,6 +139,17 @@ export interface TriviaQuestion {
   imageUrl?: string
 }
 
+export interface TriviaSection {
+  id: string
+  name: string
+  description?: string
+  questions: TriviaQuestion[]
+}
+
+export interface TriviaData {
+  sections: TriviaSection[]
+}
+
 export interface TriviaState {
   currentQuestionIndex: number
   answers: (number | null)[]
@@ -115,6 +157,7 @@ export interface TriviaState {
   completed: boolean
   startTime: number
   endTime?: number
+  currentSectionId?: string
 }
 
 export interface Badge {
@@ -136,20 +179,71 @@ export interface UserProgress {
   visitCount: number
 }
 
+// ===== SISTEMA GENÉRICO DE FEATURES =====
+
+export interface LayerFeature {
+  id: string
+  name: string
+  properties: Record<string, any>
+  layerId: string
+}
+
+export interface FeatureDisplayProperty {
+  key: string // Key en properties
+  label: string // Label a mostrar
+  icon?: string // Nombre del icono de lucide-react
+  format?: 'number' | 'area' | 'altitude' | 'date' | 'text' // Formato
+  unit?: string // Unidad (ha, msnm, etc)
+}
+
+export interface LayerFeatureConfig {
+  layerId: string
+  nameProperty: string // Campo que contiene el nombre (ej: "MpNombre", "Nombre", "NOMBRE")
+  idProperty: string // Campo que contiene el ID único
+  displayProperties: FeatureDisplayProperty[] // Propiedades a mostrar en detalle
+  searchableProperties: string[] // Campos por los que se puede buscar
+}
+
+export interface LayerFeatureDrillDown {
+  layerId: string
+  featureId: string | null
+  featureName: string | null
+}
+
 // ===== UI STORE =====
+
+export type SidebarView = 'layers' | 'city' | 'surprise'
+export type LayersMode = 'quick' | 'advanced'
+export type SurpriseMeType = 'tour' | 'trivia'
+
+export interface UILayerDrillDown {
+  categoryId: string | null
+  subLayerIds: string[]
+}
 
 export interface UIStore {
   // Capas del mapa
-  activeLayers: {
-    bioregion: boolean
-    adminBoundaries: boolean
-    blackCommunities: boolean
-    speciesRanges: boolean
-    heatmap: boolean
-  }
+  activeLayerIds: Set<string>
+  layerOpacities: Record<string, number>
+  quickLayers: string[]
+
+  availableLayers: ThematicLayer[]
+  layerCategories: LayerCategory[]
+
+  // Navegación
+  sidebarView: SidebarView
+  layersMode: LayersMode
+  layerDrillDown: UILayerDrillDown
+
+  // Controles flotantes
+  floatingControlsVisible: boolean
+
+  // Surprise Me
+  surpriseMeActive: boolean
+  surpriseMeType: SurpriseMeType | null
 
   // Filtros de especies
-  selectedSpecies: string[] // IDs de especies seleccionadas
+  selectedSpecies: string[]
   selectedCategories: SpeciesCategory[]
 
   // UI State
@@ -160,17 +254,6 @@ export interface UIStore {
 
   // Idioma
   language: 'es' | 'en'
-
-  // Acciones
-  toggleLayer: (layer: keyof UIStore['activeLayers']) => void
-  setSelectedSpecies: (speciesIds: string[]) => void
-  toggleSpecies: (speciesId: string) => void
-  setSelectedCategories: (categories: SpeciesCategory[]) => void
-  toggleCategory: (category: SpeciesCategory) => void
-  setSidebarOpen: (open: boolean) => void
-  openModal: (modal: 'species' | 'info' | 'badge', speciesId?: string) => void
-  closeModal: () => void
-  setLanguage: (lang: 'es' | 'en') => void
 }
 
 // ===== UTILIDADES =====
