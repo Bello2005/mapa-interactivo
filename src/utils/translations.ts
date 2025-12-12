@@ -322,7 +322,7 @@ const translations: Record<Language, Translations> = {
       phone: '(4) 670 9126 | Cel: 312 288 8110',
       phonePlaceholder: '(4) 670 9126 | Cel: 312 288 8110',
       copyright: '© {year} IIAP - Instituto de Investigaciones Ambientales del Pacífico. Todos los derechos reservados.',
-      note: '⚠️ Nota: Los datos de contacto y logotipos son placeholders. Por favor, verificar y actualizar con información oficial del IIAP antes de publicar.',
+      note: '',
       links: {
         home: 'Inicio',
         map: 'Mapa',
@@ -488,7 +488,7 @@ const translations: Record<Language, Translations> = {
       phone: '(4) 670 9126 | Cell: 312 288 8110',
       phonePlaceholder: '(4) 670 9126 | Cell: 312 288 8110',
       copyright: '© {year} IIAP - Institute of Environmental Research of the Pacific. All rights reserved.',
-      note: '⚠️ Note: Contact data and logos are placeholders. Please verify and update with official IIAP information before publishing.',
+      note: '',
       links: {
         home: 'Home',
         map: 'Map',

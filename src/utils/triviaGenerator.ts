@@ -71,7 +71,6 @@ function generateCountQuestions(
   featureCount: number
 ): TriviaQuestion[] {
   const questions: TriviaQuestion[] = []
-  const displayName = config.displayName.charAt(0).toUpperCase() + config.displayName.slice(1)
 
   // Pregunta fácil: rango aproximado
   const ranges = [
@@ -135,7 +134,6 @@ function generateIdentificationQuestions(
   features: any[]
 ): TriviaQuestion[] {
   const questions: TriviaQuestion[] = []
-  const displayName = config.displayName.charAt(0).toUpperCase() + config.displayName.slice(1)
 
   // Obtener nombres válidos
   const validNames = features

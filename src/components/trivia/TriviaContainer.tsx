@@ -25,7 +25,6 @@ export function TriviaContainer() {
   const [questions, setQuestions] = useState<TriviaQuestion[]>([])
   const [loading, setLoading] = useState(true)
   const [showWelcomeModal, setShowWelcomeModal] = useState(false)
-  const [userName, setUserName] = useState<string | null>(null)
   const language = useUIStore((state) => state.language)
   const translations = t(language)
 
@@ -46,8 +45,6 @@ export function TriviaContainer() {
     const savedName = getUserName()
     if (!savedName) {
       setShowWelcomeModal(true)
-    } else {
-      setUserName(savedName)
     }
   }, [])
 
@@ -109,8 +106,8 @@ export function TriviaContainer() {
     }
   }, [completed])
 
-  const handleWelcomeComplete = (name: string) => {
-    setUserName(name)
+  const handleWelcomeComplete = (_name: string) => {
+    // El nombre ya se guardó en localStorage desde WelcomeModal
     setShowWelcomeModal(false)
   }
 

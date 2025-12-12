@@ -143,11 +143,6 @@ export function Footer() {
               </Link>
             </div>
           </div>
-
-          {/* Nota sobre verificación */}
-          <div className="mt-4 text-xs text-choco-sand-500 italic">
-            {translations.footer.note}
-          </div>
         </div>
       </div>
     </footer>

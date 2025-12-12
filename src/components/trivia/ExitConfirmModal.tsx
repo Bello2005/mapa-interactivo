@@ -2,7 +2,7 @@
 // Modal de confirmación para salir del test
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { AlertTriangle, X } from 'lucide-react'
+import { AlertTriangle } from 'lucide-react'
 import { Button } from '@components/atoms/Button'
 
 interface ExitConfirmModalProps {

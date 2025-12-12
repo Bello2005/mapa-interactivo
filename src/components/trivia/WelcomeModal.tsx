@@ -3,7 +3,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { User, X } from 'lucide-react'
+import { User } from 'lucide-react'
 import { Button } from '@components/atoms/Button'
 import { saveUserName, getUserName } from '@utils/storage'
 

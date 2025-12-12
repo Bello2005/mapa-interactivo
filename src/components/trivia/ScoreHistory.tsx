@@ -9,18 +9,16 @@ import { getUserName } from '@utils/storage'
 import clsx from 'clsx'
 
 interface ScoreHistoryProps {
-  sectionId: string
+  sectionId?: string
   currentScore: number
   currentCorrectAnswers: number
-  currentTotalQuestions: number
+  currentTotalQuestions?: number
   scores: SectionScore[]
 }
 
 export function ScoreHistory({
-  sectionId,
   currentScore,
   currentCorrectAnswers,
-  currentTotalQuestions,
   scores,
 }: ScoreHistoryProps) {
   const userName = getUserName() || 'Anónimo'
