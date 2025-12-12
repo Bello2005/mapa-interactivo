@@ -162,7 +162,6 @@ export function AdvancedLayersView({
           .map((layer) => {
             const isActive = activeLayerIds.has(layer.id)
             const opacity = layerOpacities[layer.id] ?? layer.opacity
-            const hasFeatures = hasSelectableFeatures(layer.id)
             
             return (
               <div key={layer.id} className="space-y-0.5">
