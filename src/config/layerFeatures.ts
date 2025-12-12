@@ -6,15 +6,14 @@ import type { LayerFeatureConfig } from '../types'
 export const layerFeaturesConfig: Record<string, LayerFeatureConfig> = {
   'admin-boundaries': {
     layerId: 'admin-boundaries',
-    nameProperty: 'name', // El GeoJSON usa 'name' en minúscula
-    idProperty: 'name', // Usar 'name' como ID también ya que es único
-    searchableProperties: ['name', 'country', 'capital'],
+    nameProperty: 'MpNombre', // El GeoJSON Limite_Mpal_ChBio usa 'MpNombre'
+    idProperty: 'MpCodigo',
+    searchableProperties: ['MpNombre', 'DeptoNom', 'MpCodigo'],
     displayProperties: [
-      { key: 'country', label: 'País', icon: 'MapPin', format: 'text' },
-      { key: 'area_km2', label: 'Área', icon: 'Ruler', format: 'number', unit: 'km²' },
-      { key: 'population', label: 'Población', icon: 'Users', format: 'number' },
-      { key: 'capital', label: 'Capital', icon: 'MapPin', format: 'text' },
-      { key: 'admin_level', label: 'Nivel Administrativo', icon: 'Hash', format: 'text' }
+      { key: 'DeptoNom', label: 'Departamento', icon: 'MapPin', format: 'text' },
+      { key: 'AreaHa', label: 'Área', icon: 'Ruler', format: 'area', unit: 'ha' },
+      { key: 'MpAltitud', label: 'Altitud', icon: 'Mountain', format: 'altitude', unit: 'msnm' },
+      { key: 'MpCodigo', label: 'Código Municipal', icon: 'Hash', format: 'text' }
     ]
   },
   'comunidades-negras': {
