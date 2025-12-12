@@ -35,15 +35,15 @@ export function LayerCategoryCard({
     <motion.div
       whileHover={{ y: -1 }}
       className={clsx(
-        'relative overflow-hidden rounded-xl border transition-all bg-white',
+        'relative overflow-hidden rounded-xl border-2 transition-all',
         active
-          ? 'border-emerald-200 bg-emerald-50/30 shadow-sm'
-          : 'border-gray-200 hover:border-gray-300'
+          ? 'border-emerald-500 bg-emerald-50 shadow-lg ring-2 ring-emerald-100'
+          : 'border-gray-200 bg-white opacity-70 hover:opacity-100 hover:border-gray-300 hover:shadow-sm'
       )}
     >
-      <div className="p-3">
-        <div className="flex items-start gap-2.5">
-          <div className="h-10 w-10 rounded-lg overflow-hidden border border-gray-200 bg-gray-50 flex items-center justify-center flex-shrink-0">
+      <div className="p-2.5">
+        <div className="flex items-start gap-2">
+          <div className="h-9 w-9 rounded-lg overflow-hidden border border-gray-200 bg-gray-50 flex items-center justify-center flex-shrink-0">
             {image ? (
               <img
                 src={image}
@@ -61,19 +61,25 @@ export function LayerCategoryCard({
           </div>
 
           <div className="flex-1 min-w-0">
-            <div className="flex items-start justify-between gap-2 mb-1">
-              <h3 className="text-sm font-semibold text-gray-900 leading-tight line-clamp-1">
+            <div className="flex items-start justify-between gap-2 mb-0.5">
+              <h3 className={clsx(
+                "text-sm font-bold leading-tight line-clamp-1",
+                active ? 'text-gray-900' : 'text-gray-700'
+              )}>
                   {title}
                 </h3>
               {badge && <div className="flex-shrink-0 scale-90">{badge}</div>}
             </div>
 
             {description && (
-              <p className="text-xs text-gray-600 line-clamp-1 mb-2">{description}</p>
+              <p className={clsx(
+                "text-xs line-clamp-1 mb-1.5",
+                active ? 'text-gray-700' : 'text-gray-500'
+              )}>{description}</p>
             )}
 
             {statLabel && (
-              <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-gray-100 text-[10px] font-medium text-gray-700 mb-2">
+              <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-gray-100 text-[10px] font-semibold text-gray-700 mb-1.5">
                 {statLabel}
               </span>
             )}
@@ -81,8 +87,8 @@ export function LayerCategoryCard({
             <div className="flex items-center justify-between gap-2">
               <span
                 className={clsx(
-                  'text-[10px] font-semibold rounded-md px-1.5 py-0.5',
-                  active ? 'bg-emerald-100 text-emerald-700' : 'bg-gray-100 text-gray-600'
+                  'text-[10px] font-bold rounded-md px-1.5 py-0.5',
+                  active ? 'bg-emerald-200 text-emerald-800' : 'bg-gray-100 text-gray-600'
                 )}
               >
                 {active ? 'Activo' : 'Inactivo'}
@@ -119,12 +125,10 @@ export function LayerCategoryCard({
           initial={{ height: 0, opacity: 0 }}
           animate={{ height: 'auto', opacity: 1 }}
           exit={{ height: 0, opacity: 0 }}
-          className="border-t border-gray-100 px-3 py-2"
+          className="border-t border-gray-100 px-3 py-1.5"
         >
           <div className="flex items-center gap-2">
-            <span className="text-[10px] font-medium text-gray-600 flex-shrink-0">
-              Opacidad:
-            </span>
+            <span className="text-[10px] font-medium text-gray-600 w-16">Opacidad</span>
             <input
               type="range"
               min={0}
@@ -134,7 +138,7 @@ export function LayerCategoryCard({
               className="flex-1 h-1.5 accent-emerald-600 cursor-pointer"
               aria-label={`Opacidad de ${title}`}
             />
-            <span className="text-xs font-semibold text-gray-700 w-9 text-right">
+            <span className="text-xs font-semibold text-gray-700 w-10 text-right">
               {Math.round(opacity * 100)}%
             </span>
           </div>

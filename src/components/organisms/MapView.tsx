@@ -14,7 +14,6 @@ import type { GeoJSONFeatureCollection, Species, City, ThematicLayer } from '../
 import { getBounds } from '@utils/geo'
 import { MapSidebar } from '@components/organisms/MapSidebar'
 import { FloatingMapControls } from '@components/organisms/FloatingMapControls'
-import { SurpriseMeButton } from '@components/organisms/SurpriseMeButton'
 import { useUIStore } from '@stores/uiStore'
 import { useGameProgress } from '@hooks/useGameProgress'
 import { thematicLayers } from '@config/layers'
@@ -773,8 +772,6 @@ export function MapView({ fullHeight = false }: MapViewProps) {
         />
       )}
 
-      <SurpriseMeButton className="fixed left-1/2 bottom-6 -translate-x-1/2 z-[945]" />
-
       {/* Botón para abrir panel (cuando está cerrado) - Estilo tarjeta flotante - Responsive mejorado */}
       {!sidebarOpen && (
         <motion.button
@@ -983,7 +980,10 @@ export function MapView({ fullHeight = false }: MapViewProps) {
             'absolute bottom-4 z-[1000] bg-white/95 backdrop-blur-sm px-4 py-3 rounded-lg shadow-lg border border-gray-200 max-w-[260px]',
             sidebarOpen ? 'left-[420px] md:left-[420px]' : 'left-4'
           )}>
-            <div className="text-xs font-semibold text-gray-600 mb-2">Capas activas</div>
+            <div className="text-xs font-semibold text-gray-600 mb-2 flex items-center justify-between">
+              <span>Capas activas</span>
+              <span className="text-emerald-600">{activeLayersList.length} de {availableLayers.length}</span>
+            </div>
             <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
               {activeLayersList.map((layer) => {
                 const opacity = layerOpacities[layer.id] ?? layer.opacity

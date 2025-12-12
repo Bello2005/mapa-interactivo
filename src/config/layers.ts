@@ -62,7 +62,7 @@ export const thematicLayers: ThematicLayer[] = [
     storageType: 'gridfs',
     geojsonPath: '/data/manglares.geojson',
     color: '#2F4F2F',
-    opacity: 0.6,
+    opacity: 0.7,
     visible: false,
     order: 3,
     enabled: true,
@@ -129,6 +129,62 @@ export const thematicLayers: ThematicLayer[] = [
       resolution: '100k'
     }
   },
+  {
+    id: 'biomas',
+    name: 'Biomas',
+    description: 'Clasificación de biomas del Chocó biogeográfico',
+    category: 'ecosistemas',
+    source: 'geoserver',
+    storageType: 'geoserver',
+    geoserverLayer: 'IIAP:Biomas',
+    color: '#228B22',
+    opacity: 0.6,
+    visible: false,
+    order: 7,
+    enabled: true,
+    metadata: {
+      source: 'IIAP GeoServer',
+      resolution: '100k'
+    }
+  },
+  {
+    id: 'cobertura-ideam',
+    name: 'Cobertura IDEAM 2017',
+    description: 'Cobertura de la tierra según IDEAM 2017',
+    category: 'ecosistemas',
+    source: 'geoserver',
+    storageType: 'geoserver',
+    geoserverLayer: 'IIAP:cobertura_ideam_2017',
+    color: '#32CD32',
+    opacity: 0.5,
+    visible: false,
+    order: 8,
+    enabled: true,
+    metadata: {
+      source: 'IDEAM 2017',
+      year: 2017,
+      resolution: '100k'
+    }
+  },
+  {
+    id: 'bosque-nobosque',
+    name: 'Bosque/No Bosque IDEAM 2018',
+    description: 'Clasificación bosque y no bosque según IDEAM 2018',
+    category: 'ecosistemas',
+    source: 'geoserver',
+    storageType: 'geoserver',
+    geoserverLayer: 'IIAP:bosquenobosque_ideam_2018',
+    color: '#228B22',
+    opacity: 0.6,
+    visible: false,
+    order: 9,
+    enabled: true,
+    metadata: {
+      source: 'IDEAM 2018',
+      year: 2018,
+      resolution: '100k'
+    }
+  },
 
   // Social
   {
@@ -140,7 +196,7 @@ export const thematicLayers: ThematicLayer[] = [
     storageType: 'gridfs',
     geojsonPath: '/data/comunidades_negras.geojson',
     color: '#8B4513',
-    opacity: 0.5,
+    opacity: 0.6,
     visible: false,
     order: 10,
     enabled: true,
@@ -159,13 +215,31 @@ export const thematicLayers: ThematicLayer[] = [
     storageType: 'filesystem',
     geojsonPath: '/data/resguardos_indigenas.geojson',
     color: '#A0522D',
-    opacity: 0.5,
+    opacity: 0.6,
     visible: false,
     order: 11,
     enabled: true,
     metadata: {
       source: 'ANT 2025',
       year: 2025,
+      resolution: '100k'
+    }
+  },
+  {
+    id: 'consejos-comunitarios',
+    name: 'Consejos Comunitarios',
+    description: 'Organizaciones comunitarias del Chocó',
+    category: 'social',
+    source: 'geoserver',
+    storageType: 'geoserver',
+    geoserverLayer: 'IIAP:Consejos_comunitario',
+    color: '#8B4513',
+    opacity: 0.5,
+    visible: false,
+    order: 12,
+    enabled: true,
+    metadata: {
+      source: 'IIAP GeoServer',
       resolution: '100k'
     }
   },
@@ -219,7 +293,7 @@ export const thematicLayers: ThematicLayer[] = [
     storageType: 'filesystem',
     geojsonPath: '/data/runap.geojson',
     color: '#32CD32',
-    opacity: 0.5,
+    opacity: 0.65,
     visible: false,
     order: 30,
     enabled: true,
@@ -272,6 +346,97 @@ export const thematicLayers: ThematicLayer[] = [
   //   }
   // },
   {
+    id: 'geologia',
+    name: 'Geología',
+    description: 'Formaciones geológicas del Chocó biogeográfico',
+    category: 'fisico',
+    source: 'geojson',
+    storageType: 'gridfs',
+    geojsonPath: '/data/geologia.geojson',
+    color: '#8B4513',
+    opacity: 0.5,
+    visible: false,
+    order: 40,
+    enabled: true,
+    metadata: {
+      source: 'IIAP',
+      resolution: '100k'
+    }
+  },
+  {
+    id: 'geomorfologia',
+    name: 'Geomorfología',
+    description: 'Formas del terreno del Chocó biogeográfico',
+    category: 'fisico',
+    source: 'geojson',
+    storageType: 'filesystem',
+    geojsonPath: '/data/geomorfologia.geojson',
+    color: '#A0522D',
+    opacity: 0.5,
+    visible: false,
+    order: 40.5,
+    enabled: true,
+    metadata: {
+      source: 'IIAP',
+      resolution: '100k'
+    }
+  },
+  {
+    id: 'climas',
+    name: 'Climas',
+    description: 'Clasificación climática del Chocó biogeográfico',
+    category: 'fisico',
+    source: 'geoserver',
+    storageType: 'geoserver',
+    geoserverLayer: 'IIAP:Climas',
+    color: '#4169E1',
+    opacity: 0.5,
+    visible: false,
+    order: 40.7,
+    enabled: true,
+    metadata: {
+      source: 'IIAP GeoServer',
+      resolution: '100k'
+    }
+  },
+  {
+    id: 'suelos',
+    name: 'Suelos',
+    description: 'Tipos de suelo del Chocó biogeográfico',
+    category: 'fisico',
+    source: 'geoserver',
+    storageType: 'geoserver',
+    geoserverLayer: 'IIAP:suelos',
+    color: '#CD853F',
+    opacity: 0.5,
+    visible: false,
+    order: 40.8,
+    enabled: true,
+    metadata: {
+      source: 'IIAP GeoServer',
+      resolution: '100k'
+    }
+  },
+  {
+    id: 'fisiografia',
+    name: 'Fisiografía IDEAM 2017',
+    description: 'Características físicas del terreno según IDEAM 2017',
+    category: 'fisico',
+    source: 'geoserver',
+    storageType: 'geoserver',
+    geoserverLayer: 'IIAP:Fisiografia_IDEAM_2017',
+    color: '#708090',
+    opacity: 0.5,
+    visible: false,
+    order: 40.9,
+    enabled: true,
+    metadata: {
+      source: 'IDEAM 2017',
+      year: 2017,
+      resolution: '100k'
+    }
+  },
+  {
     id: 'admin-boundaries',
     name: 'Límites Municipales',
     description: 'Límites municipales del Chocó Biogeográfico (93 municipios)',
@@ -280,7 +445,7 @@ export const thematicLayers: ThematicLayer[] = [
     storageType: 'filesystem',
     geojsonPath: '/data/Limite_Mpal_ChBio_2019_CMT12_v3.geojson',
     color: '#10B981', // Verde esmeralda moderno (Tailwind emerald-500)
-    opacity: 0.25, // Opacidad sutil para no saturar
+    opacity: 0.45, // Opacidad mejorada para mejor visibilidad
     visible: true,
     order: 41,
     enabled: true,

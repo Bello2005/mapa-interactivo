@@ -85,3 +85,5 @@ Importa GeoJSON a MongoDB:
 - El backend es opcional pero recomendado para gestión futura
 - GridFS se usa automáticamente para archivos grandes
 
+
+

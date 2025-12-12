@@ -72,3 +72,5 @@ export async function deleteFromGridFS(fileId: mongoose.Types.ObjectId): Promise
   await bucket.delete(fileId)
 }
 
+
+

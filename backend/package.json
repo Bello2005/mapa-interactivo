@@ -21,6 +21,9 @@
   "author": "IIAP - Instituto de Investigaciones Ambientales del Pacífico",
   "license": "MIT",
   "dependencies": {
+    "@turf/bbox-clip": "^7.3.1",
+    "@turf/simplify": "^7.3.1",
+    "@turf/turf": "^7.3.1",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",

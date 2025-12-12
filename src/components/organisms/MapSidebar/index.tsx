@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import clsx from 'clsx'
 import { useUIStore } from '@stores/uiStore'
 import { TabBar } from '@components/molecules/TabBar'
@@ -8,7 +8,7 @@ import { AdvancedLayersView } from './AdvancedLayersView'
 import { LayerDetailView } from './LayerDetailView'
 import { FeatureListView } from './FeatureListView'
 import { FeatureDetailView } from './FeatureDetailView'
-import { ArrowLeft, Layers } from 'lucide-react'
+import { ArrowLeft, Layers, Search, X } from 'lucide-react'
 import type { City, ThematicLayer } from '../../../types'
 import { MapSidebarHeader } from './MapSidebarHeader'
 
@@ -35,12 +35,26 @@ export function MapSidebar({ isOpen, onClose, selectedCity = null }: MapSidebarP
     featureListView,
   } = useUIStore()
 
+  const [searchQuery, setSearchQuery] = useState('')
+
   const drillDownLayers = useMemo<ThematicLayer[]>(() => {
     if (!layerDrillDown.categoryId) return []
     return availableLayers
       .filter((layer) => layer.category === layerDrillDown.categoryId && layer.enabled !== false)
       .sort((a, b) => a.order - b.order)
   }, [availableLayers, layerDrillDown.categoryId])
+
+  // Filtrar capas según búsqueda
+  const filteredLayers = useMemo(() => {
+    if (!searchQuery.trim()) return availableLayers
+    
+    const query = searchQuery.toLowerCase()
+    return availableLayers.filter(layer => 
+      layer.name.toLowerCase().includes(query) ||
+      layer.description.toLowerCase().includes(query) ||
+      layer.category.toLowerCase().includes(query)
+    )
+  }, [availableLayers, searchQuery])
 
   return (
     <AnimatePresence>
@@ -77,6 +91,30 @@ export function MapSidebar({ isOpen, onClose, selectedCity = null }: MapSidebarP
               </div>
               <TabBar value={layersMode} onChange={setLayersMode} />
             </div>
+
+            {/* Campo de búsqueda de capas */}
+            {!featureDrillDown && !featureListView && !layerDrillDown.categoryId && (
+              <div className="px-4 py-2.5 border-b border-gray-100 bg-gray-50/50">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                  <input
+                    type="search"
+                    placeholder="Buscar capas..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full pl-9 pr-9 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-white"
+                  />
+                  {searchQuery && (
+                    <button
+                      onClick={() => setSearchQuery('')}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
 
             <div className="flex-1 overflow-y-auto custom-scrollbar bg-gray-50/50">
               <AnimatePresence mode="wait">
@@ -140,12 +178,17 @@ export function MapSidebar({ isOpen, onClose, selectedCity = null }: MapSidebarP
                   >
                     <QuickLayersView
                       quickLayerIds={quickLayers}
-                      layers={availableLayers}
+                      layers={filteredLayers}
                       activeLayerIds={activeLayerIds}
                       layerOpacities={layerOpacities}
                       onToggleLayer={toggleLayer}
                       onOpacityChange={setLayerOpacity}
                     />
+                    {searchQuery && filteredLayers.length === 0 && (
+                      <div className="text-center py-8 text-gray-500 text-sm">
+                        No se encontraron capas que coincidan con "{searchQuery}"
+                      </div>
+                    )}
                   </motion.div>
                 ) : (
                   <motion.div
@@ -157,13 +200,18 @@ export function MapSidebar({ isOpen, onClose, selectedCity = null }: MapSidebarP
                     className="p-3"
                   >
                     <AdvancedLayersView
-                      layers={availableLayers}
+                      layers={filteredLayers}
                       activeLayerIds={activeLayerIds}
                       layerOpacities={layerOpacities}
                       onToggleLayer={toggleLayer}
                       onOpacityChange={setLayerOpacity}
                       onEnterCategory={enterLayerDrillDown}
                     />
+                    {searchQuery && filteredLayers.length === 0 && (
+                      <div className="text-center py-8 text-gray-500 text-sm">
+                        No se encontraron capas que coincidan con "{searchQuery}"
+                      </div>
+                    )}
                   </motion.div>
                 )}
               </AnimatePresence>

@@ -41,7 +41,7 @@ export function LayerToggle({
   }
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-1.5">
     <motion.div
       onClick={handleToggle}
       onKeyDown={handleKeyDown}
@@ -49,12 +49,12 @@ export function LayerToggle({
         whileHover={{ scale: 1.005 }}
         whileTap={{ scale: 0.995 }}
       className={clsx(
-          'w-full flex items-center gap-2.5 p-2.5 cursor-pointer',
+          'w-full flex items-center gap-2.5 p-2 cursor-pointer',
           'transition-all duration-200 rounded-lg',
           'focus:outline-none focus:ring-2 focus:ring-emerald-500/50',
         checked
-            ? 'bg-emerald-50 hover:bg-emerald-100'
-            : 'bg-transparent hover:bg-gray-50'
+            ? 'bg-emerald-100 hover:bg-emerald-200 border-2 border-emerald-400 shadow-sm ring-2 ring-emerald-100'
+            : 'bg-gray-50 hover:bg-gray-100 border border-transparent opacity-70 hover:opacity-100'
       )}
       role="switch"
       aria-checked={checked}
@@ -94,14 +94,20 @@ export function LayerToggle({
       <div className="flex-1 text-left min-w-0">
           <div
             className={clsx(
-              'font-medium text-sm leading-tight',
-              checked ? 'text-gray-900' : 'text-gray-700'
+              'font-semibold text-sm leading-tight',
+              checked ? 'text-gray-900' : 'text-gray-600'
             )}
           >
             {label}
           </div>
           {description && (
-            <div className="text-xs text-gray-500 mt-0.5 line-clamp-1">
+            <div 
+              className={clsx(
+                'text-xs mt-0.5 line-clamp-1 cursor-help',
+                checked ? 'text-gray-600' : 'text-gray-500'
+              )}
+              title={description}
+            >
             {description}
             </div>
         )}
@@ -111,7 +117,7 @@ export function LayerToggle({
           <motion.div
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="w-2 h-2 rounded-full flex-shrink-0"
+            className="w-3 h-3 rounded-full flex-shrink-0 shadow-sm"
             style={{ backgroundColor: color }}
           />
         )}
@@ -129,9 +135,7 @@ export function LayerToggle({
             className="flex items-center gap-2 px-2.5 pb-1"
             onClick={(e) => e.stopPropagation()}
           >
-            <span className="text-xs text-gray-500 font-medium flex-shrink-0">
-              Opacidad:
-            </span>
+            <span className="text-xs text-gray-500 font-medium w-16">Opacidad</span>
             <input
               type="range"
               min={0}
@@ -141,7 +145,7 @@ export function LayerToggle({
               className="flex-1 h-1.5 accent-emerald-600 cursor-pointer"
               aria-label={`Opacidad de ${label}`}
             />
-            <span className="text-xs font-semibold text-gray-700 w-8 text-right">
+            <span className="text-xs font-semibold text-gray-700 w-10 text-right">
               {Math.round(opacity * 100)}%
             </span>
           </div>
