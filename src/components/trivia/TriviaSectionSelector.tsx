@@ -1,15 +1,34 @@
 // src/components/trivia/TriviaSectionSelector.tsx
 // Selector visual de secciones de trivia
 
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import type { TriviaSection } from '../../types'
-import { BookOpen, MapPin, Bird, Trees, Shield, Users } from 'lucide-react'
+import { BookOpen, MapPin, Bird, Trees, Shield, Users, Trophy, Sparkles, Check, X, Mountain } from 'lucide-react'
 import clsx from 'clsx'
+import { useTriviaStore } from '@stores/triviaStore'
+import { getUserName } from '@utils/storage'
+import { FloatingBar } from './FloatingBar'
+import { FilterChip } from './FilterChip'
+import { useState, useMemo } from 'react'
 
 interface TriviaSectionSelectorProps {
   sections: TriviaSection[]
-  selectedSectionId: string | null
-  onSelectSection: (sectionId: string | null) => void
+  selectedSectionIds: string[]
+  onSelectSection: (sectionIds: string[]) => void
+  onStartTrivia: () => void
+}
+
+// Emojis temáticos del Chocó Biogeográfico
+const sectionEmojis: Record<string, string> = {
+  geografia: '🗺️',
+  fauna: '🦜',      // Loro - emblemático del Chocó
+  flora: '🌺',      // Flor tropical
+  conservacion: '🌿', // Hoja - conservación
+  cultura: '🎭',    // Máscara cultural
+  runap: '🏞️',     // Parques Nacionales
+  'admin-boundaries': '🏘️', // Municipios
+  'resguardos-indigenas': '🪶', // Resguardos Indígenas
+  'comunidades-negras': '👥', // Comunidades Negras
 }
 
 const sectionIcons: Record<string, typeof BookOpen> = {
@@ -18,6 +37,10 @@ const sectionIcons: Record<string, typeof BookOpen> = {
   flora: Trees,
   conservacion: Shield,
   cultura: Users,
+  runap: Mountain,
+  'admin-boundaries': MapPin,
+  'resguardos-indigenas': Users,
+  'comunidades-negras': Users,
 }
 
 const sectionColors: Record<string, { bg: string; border: string; text: string }> = {
@@ -46,6 +69,26 @@ const sectionColors: Record<string, { bg: string; border: string; text: string }
     border: 'border-choco-pacific-500',
     text: 'text-choco-pacific-700',
   },
+  runap: {
+    bg: 'bg-choco-forest-50',
+    border: 'border-choco-forest-500',
+    text: 'text-choco-forest-700',
+  },
+  'admin-boundaries': {
+    bg: 'bg-choco-pacific-50',
+    border: 'border-choco-pacific-500',
+    text: 'text-choco-pacific-700',
+  },
+  'resguardos-indigenas': {
+    bg: 'bg-choco-gold-50',
+    border: 'border-choco-gold-500',
+    text: 'text-choco-gold-700',
+  },
+  'comunidades-negras': {
+    bg: 'bg-choco-pacific-50',
+    border: 'border-choco-pacific-500',
+    text: 'text-choco-pacific-700',
+  },
 }
 
 const sectionIconColors: Record<string, { bg: string; text: string }> = {
@@ -69,36 +112,182 @@ const sectionIconColors: Record<string, { bg: string; text: string }> = {
     bg: 'bg-choco-pacific-500',
     text: 'text-white',
   },
+  runap: {
+    bg: 'bg-choco-forest-500',
+    text: 'text-white',
+  },
+  'admin-boundaries': {
+    bg: 'bg-choco-pacific-500',
+    text: 'text-white',
+  },
+  'resguardos-indigenas': {
+    bg: 'bg-choco-gold-500',
+    text: 'text-white',
+  },
+  'comunidades-negras': {
+    bg: 'bg-choco-pacific-500',
+    text: 'text-white',
+  },
 }
 
 export function TriviaSectionSelector({
   sections,
-  selectedSectionId,
+  selectedSectionIds,
   onSelectSection,
+  onStartTrivia,
 }: TriviaSectionSelectorProps) {
+  const [showAll, setShowAll] = useState(false)
+  const [difficultyFilter, setDifficultyFilter] = useState<string>('Todas')
+  const [statusFilter, setStatusFilter] = useState<string>('Todas')
+  const { getPersonalBest } = useTriviaStore()
+  const userName = getUserName()
+
+  // Progressive disclosure: mostrar solo 5 secciones individuales + 1 "Todas" = 6 tarjetas totales
+  const INITIAL_DISPLAY_COUNT = 5
+
+  const getSectionBestScore = (sectionId: string) => {
+    if (!userName) return null
+    return getPersonalBest(sectionId)
+  }
+
+  const hasAttemptedSection = (sectionId: string) => {
+    return getSectionBestScore(sectionId) !== null
+  }
+
+  const getAverageDifficulty = (section: TriviaSection) => {
+    if (section.questions.length === 0) return 'facil'
+    const difficulties = section.questions.map(q => {
+      if (q.difficulty === 'facil') return 1
+      if (q.difficulty === 'medio') return 2
+      return 3
+    })
+    const avg = difficulties.reduce((a, b) => a + b, 0) / difficulties.length
+    if (avg < 1.5) return 'facil'
+    if (avg < 2.5) return 'medio'
+    return 'dificil'
+  }
+
+  // Aplicar filtros
+  const filteredSections = useMemo(() => {
+    return sections.filter(section => {
+      // Filtro de dificultad
+      if (difficultyFilter !== 'Todas') {
+        const avgDiff = getAverageDifficulty(section)
+        const diffMap: Record<string, string> = {
+          'Fácil': 'facil',
+          'Media': 'medio',
+          'Difícil': 'dificil',
+        }
+        if (avgDiff !== diffMap[difficultyFilter]) return false
+      }
+
+      // Filtro de estado
+      if (statusFilter !== 'Todas') {
+        const hasAttempted = hasAttemptedSection(section.id)
+        if (statusFilter === 'Nuevas' && hasAttempted) return false
+        if (statusFilter === 'Completadas' && !hasAttempted) return false
+      }
+
+      return true
+    })
+  }, [sections, difficultyFilter, statusFilter])
+
+  const displayedSections = showAll ? filteredSections : filteredSections.slice(0, INITIAL_DISPLAY_COUNT)
+
+  const toggleSection = (sectionId: string | null) => {
+    if (sectionId === null) {
+      // "Todas las secciones" - seleccionar/deseleccionar todas
+      if (selectedSectionIds.length === filteredSections.length) {
+        onSelectSection([])
+      } else {
+        onSelectSection(filteredSections.map(s => s.id))
+      }
+    } else {
+      // Toggle individual section
+      if (selectedSectionIds.includes(sectionId)) {
+        onSelectSection(selectedSectionIds.filter(id => id !== sectionId))
+      } else {
+        onSelectSection([...selectedSectionIds, sectionId])
+      }
+    }
+  }
+
+  const clearFilters = () => {
+    setDifficultyFilter('Todas')
+    setStatusFilter('Todas')
+  }
+
+  const hasActiveFilters = difficultyFilter !== 'Todas' || statusFilter !== 'Todas'
+
+  // Calcular métricas
+  const selectedSections = sections.filter(s => selectedSectionIds.includes(s.id))
+  const totalQuestions = selectedSections.reduce((sum, s) => sum + s.questions.length, 0)
+  const estimatedTime = Math.ceil(totalQuestions * 1.5)
+  const maxPoints = selectedSections.reduce((sum, s) =>
+    sum + s.questions.reduce((qSum, q) => qSum + q.points, 0), 0
+  )
+
   return (
-    <div className="space-y-4">
-      <h3 className="text-lg font-semibold text-choco-sand-900 text-center mb-4">
+    <div className="space-y-6">
+      <h3 className="text-lg font-semibold text-choco-sand-900 text-center mb-6">
         Selecciona una sección
       </h3>
-      
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+
+      {/* Filtros */}
+      <div className="flex flex-wrap gap-3 justify-center items-center mb-4">
+        <FilterChip
+          label="Dificultad"
+          options={['Todas', 'Fácil', 'Media', 'Difícil']}
+          value={difficultyFilter}
+          onChange={setDifficultyFilter}
+        />
+
+        <FilterChip
+          label="Estado"
+          options={['Todas', 'Nuevas', 'Completadas']}
+          value={statusFilter}
+          onChange={setStatusFilter}
+        />
+
+        {hasActiveFilters && (
+          <motion.button
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            onClick={clearFilters}
+            className="flex items-center gap-1 text-sm text-choco-sand-500 hover:text-choco-sand-700 transition-colors"
+          >
+            <X className="w-4 h-4" />
+            Limpiar filtros
+          </motion.button>
+        )}
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* Opción: Todas las secciones */}
         <motion.button
-          whileHover={{ scale: 1.02, y: -2 }}
+          whileHover={{ scale: 1.02, y: -4 }}
           whileTap={{ scale: 0.98 }}
-          onClick={() => onSelectSection(null)}
+          onClick={() => toggleSection(null)}
           className={clsx(
-            'p-4 rounded-xl border-2 transition-all text-left',
-            selectedSectionId === null
+            'p-6 rounded-xl border-2 transition-all text-left relative',
+            selectedSectionIds.length === sections.length
               ? 'border-choco-forest-500 bg-choco-forest-50 shadow-md'
               : 'border-gray-200 bg-white hover:border-choco-forest-300 hover:bg-choco-forest-50/50'
           )}
         >
+          {/* Checkbox visual */}
+          {selectedSectionIds.length === sections.length && (
+            <div className="absolute top-3 right-3">
+              <div className="w-6 h-6 bg-choco-forest-500 rounded-full flex items-center justify-center animate-scale-in">
+                <Check className="w-4 h-4 text-white" strokeWidth={3} />
+              </div>
+            </div>
+          )}
+
           <div className="flex items-center gap-3 mb-2">
             <div className={clsx(
               'w-10 h-10 rounded-lg flex items-center justify-center',
-              selectedSectionId === null
+              selectedSectionIds.length === sections.length
                 ? 'bg-choco-forest-500 text-white'
                 : 'bg-gray-100 text-gray-600'
             )}>
@@ -114,26 +303,57 @@ export function TriviaSectionSelector({
         </motion.button>
 
         {/* Secciones individuales */}
-        {sections.map((section) => {
+        {displayedSections.map((section) => {
           const Icon = sectionIcons[section.id] || BookOpen
+          const emoji = sectionEmojis[section.id] || '📚'
           const colors = sectionColors[section.id] || sectionColors.cultura
           const iconColors = sectionIconColors[section.id] || sectionIconColors.cultura
-          const isSelected = selectedSectionId === section.id
+          const isSelected = selectedSectionIds.includes(section.id)
+          const bestScore = getSectionBestScore(section.id)
+          const hasAttempted = hasAttemptedSection(section.id)
+          const avgDifficulty = getAverageDifficulty(section)
 
           return (
             <motion.button
               key={section.id}
-              whileHover={{ scale: 1.02, y: -2 }}
+              whileHover={{ scale: 1.02, y: -4 }}
               whileTap={{ scale: 0.98 }}
-              onClick={() => onSelectSection(section.id)}
+              onClick={() => toggleSection(section.id)}
               className={clsx(
-                'p-4 rounded-xl border-2 transition-all text-left',
+                'p-6 rounded-xl border-2 transition-all text-left relative',
                 isSelected
                   ? `${colors.border} ${colors.bg} shadow-md`
                   : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
               )}
             >
-              <div className="flex items-center gap-3 mb-2">
+              {/* Emoji decorativo grande */}
+              <div className="absolute top-4 left-4 text-4xl opacity-20 pointer-events-none select-none">
+                {emoji}
+              </div>
+
+              {/* Checkbox visual cuando está seleccionado */}
+              {isSelected && (
+                <div className="absolute top-3 right-3">
+                  <div className={clsx(
+                    'w-6 h-6 rounded-full flex items-center justify-center animate-scale-in',
+                    iconColors.bg
+                  )}>
+                    <Check className="w-4 h-4 text-white" strokeWidth={3} />
+                  </div>
+                </div>
+              )}
+
+              {/* Badge "Nuevo" si no se ha intentado y NO está seleccionado */}
+              {!hasAttempted && !isSelected && (
+                <div className="absolute top-3 right-3">
+                  <span className="inline-flex items-center gap-1 px-2 py-1 bg-emerald-100 text-emerald-700 border border-emerald-200 text-xs font-semibold rounded-full">
+                    <Sparkles className="w-3 h-3" />
+                    Nuevo
+                  </span>
+                </div>
+              )}
+
+              <div className="flex items-center gap-3 mb-2 relative z-10">
                 <div className={clsx(
                   'w-10 h-10 rounded-lg flex items-center justify-center',
                   isSelected
@@ -142,22 +362,75 @@ export function TriviaSectionSelector({
                 )}>
                   <Icon className="w-5 h-5" />
                 </div>
-                <h4 className="font-bold text-base text-choco-sand-900">
-                  {section.name}
-                </h4>
+                <div className="flex-1">
+                  <h4 className="font-bold text-base text-choco-sand-900">
+                    {section.name}
+                  </h4>
+                  {bestScore && (
+                    <div className="flex items-center gap-1 mt-1">
+                      <Trophy className="w-3 h-3 text-choco-gold-600" />
+                      <span className="text-xs font-semibold text-choco-gold-700">
+                        Mejor: {bestScore.score} pts
+                      </span>
+                    </div>
+                  )}
+                </div>
               </div>
               {section.description && (
                 <p className="text-sm text-choco-sand-600 mb-2">
                   {section.description}
                 </p>
               )}
-              <p className="text-xs font-semibold text-choco-sand-500">
-                {section.questions.length} pregunta{section.questions.length !== 1 ? 's' : ''}
-              </p>
+              <div className="flex items-center justify-between">
+                <p className="text-xs font-semibold text-choco-sand-500">
+                  {section.questions.length} pregunta{section.questions.length !== 1 ? 's' : ''}
+                </p>
+                <span className={clsx(
+                  'text-xs px-2 py-0.5 rounded-full font-medium',
+                  avgDifficulty === 'facil' && 'bg-green-100 text-green-700',
+                  avgDifficulty === 'medio' && 'bg-yellow-100 text-yellow-700',
+                  avgDifficulty === 'dificil' && 'bg-red-100 text-red-700'
+                )}>
+                  {avgDifficulty === 'facil' ? 'Fácil' : avgDifficulty === 'medio' ? 'Medio' : 'Difícil'}
+                </span>
+              </div>
             </motion.button>
           )
         })}
+
+        {/* Botón "Ver todas las categorías" */}
+        {!showAll && filteredSections.length > INITIAL_DISPLAY_COUNT && (
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => setShowAll(true)}
+            className="col-span-full mx-auto flex items-center gap-2 text-choco-pacific-600 hover:text-choco-pacific-700 font-medium py-4 px-6 rounded-xl hover:bg-choco-pacific-50 transition-colors"
+          >
+            <span>Ver todas las categorías ({filteredSections.length})</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-5 h-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </motion.button>
+        )}
       </div>
+
+      {/* Barra flotante con resumen */}
+      <AnimatePresence>
+        {selectedSectionIds.length > 0 && (
+          <FloatingBar
+            questionsCount={totalQuestions}
+            estimatedTime={estimatedTime}
+            maxPoints={maxPoints}
+            onStart={onStartTrivia}
+          />
+        )}
+      </AnimatePresence>
     </div>
   )
 }

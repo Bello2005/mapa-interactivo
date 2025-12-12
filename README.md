@@ -48,12 +48,19 @@ El **Instituto de Investigaciones Ambientales del Pacífico** es una institució
   - Fotografías de alta calidad
   - Enlaces a fuentes científicas
 
-- 🎮 **Sistema de Trivia Gamificado**
-  - Preguntas categorizadas (geografía, fauna, flora, conservación, cultura)
-  - Tres niveles de dificultad
-  - Sistema de puntos progresivo
+- 🎮 **Sistema de Trivia Gamificado (Mejorado v2.0)**
+  - **Selección múltiple de categorías** - Combina secciones para crear trivias personalizadas
+  - **9 categorías disponibles:** Geografía, Fauna, Flora, Conservación, Cultura, Parques Nacionales, Municipios, Resguardos Indígenas, Comunidades Negras
+  - **Barra flotante interactiva** - Muestra métricas en tiempo real (preguntas, tiempo estimado, puntos máximos)
+  - **Sistema de filtros avanzado** - Filtra por dificultad y estado (nuevas/completadas)
+  - **Progressive disclosure** - Muestra 6 secciones iniciales, expandible a todas
+  - Tres niveles de dificultad con indicadores visuales
+  - Sistema de puntos progresivo con historial personal
   - Explicaciones educativas detalladas
-  - Guardado automático de progreso (localStorage)
+  - **Guardado automático de progreso** por sección (localStorage)
+  - **Historial de puntuaciones** con comparación de mejor marca personal
+  - Emojis temáticos del Chocó en cada categoría (🦜 🌺 🗺️ 🏞️)
+  - Animaciones fluidas con checkmarks y transiciones
 
 - 🏆 **Sistema de Logros (Badges)**
   - Explorador del Chocó
@@ -74,6 +81,34 @@ El **Instituto de Investigaciones Ambientales del Pacífico** es una institució
   - Focus visible en todos los elementos interactivos
   - ARIA labels y roles
   - Navegación por teclado completa
+
+---
+
+## ✨ Mejoras UI/UX Implementadas (2025)
+
+### Fase 1: Mejoras Críticas
+- ✅ **Sistema de Badges rediseñado** - Badges más sutiles con bordes y nuevas variantes (`new`, `featured`)
+- ✅ **Espaciado mejorado** - Mayor breathing room con gaps de 1.5rem y padding aumentado en cards
+- ✅ **Hover mejorado** - Elevación de -4px para mayor sensación de profundidad
+
+### Fase 2: Mejoras Funcionales
+- ✅ **Selección múltiple de secciones** - Sistema de checkboxes visuales con checkmarks animados
+- ✅ **FloatingBar interactiva** - Barra flotante responsive con métricas en tiempo real
+- ✅ **Iconografía mejorada** - Emojis temáticos del Chocó (🦜 loro, 🌺 flor tropical, 🏞️ parques)
+- ✅ **Estados interactivos** - Animaciones CSS personalizadas (scale-in, pulse-subtle)
+- ✅ **Transiciones suaves** - Duración aumentada a 300ms con cubic-bezier optimizado
+
+### Fase 3: Optimizaciones Avanzadas
+- ✅ **Progressive Disclosure** - Muestra 6 tarjetas iniciales, botón "Ver todas" para expandir
+- ✅ **Sistema de filtros** - FilterChip dropdown para dificultad y estado con botón "Limpiar"
+- ✅ **Responsive refinement** - FloatingBar adaptativa (bottom-sheet en móvil, flotante en desktop)
+
+### Componentes Nuevos Creados
+- `FloatingBar.tsx` - Barra flotante con métricas y botón de inicio
+- `FilterChip.tsx` - Componente dropdown para filtros
+- `ExitConfirmModal.tsx` - Modal de confirmación para salir
+- `ScoreHistory.tsx` - Historial de puntuaciones personales
+- `WelcomeModal.tsx` - Modal de bienvenida para capturar nombre
 
 ---
 
@@ -156,7 +191,17 @@ choco-biogeografico-iiap/
 │   │   ├── atoms/                    # Componentes básicos (Button, Badge, etc.)
 │   │   ├── molecules/                # Componentes intermedios (Card, LayerToggle)
 │   │   ├── organisms/                # Componentes complejos (MapView, Navigation)
-│   │   └── trivia/                   # Sistema completo de trivia
+│   │   └── trivia/                   # Sistema completo de trivia mejorado
+│   │       ├── TriviaContainer.tsx   # Contenedor principal
+│   │       ├── TriviaSectionSelector.tsx  # Selector con selección múltiple
+│   │       ├── TriviaQuestion.tsx    # Componente de pregunta
+│   │       ├── TriviaResults.tsx     # Pantalla de resultados
+│   │       ├── TriviaProgress.tsx    # Barra de progreso
+│   │       ├── FloatingBar.tsx       # Barra flotante con métricas
+│   │       ├── FilterChip.tsx        # Filtros dropdown
+│   │       ├── ExitConfirmModal.tsx  # Modal de confirmación
+│   │       ├── ScoreHistory.tsx      # Historial de puntuaciones
+│   │       └── WelcomeModal.tsx      # Modal de bienvenida
 │   │
 │   ├── pages/                         # Páginas principales
 │   │   ├── Home.tsx                  # Página de inicio
@@ -579,9 +624,22 @@ Verificar que todos los imports usan alias correctos (@components, @utils, etc.)
 
 ## 📝 Changelog
 
+### [2.0.0] - 2025-01-XX (Mejoras UI/UX Trivia)
+- ✅ **Sistema de selección múltiple** de categorías con checkboxes visuales
+- ✅ **FloatingBar interactiva** con métricas en tiempo real (preguntas, tiempo, puntos)
+- ✅ **Sistema de filtros** por dificultad y estado (nuevas/completadas)
+- ✅ **Progressive disclosure** - 6 tarjetas iniciales, expandible a 9 categorías
+- ✅ **Emojis temáticos** del Chocó en cada categoría (🦜 🌺 🗺️ 🏞️)
+- ✅ **Historial de puntuaciones** por sección con mejor marca personal
+- ✅ **4 nuevas categorías:** Parques Nacionales, Municipios, Resguardos Indígenas, Comunidades Negras
+- ✅ **Animaciones mejoradas** - checkmarks, transiciones suaves, hover effects
+- ✅ **Responsive refinement** - FloatingBar adaptativa móvil/desktop
+- ✅ **Badges rediseñados** - Estilo más sutil con bordes
+- ✅ **Espaciado optimizado** - Mayor breathing room en toda la interfaz
+
 ### [1.0.0] - 2024-XX-XX (Lanzamiento inicial)
 - ✅ Mapa interactivo con capas alternables
-- ✅ Sistema de trivia gamificado
+- ✅ Sistema de trivia gamificado básico
 - ✅ Fichas de 5 especies placeholder
 - ✅ Sistema de badges y progreso
 - ✅ Diseño responsive mobile-first

@@ -3,7 +3,7 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Check, X, ArrowRight, Info } from 'lucide-react'
+import { Check, X, ArrowRight, Info, LogOut } from 'lucide-react'
 import clsx from 'clsx'
 import type { TriviaQuestion as TriviaQuestionType } from '../../types'
 import { useTriviaStore } from '@stores/triviaStore'
@@ -11,6 +11,7 @@ import { Button } from '@components/atoms/Button'
 import { Badge } from '@components/atoms/Badge'
 import { useUIStore } from '@stores/uiStore'
 import { t } from '@utils/translations'
+import { ExitConfirmModal } from './ExitConfirmModal'
 
 interface TriviaQuestionProps {
   question: TriviaQuestionType
@@ -25,10 +26,11 @@ export function TriviaQuestion({
 }: TriviaQuestionProps) {
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null)
   const [showExplanation, setShowExplanation] = useState(false)
+  const [showExitModal, setShowExitModal] = useState(false)
   const language = useUIStore((state) => state.language)
   const translations = t(language)
 
-  const { answerQuestion, nextQuestion, addPoints, completeTrivia, answers } = useTriviaStore()
+  const { answerQuestion, nextQuestion, addPoints, completeTrivia, answers, reset } = useTriviaStore()
 
   const currentAnswer = answers[questionNumber - 1]
   const hasAnswered = currentAnswer !== null
@@ -84,31 +86,52 @@ export function TriviaQuestion({
     return difficultyMap[difficulty] || difficulty
   }
 
+  const handleExit = () => {
+    reset()
+    // El reset limpiará el estado y TriviaContainer mostrará la pantalla de inicio
+  }
+
   return (
-    <motion.div
-      key={question.id}
-      initial={{ opacity: 0, x: 20 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: -20 }}
-      className="bg-white rounded-3xl shadow-strong p-6 md:p-10 mt-6"
-    >
-      {/* Header */}
-      <div className="flex items-start justify-between mb-6">
-        <div>
-          <Badge variant="info" size="md">
-            {formatCategory(question.category)}
-          </Badge>
-          <Badge variant="warning" size="md" className="ml-2">
-            {formatDifficulty(question.difficulty)}
-          </Badge>
-        </div>
-        <div className="text-right">
-          <div className="text-sm text-choco-sand-600">{translations.trivia.points}</div>
-          <div className="font-bold text-2xl text-choco-gold-600">
-            +{question.points}
+    <>
+      <ExitConfirmModal
+        isOpen={showExitModal}
+        onConfirm={handleExit}
+        onCancel={() => setShowExitModal(false)}
+      />
+      <motion.div
+        key={question.id}
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0, x: -20 }}
+        className="bg-white rounded-3xl shadow-strong p-6 md:p-10 mt-6 relative"
+      >
+        {/* Botón de salida */}
+        <button
+          onClick={() => setShowExitModal(true)}
+          className="absolute top-4 right-4 p-2 text-choco-sand-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+          aria-label="Salir del test"
+          title="Salir del test"
+        >
+          <LogOut className="w-5 h-5" />
+        </button>
+
+        {/* Header */}
+        <div className="flex items-start justify-between mb-6 pr-10">
+          <div>
+            <Badge variant="info" size="md">
+              {formatCategory(question.category)}
+            </Badge>
+            <Badge variant="warning" size="md" className="ml-2">
+              {formatDifficulty(question.difficulty)}
+            </Badge>
+          </div>
+          <div className="text-right">
+            <div className="text-sm text-choco-sand-600">{translations.trivia.points}</div>
+            <div className="font-bold text-2xl text-choco-gold-600">
+              +{question.points}
+            </div>
           </div>
         </div>
-      </div>
 
       {/* Pregunta */}
       <h3 className="font-display font-bold text-2xl md:text-3xl text-choco-sand-900 mb-6">
@@ -139,10 +162,10 @@ export function TriviaQuestion({
               key={index}
               onClick={() => handleSelectAnswer(index)}
               disabled={hasAnswered}
-              whileHover={hasAnswered ? {} : { scale: 1.01 }}
+              whileHover={hasAnswered ? {} : { scale: 1.01, y: -2 }}
               whileTap={hasAnswered ? {} : { scale: 0.99 }}
               className={clsx(
-                'w-full flex items-center gap-4 p-4 rounded-xl border-2 transition-all duration-200 text-left',
+                'w-full flex items-center gap-4 p-4 rounded-xl border-2 transition-all duration-300 text-left',
                 hasAnswered && 'cursor-default',
                 !hasAnswered && 'hover:border-choco-pacific-500 hover:bg-choco-pacific-50',
                 isSelected && !hasAnswered && 'border-choco-pacific-500 bg-choco-pacific-50',
@@ -241,6 +264,7 @@ export function TriviaQuestion({
           </Button>
         )}
       </div>
-    </motion.div>
+      </motion.div>
+    </>
   )
 }

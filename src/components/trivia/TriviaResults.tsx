@@ -11,12 +11,16 @@ import { useGameProgress } from '@hooks/useGameProgress'
 import { BadgeCard } from '@components/molecules/BadgeCard'
 import { useUIStore } from '@stores/uiStore'
 import { t } from '@utils/translations'
+import { ScoreHistory } from './ScoreHistory'
+import { useTriviaStore } from '@stores/triviaStore'
+import { getUserName } from '@utils/storage'
 
 interface TriviaResultsProps {
   questions: TriviaQuestion[]
   answers: (number | null)[]
   score: number
   onRestart: () => void
+  sectionId?: string | null
 }
 
 export function TriviaResults({
@@ -24,10 +28,13 @@ export function TriviaResults({
   answers,
   score,
   onRestart,
+  sectionId,
 }: TriviaResultsProps) {
   const { finishTrivia, progress, newBadges } = useGameProgress()
   const language = useUIStore((state) => state.language)
   const translations = t(language)
+  const { saveSectionScore, getSectionScores } = useTriviaStore()
+  const userName = getUserName() || 'Anónimo'
 
   // Calcular estadísticas
   const correctAnswers = answers.filter(
@@ -40,7 +47,12 @@ export function TriviaResults({
   // Guardar progreso cuando se monta el componente
   useEffect(() => {
     finishTrivia(score)
-  }, [])
+    
+    // Guardar puntuación de sección si hay sectionId
+    if (sectionId) {
+      saveSectionScore(sectionId, score, correctAnswers, totalQuestions)
+    }
+  }, [sectionId, score, correctAnswers, totalQuestions, finishTrivia, saveSectionScore])
 
   // Mensaje según el desempeño
   const getMessage = () => {
@@ -76,7 +88,7 @@ export function TriviaResults({
 
         {/* Mensaje */}
         <h2 className="font-display font-bold text-3xl md:text-4xl text-choco-sand-900 mb-2">
-          {translations.trivia.results.title}
+          ¡Felicidades{userName !== 'Anónimo' ? `, ${userName}` : ''}!
         </h2>
         <p className="text-xl text-choco-sand-700 mb-8">
           {getMessage()}
@@ -163,6 +175,17 @@ export function TriviaResults({
             ))}
           </div>
         </motion.div>
+      )}
+
+      {/* Historial de puntuaciones */}
+      {sectionId && (
+        <ScoreHistory
+          sectionId={sectionId}
+          currentScore={score}
+          currentCorrectAnswers={correctAnswers}
+          currentTotalQuestions={totalQuestions}
+          scores={getSectionScores(sectionId)}
+        />
       )}
 
       {/* Resumen por pregunta */}

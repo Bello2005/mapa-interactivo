@@ -184,6 +184,154 @@
           "points": 15
         }
       ]
+    },
+    {
+      "id": "runap",
+      "name": "Parques Nacionales",
+      "description": "Preguntas sobre parques nacionales y áreas protegidas del Chocó biogeográfico basadas en datos geográficos reales",
+      "questions": [
+        {
+          "id": "count-runap-1",
+          "question": "¿Cuántos parques nacionales hay aproximadamente en el Chocó biogeográfico?",
+          "options": [
+            "Entre 100 y 200",
+            "Entre 150 y 200",
+            "Entre 200 y 500",
+            "Entre 50 y 100"
+          ],
+          "correctAnswer": 1,
+          "explanation": "El Chocó biogeográfico cuenta con aproximadamente 161 parques nacionales, lo que refleja la gran diversidad y riqueza de esta región.",
+          "category": "conservacion",
+          "difficulty": "facil",
+          "points": 10
+        },
+        {
+          "id": "count-runap-2",
+          "question": "¿Cuántos parques nacionales hay en el Chocó biogeográfico?",
+          "options": [
+            "161",
+            "120",
+            "180",
+            "200"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Según los datos geográficos, el Chocó biogeográfico tiene exactamente 161 parques nacionales.",
+          "category": "conservacion",
+          "difficulty": "medio",
+          "points": 15
+        }
+      ]
+    },
+    {
+      "id": "admin-boundaries",
+      "name": "Municipios",
+      "description": "Preguntas sobre municipios del Chocó biogeográfico basadas en datos geográficos reales",
+      "questions": [
+        {
+          "id": "count-admin-1",
+          "question": "¿Cuántos municipios hay aproximadamente en el Chocó biogeográfico?",
+          "options": [
+            "Entre 50 y 100",
+            "Entre 80 y 100",
+            "Entre 100 y 200",
+            "Entre 200 y 500"
+          ],
+          "correctAnswer": 1,
+          "explanation": "El Chocó biogeográfico cuenta con aproximadamente 93 municipios, lo que refleja la gran diversidad y riqueza de esta región.",
+          "category": "geografia",
+          "difficulty": "facil",
+          "points": 10
+        },
+        {
+          "id": "count-admin-2",
+          "question": "¿Cuántos municipios hay en el Chocó biogeográfico?",
+          "options": [
+            "93",
+            "80",
+            "100",
+            "120"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Según los datos geográficos, el Chocó biogeográfico tiene exactamente 93 municipios.",
+          "category": "geografia",
+          "difficulty": "medio",
+          "points": 15
+        }
+      ]
+    },
+    {
+      "id": "resguardos-indigenas",
+      "name": "Resguardos Indígenas",
+      "description": "Preguntas sobre resguardos indígenas del Chocó biogeográfico basadas en datos geográficos reales",
+      "questions": [
+        {
+          "id": "count-resguardos-1",
+          "question": "¿Cuántos resguardos indígenas hay aproximadamente en el Chocó biogeográfico?",
+          "options": [
+            "Entre 200 y 500",
+            "Entre 300 y 500",
+            "Entre 400 y 600",
+            "Entre 500 y 1000"
+          ],
+          "correctAnswer": 1,
+          "explanation": "El Chocó biogeográfico cuenta con aproximadamente 425 resguardos indígenas, lo que refleja la gran diversidad y riqueza de esta región.",
+          "category": "cultura",
+          "difficulty": "facil",
+          "points": 10
+        },
+        {
+          "id": "count-resguardos-2",
+          "question": "¿Cuántos resguardos indígenas hay en el Chocó biogeográfico?",
+          "options": [
+            "425",
+            "350",
+            "450",
+            "500"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Según los datos geográficos, el Chocó biogeográfico tiene exactamente 425 resguardos indígenas.",
+          "category": "cultura",
+          "difficulty": "medio",
+          "points": 15
+        }
+      ]
+    },
+    {
+      "id": "comunidades-negras",
+      "name": "Comunidades Negras",
+      "description": "Preguntas sobre comunidades negras del Chocó biogeográfico basadas en datos geográficos reales",
+      "questions": [
+        {
+          "id": "count-comunidades-1",
+          "question": "¿Cuántas comunidades negras hay aproximadamente en el Chocó biogeográfico?",
+          "options": [
+            "Entre 100 y 200",
+            "Entre 150 y 200",
+            "Entre 200 y 500",
+            "Entre 50 y 100"
+          ],
+          "correctAnswer": 1,
+          "explanation": "El Chocó biogeográfico cuenta con aproximadamente 183 comunidades negras, lo que refleja la gran diversidad y riqueza de esta región.",
+          "category": "cultura",
+          "difficulty": "facil",
+          "points": 10
+        },
+        {
+          "id": "count-comunidades-2",
+          "question": "¿Cuántas comunidades negras hay en el Chocó biogeográfico?",
+          "options": [
+            "183",
+            "150",
+            "200",
+            "220"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Según los datos geográficos, el Chocó biogeográfico tiene exactamente 183 comunidades negras.",
+          "category": "cultura",
+          "difficulty": "medio",
+          "points": 15
+        }
+      ]
     }
   ]
 }

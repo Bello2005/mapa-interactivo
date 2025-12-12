@@ -4,22 +4,28 @@
 import { useEffect, useState } from 'react'
 import type React from 'react'
 import { motion } from 'framer-motion'
+import { Link } from 'react-router-dom'
+import { ArrowLeft } from 'lucide-react'
 import type { TriviaQuestion, TriviaData, TriviaSection } from '../../types'
 import { useTriviaStore } from '@stores/triviaStore'
 import { TriviaQuestion as TriviaQuestionComponent } from './TriviaQuestion'
 import { TriviaResults } from './TriviaResults'
 import { TriviaProgress } from './TriviaProgress'
 import { TriviaSectionSelector } from './TriviaSectionSelector'
+import { WelcomeModal } from './WelcomeModal'
 import { Button } from '@components/atoms/Button'
 import { Play } from 'lucide-react'
 import { useUIStore } from '@stores/uiStore'
 import { t } from '@utils/translations'
+import { getUserName } from '@utils/storage'
 
 export function TriviaContainer() {
   const [triviaData, setTriviaData] = useState<TriviaData | null>(null)
-  const [selectedSectionId, setSelectedSectionId] = useState<string | null>(null)
+  const [selectedSectionIds, setSelectedSectionIds] = useState<string[]>([])
   const [questions, setQuestions] = useState<TriviaQuestion[]>([])
   const [loading, setLoading] = useState(true)
+  const [showWelcomeModal, setShowWelcomeModal] = useState(false)
+  const [userName, setUserName] = useState<string | null>(null)
   const language = useUIStore((state) => state.language)
   const translations = t(language)
 
@@ -32,7 +38,18 @@ export function TriviaContainer() {
     startTrivia,
     reset,
     loadSavedState,
+    getCurrentSectionId,
   } = useTriviaStore()
+
+  // Verificar nombre de usuario al montar
+  useEffect(() => {
+    const savedName = getUserName()
+    if (!savedName) {
+      setShowWelcomeModal(true)
+    } else {
+      setUserName(savedName)
+    }
+  }, [])
 
   // Cargar datos de trivia
   useEffect(() => {
@@ -71,19 +88,18 @@ export function TriviaContainer() {
     loadSavedState()
   }, [loadSavedState])
 
-  // Actualizar preguntas cuando se selecciona una sección
+  // Actualizar preguntas cuando se seleccionan secciones
   useEffect(() => {
-    if (triviaData && selectedSectionId) {
-      const section = triviaData.sections.find(s => s.id === selectedSectionId)
-      if (section) {
-        setQuestions(section.questions)
-      }
-    } else if (triviaData && !selectedSectionId && triviaData.sections.length > 0) {
-      // Si no hay sección seleccionada, usar todas las preguntas de todas las secciones
-      const allQuestions = triviaData.sections.flatMap(s => s.questions)
-      setQuestions(allQuestions)
+    if (triviaData && selectedSectionIds.length > 0) {
+      // Combinar preguntas de las secciones seleccionadas
+      const selectedSections = triviaData.sections.filter(s => selectedSectionIds.includes(s.id))
+      const combinedQuestions = selectedSections.flatMap(s => s.questions)
+      setQuestions(combinedQuestions)
+    } else if (triviaData && selectedSectionIds.length === 0) {
+      // Si no hay secciones seleccionadas, no cargar preguntas
+      setQuestions([])
     }
-  }, [triviaData, selectedSectionId])
+  }, [triviaData, selectedSectionIds])
 
   // Limpiar estado guardado si la trivia está completada
   useEffect(() => {
@@ -93,21 +109,29 @@ export function TriviaContainer() {
     }
   }, [completed])
 
+  const handleWelcomeComplete = (name: string) => {
+    setUserName(name)
+    setShowWelcomeModal(false)
+  }
+
   const handleStart = (e?: React.MouseEvent) => {
     e?.preventDefault()
     e?.stopPropagation()
-    
+
     if (questions.length === 0) {
       console.error('No hay preguntas cargadas')
-      alert('No hay preguntas disponibles. Por favor, recarga la página.')
+      alert('No hay preguntas disponibles. Por favor, selecciona al menos una sección.')
       return
     }
-    
+
     console.log('Iniciando trivia con', questions.length, 'preguntas')
+    console.log('Secciones seleccionadas:', selectedSectionIds)
     console.log('Estado antes de iniciar:', { currentQuestionIndex, answers, completed })
-    
+
     try {
-      startTrivia(questions.length)
+      // Si solo hay una sección seleccionada, pasar su ID; de lo contrario, undefined
+      const sectionId = selectedSectionIds.length === 1 ? selectedSectionIds[0] : undefined
+      startTrivia(questions.length, sectionId)
       console.log('Trivia iniciada correctamente')
     } catch (error) {
       console.error('Error al iniciar trivia:', error)
@@ -130,6 +154,11 @@ export function TriviaContainer() {
     )
   }
 
+  // Mostrar modal de bienvenida si no hay nombre
+  if (showWelcomeModal) {
+    return <WelcomeModal onComplete={handleWelcomeComplete} />
+  }
+
   // Pantalla de inicio - mostrar solo si la trivia NO ha comenzado
   // La trivia ha comenzado si startTime > 0
   const hasTriviaStarted = startTime > 0
@@ -142,7 +171,18 @@ export function TriviaContainer() {
         animate={{ opacity: 1, scale: 1 }}
         className="max-w-4xl mx-auto py-12"
       >
-        <div className="bg-white rounded-3xl shadow-strong p-8 md:p-12">
+        {/* Botón de volver */}
+        <div className="mb-6">
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 text-choco-sand-700 hover:text-choco-forest-700 transition-colors"
+          >
+            <ArrowLeft className="w-5 h-5" />
+            <span className="font-medium">Volver al inicio</span>
+          </Link>
+        </div>
+
+        <div className="bg-white rounded-3xl shadow-strong p-10 md:p-14">
           <div className="w-20 h-20 bg-gradient-pacific rounded-full flex items-center justify-center mx-auto mb-6">
             <Play className="w-10 h-10 text-white" />
           </div>
@@ -156,55 +196,21 @@ export function TriviaContainer() {
           </p>
 
           {/* Selector de secciones */}
-          {triviaData && triviaData.sections.length > 1 && (
+          {triviaData && triviaData.sections.length > 0 && (
             <div className="mb-8">
               <TriviaSectionSelector
                 sections={triviaData.sections}
-                selectedSectionId={selectedSectionId}
-                onSelectSection={(sectionId) => {
-                  setSelectedSectionId(sectionId)
-                  reset() // Resetear trivia al cambiar de sección
+                selectedSectionIds={selectedSectionIds}
+                onSelectSection={(sectionIds) => {
+                  setSelectedSectionIds(sectionIds)
+                  reset() // Resetear trivia al cambiar secciones
                 }}
+                onStartTrivia={handleStart}
               />
             </div>
           )}
 
-          {/* Estadísticas */}
-          {questions.length > 0 && (
-            <div className="grid grid-cols-3 gap-4 mb-8">
-              <div className="bg-choco-pacific-50 rounded-xl p-4">
-                <div className="font-display font-bold text-2xl text-choco-pacific-700 mb-1">
-                  {questions.length}
-                </div>
-                <div className="text-sm text-choco-sand-600">{translations.trivia.questions}</div>
-              </div>
-              <div className="bg-choco-gold-50 rounded-xl p-4">
-                <div className="font-display font-bold text-2xl text-choco-gold-700 mb-1">
-                  {questions.reduce((sum, q) => sum + q.points, 0)}
-                </div>
-                <div className="text-sm text-choco-sand-600">{translations.trivia.maxPoints}</div>
-              </div>
-              <div className="bg-choco-forest-50 rounded-xl p-4">
-                <div className="font-display font-bold text-2xl text-choco-forest-700 mb-1">
-                  ~{Math.ceil(questions.length * 1.5)}
-                </div>
-                <div className="text-sm text-choco-sand-600">{translations.trivia.minutes}</div>
-              </div>
-            </div>
-          )}
-
-          <Button
-            onClick={handleStart}
-            size="lg"
-            variant="primary"
-            fullWidth
-            disabled={questions.length === 0}
-            icon={<Play className="w-5 h-5" />}
-            iconPosition="right"
-            className="mx-auto max-w-md"
-          >
-            {translations.trivia.start}
-          </Button>
+          {/* Nota: El botón de inicio ahora está en la FloatingBar */}
         </div>
       </motion.div>
     )
@@ -212,6 +218,7 @@ export function TriviaContainer() {
 
   // Pantalla de resultados
   if (completed) {
+    const sectionId = getCurrentSectionId() || (selectedSectionIds.length === 1 ? selectedSectionIds[0] : null)
     return (
       <div>
         <TriviaResults
@@ -219,6 +226,7 @@ export function TriviaContainer() {
           answers={answers}
           score={score}
           onRestart={handleRestart}
+          sectionId={sectionId}
         />
       </div>
     )

@@ -3,17 +3,31 @@
 
 import { create } from 'zustand'
 import type { TriviaState } from '../types'
-import { saveTriviaState, getTriviaState, clearTriviaState } from '@utils/storage'
+import { 
+  saveTriviaState, 
+  getTriviaState, 
+  clearTriviaState,
+  saveSectionScore,
+  getSectionScoresBySection,
+  getPersonalBest,
+  getUserName,
+  type SectionScore
+} from '@utils/storage'
 
 interface TriviaStore extends TriviaState {
   // Acciones
-  startTrivia: (totalQuestions: number) => void
+  startTrivia: (totalQuestions: number, sectionId?: string) => void
   answerQuestion: (answerIndex: number) => void
   nextQuestion: () => void
-  completeTrivia: () => void
+  completeTrivia: (sectionId?: string) => void
   loadSavedState: () => void
   reset: () => void
   addPoints: (points: number) => void
+  // Puntuaciones por sección
+  saveSectionScore: (sectionId: string, score: number, correctAnswers: number, totalQuestions: number) => void
+  getSectionScores: (sectionId: string) => SectionScore[]
+  getPersonalBest: (sectionId: string) => SectionScore | null
+  getCurrentSectionId: () => string | undefined
 }
 
 const initialState: TriviaState = {
@@ -29,7 +43,7 @@ const initialState: TriviaState = {
 export const useTriviaStore = create<TriviaStore>((set, get) => ({
   ...initialState,
 
-  startTrivia: (totalQuestions) => {
+  startTrivia: (totalQuestions, sectionId) => {
     const state: TriviaState = {
       currentQuestionIndex: 0,
       answers: Array(totalQuestions).fill(null),
@@ -37,6 +51,7 @@ export const useTriviaStore = create<TriviaStore>((set, get) => ({
       completed: false,
       startTime: Date.now(),
       endTime: undefined,
+      currentSectionId: sectionId,
     }
     set(state)
     saveTriviaState(state)
@@ -78,16 +93,45 @@ export const useTriviaStore = create<TriviaStore>((set, get) => ({
     saveTriviaState(newState)
   },
 
-  completeTrivia: () => {
+  completeTrivia: (sectionId) => {
     const state = get()
+    const finalSectionId = sectionId || state.currentSectionId
     const newState = {
       ...state,
       completed: true,
       endTime: Date.now(),
+      currentSectionId: finalSectionId,
     }
 
     set(newState)
     saveTriviaState(newState)
+  },
+
+  saveSectionScore: (sectionId, score, correctAnswers, totalQuestions) => {
+    const userName = getUserName() || 'Anónimo'
+    const sectionScore: SectionScore = {
+      userName,
+      score,
+      date: Date.now(),
+      correctAnswers,
+      totalQuestions,
+      sectionId,
+    }
+    saveSectionScore(sectionScore)
+  },
+
+  getSectionScores: (sectionId) => {
+    return getSectionScoresBySection(sectionId)
+  },
+
+  getPersonalBest: (sectionId) => {
+    const userName = getUserName()
+    if (!userName) return null
+    return getPersonalBest(sectionId, userName)
+  },
+
+  getCurrentSectionId: () => {
+    return get().currentSectionId
   },
 
   loadSavedState: () => {

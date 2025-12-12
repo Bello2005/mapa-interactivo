@@ -8,6 +8,8 @@ const STORAGE_KEYS = {
   TRIVIA_STATE: 'choco_trivia_state',
   LANGUAGE: 'choco_language',
   VISITED_SPECIES: 'choco_visited_species',
+  USER_NAME: 'trivia_user_name',
+  SECTION_SCORES: 'trivia_section_scores',
 } as const
 
 /**
@@ -254,4 +256,98 @@ export function resetProgress(): void {
   localStorage.removeItem(STORAGE_KEYS.USER_PROGRESS)
   localStorage.removeItem(STORAGE_KEYS.TRIVIA_STATE)
   localStorage.removeItem(STORAGE_KEYS.VISITED_SPECIES)
+}
+
+/**
+ * Guarda el nombre de usuario
+ */
+export function saveUserName(userName: string): void {
+  try {
+    localStorage.setItem(STORAGE_KEYS.USER_NAME, userName)
+  } catch (error) {
+    console.error('Error saving user name:', error)
+  }
+}
+
+/**
+ * Obtiene el nombre de usuario
+ */
+export function getUserName(): string | null {
+  try {
+    return localStorage.getItem(STORAGE_KEYS.USER_NAME)
+  } catch (error) {
+    console.error('Error loading user name:', error)
+    return null
+  }
+}
+
+/**
+ * Interfaz para puntuaciones por sección
+ */
+export interface SectionScore {
+  userName: string
+  score: number
+  date: number
+  correctAnswers: number
+  totalQuestions: number
+  sectionId: string
+}
+
+/**
+ * Guarda una puntuación de sección
+ */
+export function saveSectionScore(score: SectionScore): void {
+  try {
+    const existing = getSectionScores()
+    const sectionScores = existing[score.sectionId] || []
+    
+    // Agregar nueva puntuación
+    sectionScores.push(score)
+    
+    // Ordenar por fecha (más reciente primero) y limitar a 100 por sección
+    sectionScores.sort((a, b) => b.date - a.date)
+    const limited = sectionScores.slice(0, 100)
+    
+    existing[score.sectionId] = limited
+    localStorage.setItem(STORAGE_KEYS.SECTION_SCORES, JSON.stringify(existing))
+  } catch (error) {
+    console.error('Error saving section score:', error)
+  }
+}
+
+/**
+ * Obtiene todas las puntuaciones de secciones
+ */
+export function getSectionScores(): Record<string, SectionScore[]> {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEYS.SECTION_SCORES)
+    return stored ? JSON.parse(stored) : {}
+  } catch (error) {
+    console.error('Error loading section scores:', error)
+    return {}
+  }
+}
+
+/**
+ * Obtiene las puntuaciones de una sección específica
+ */
+export function getSectionScoresBySection(sectionId: string): SectionScore[] {
+  const allScores = getSectionScores()
+  return allScores[sectionId] || []
+}
+
+/**
+ * Obtiene la mejor puntuación personal de una sección
+ */
+export function getPersonalBest(sectionId: string, userName: string): SectionScore | null {
+  const sectionScores = getSectionScoresBySection(sectionId)
+  const userScores = sectionScores.filter(s => s.userName === userName)
+  
+  if (userScores.length === 0) return null
+  
+  return userScores.reduce((best, current) => {
+    if (current.score > best.score) return current
+    if (current.score === best.score && current.correctAnswers > best.correctAnswers) return current
+    return best
+  }, userScores[0])
 }

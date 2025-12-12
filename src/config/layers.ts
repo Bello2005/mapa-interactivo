@@ -169,24 +169,7 @@ export const thematicLayers: ThematicLayer[] = [
       resolution: '100k'
     }
   },
-  {
-    id: 'consejos-comunitarios',
-    name: 'Consejos Comunitarios',
-    description: 'Organizaciones comunitarias del Chocó',
-    category: 'social',
-    source: 'geoserver',
-    storageType: 'geoserver',
-    geoserverLayer: 'IIAP:Consejos_comunitario',
-    color: '#8B4513',
-    opacity: 0.5,
-    visible: false,
-    order: 12,
-    enabled: true,
-    metadata: {
-      source: 'IIAP GeoServer',
-      resolution: '100k'
-    }
-  },
+  // Capa 'consejos-comunitarios' eliminada - requiere GeoServer del backend
 
   // Hidrografía
   // Capa 'cuencas' eliminada - requiere GeoServer del backend y no muestra datos
@@ -272,97 +255,12 @@ export const thematicLayers: ThematicLayer[] = [
   //     resolution: '100k'
   //   }
   // },
-  {
-    id: 'geologia',
-    name: 'Geología',
-    description: 'Formaciones geológicas del Chocó biogeográfico',
-    category: 'fisico',
-    source: 'geojson',
-    storageType: 'gridfs',
-    geojsonPath: '/data/geologia.geojson',
-    color: '#8B4513',
-    opacity: 0.5,
-    visible: false,
-    order: 40,
-    enabled: true,
-    metadata: {
-      source: 'IIAP',
-      resolution: '100k'
-    }
-  },
-  {
-    id: 'geomorfologia',
-    name: 'Geomorfología',
-    description: 'Formas del terreno del Chocó biogeográfico',
-    category: 'fisico',
-    source: 'geojson',
-    storageType: 'filesystem',
-    geojsonPath: '/data/geomorfologia.geojson',
-    color: '#A0522D',
-    opacity: 0.5,
-    visible: false,
-    order: 40.5,
-    enabled: true,
-    metadata: {
-      source: 'IIAP',
-      resolution: '100k'
-    }
-  },
-  {
-    id: 'climas',
-    name: 'Climas',
-    description: 'Clasificación climática del Chocó biogeográfico',
-    category: 'fisico',
-    source: 'geoserver',
-    storageType: 'geoserver',
-    geoserverLayer: 'IIAP:Climas',
-    color: '#4169E1',
-    opacity: 0.5,
-    visible: false,
-    order: 40.7,
-    enabled: true,
-    metadata: {
-      source: 'IIAP GeoServer',
-      resolution: '100k'
-    }
-  },
-  {
-    id: 'suelos',
-    name: 'Suelos',
-    description: 'Tipos de suelo del Chocó biogeográfico',
-    category: 'fisico',
-    source: 'geoserver',
-    storageType: 'geoserver',
-    geoserverLayer: 'IIAP:suelos',
-    color: '#CD853F',
-    opacity: 0.5,
-    visible: false,
-    order: 40.8,
-    enabled: true,
-    metadata: {
-      source: 'IIAP GeoServer',
-      resolution: '100k'
-    }
-  },
-  {
-    id: 'fisiografia',
-    name: 'Fisiografía IDEAM 2017',
-    description: 'Características físicas del terreno según IDEAM 2017',
-    category: 'fisico',
-    source: 'geoserver',
-    storageType: 'geoserver',
-    geoserverLayer: 'IIAP:Fisiografia_IDEAM_2017',
-    color: '#708090',
-    opacity: 0.5,
-    visible: false,
-    order: 40.9,
-    enabled: true,
-    metadata: {
-      source: 'IDEAM 2017',
-      year: 2017,
-      resolution: '100k'
-    }
-  },
+  // Capas eliminadas - no muestran datos o requieren GeoServer del backend:
+  // - geologia (no muestra datos)
+  // - geomorfologia (no muestra datos)
+  // - climas (GeoServer - requiere backend)
+  // - suelos (GeoServer - requiere backend)
+  // - fisiografia (GeoServer - requiere backend)
   {
     id: 'admin-boundaries',
     name: 'Límites Municipales',

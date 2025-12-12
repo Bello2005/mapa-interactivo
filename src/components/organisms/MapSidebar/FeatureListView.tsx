@@ -144,10 +144,12 @@ export function FeatureListView({ layerId }: FeatureListViewProps) {
             <div className="p-2 space-y-1">
               {filteredFeatures.map((feature, index) => {
                 const secondaryProps = getSecondaryProperties(feature, config)
+                // Crear una key única combinando layerId, feature.id e index para evitar duplicados
+                const uniqueKey = `${layerId}-${feature.id}-${index}`
                 
                 return (
                   <motion.button
-                    key={feature.id}
+                    key={uniqueKey}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.95 }}
