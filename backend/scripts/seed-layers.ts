@@ -172,21 +172,7 @@ const thematicLayers = [
     enabled: true,
     metadata: { source: 'SPNN Jul 2025', year: 2025, resolution: '100k' }
   },
-  {
-    id: 'bioregion',
-    name: 'Chocó Biogeográfico',
-    description: 'Límite del Chocó biogeográfico',
-    category: 'fisico' as const,
-    source: 'geojson' as const,
-    storageType: 'filesystem' as const,
-    geojsonPath: '/data/bioregion.geojson',
-    color: '#228B22',
-    opacity: 0.3,
-    visible: false,
-    order: 40,
-    enabled: true,
-    metadata: { source: 'WWF TEOW 2017', year: 2017, resolution: '100k' }
-  },
+  // Capa bioregion eliminada por solicitud del usuario
   {
     id: 'admin-boundaries',
     name: 'Límites Administrativos',

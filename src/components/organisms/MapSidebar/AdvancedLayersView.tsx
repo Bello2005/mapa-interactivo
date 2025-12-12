@@ -4,7 +4,9 @@ import { Leaf, Users, Waves, ShieldCheck, Mountain, List } from 'lucide-react'
 import clsx from 'clsx'
 import type { LayerCategory, ThematicLayer } from '../../../types'
 import type { JSX } from 'react'
+import { useState, useEffect } from 'react'
 import { hasSelectableFeatures } from '@config/layerFeatures'
+import { hasNamedFeatures } from '@services/layerFeatures'
 import { useUIStore } from '@stores/uiStore'
 
 interface AdvancedLayersViewProps {
@@ -40,6 +42,59 @@ const categoryColors: Record<LayerCategory, string> = {
   fisico: 'bg-gray-100 text-gray-700',
 }
 
+// Componente para el botón "Ver elementos" que verifica si hay features con nombres
+function FeatureListButton({ 
+  layerId, 
+  isActive, 
+  featureCount 
+}: { 
+  layerId: string
+  isActive: boolean
+  featureCount?: number
+}) {
+  const { enterFeatureListView } = useUIStore()
+  const [hasNamed, setHasNamed] = useState<boolean | null>(null)
+  
+  useEffect(() => {
+    // Solo verificar si la capa está activa y tiene configuración de features
+    if (isActive && hasSelectableFeatures(layerId)) {
+      // Verificar de forma asíncrona si hay features con nombres
+      hasNamedFeatures(layerId)
+        .then(setHasNamed)
+        .catch(() => setHasNamed(false))
+    } else {
+      setHasNamed(null)
+    }
+  }, [layerId, isActive])
+  
+  // No mostrar si la capa no está activa o no tiene configuración
+  if (!isActive || !hasSelectableFeatures(layerId)) {
+    return null
+  }
+  
+  // Si aún está verificando (hasNamed === null), no mostrar el botón
+  // Solo mostrar si tiene features con nombres (hasNamed === true)
+  if (hasNamed !== true) {
+    return null
+  }
+  
+  // Mostrar botón solo si tiene features con nombres válidos
+  return (
+    <button
+      onClick={() => enterFeatureListView(layerId)}
+      className="w-full flex items-center justify-center gap-1.5 px-2 py-1.5 text-xs font-medium text-emerald-700 bg-emerald-50 hover:bg-emerald-100 rounded-md transition-colors mt-1"
+    >
+      <List className="w-3.5 h-3.5" />
+      Ver elementos
+      {featureCount && (
+        <span className="ml-1 px-1.5 py-0.5 bg-emerald-200 text-emerald-800 rounded-full text-[10px] font-semibold">
+          {featureCount}
+        </span>
+      )}
+    </button>
+  )
+}
+
 export function AdvancedLayersView({
   layers,
   activeLayerIds,
@@ -48,8 +103,6 @@ export function AdvancedLayersView({
   onOpacityChange,
   onEnterCategory,
 }: AdvancedLayersViewProps) {
-  const { enterFeatureListView } = useUIStore()
-  
   const grouped = layers.reduce<Record<LayerCategory, ThematicLayer[]>>((acc, layer) => {
     if (layer.enabled === false) return acc
     acc[layer.category] = acc[layer.category] || []
@@ -82,15 +135,24 @@ export function AdvancedLayersView({
               </span>
             )}
           </span>
-          <button
-            className="inline-flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-md bg-emerald-50 text-emerald-700 hover:bg-emerald-100 transition-colors flex-shrink-0"
+          <div
+            role="button"
+            tabIndex={0}
+            className="inline-flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-md bg-emerald-50 text-emerald-700 hover:bg-emerald-100 transition-colors flex-shrink-0 cursor-pointer"
             onClick={(e) => {
               e.stopPropagation()
               onEnterCategory(category)
             }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault()
+                e.stopPropagation()
+                onEnterCategory(category)
+              }
+            }}
           >
             Detalles <span aria-hidden>→</span>
-          </button>
+          </div>
         </div>
       ),
     content: (
@@ -114,20 +176,11 @@ export function AdvancedLayersView({
                   opacity={opacity}
                   onOpacityChange={(value) => onOpacityChange(layer.id, value)}
                 />
-                {hasFeatures && isActive && (
-                  <button
-                    onClick={() => enterFeatureListView(layer.id)}
-                    className="w-full flex items-center justify-center gap-1.5 px-2 py-1.5 text-xs font-medium text-emerald-700 bg-emerald-50 hover:bg-emerald-100 rounded-md transition-colors mt-1"
-                  >
-                    <List className="w-3.5 h-3.5" />
-                    Ver elementos
-                    {layer.featureCount && (
-                      <span className="ml-1 px-1.5 py-0.5 bg-emerald-200 text-emerald-800 rounded-full text-[10px] font-semibold">
-                        {layer.featureCount}
-                      </span>
-                    )}
-                  </button>
-                )}
+                <FeatureListButton 
+                  layerId={layer.id}
+                  isActive={isActive}
+                  featureCount={layer.featureCount}
+                />
               </div>
             )
           })}

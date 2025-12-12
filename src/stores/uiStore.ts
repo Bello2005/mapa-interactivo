@@ -85,7 +85,6 @@ thematicLayers.forEach(layer => {
   initialLayerOpacities[layer.id] = layer.opacity
 })
 const initialQuickLayers = [
-  'bioregion',
   'admin-boundaries',
   'comunidades-negras',
   'resguardos-indigenas',

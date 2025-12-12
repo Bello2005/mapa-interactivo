@@ -129,62 +129,6 @@ export const thematicLayers: ThematicLayer[] = [
       resolution: '100k'
     }
   },
-  {
-    id: 'biomas',
-    name: 'Biomas',
-    description: 'Clasificación de biomas del Chocó biogeográfico',
-    category: 'ecosistemas',
-    source: 'geoserver',
-    storageType: 'geoserver',
-    geoserverLayer: 'IIAP:Biomas',
-    color: '#228B22',
-    opacity: 0.6,
-    visible: false,
-    order: 7,
-    enabled: true,
-    metadata: {
-      source: 'IIAP GeoServer',
-      resolution: '100k'
-    }
-  },
-  {
-    id: 'cobertura-ideam',
-    name: 'Cobertura IDEAM 2017',
-    description: 'Cobertura de la tierra según IDEAM 2017',
-    category: 'ecosistemas',
-    source: 'geoserver',
-    storageType: 'geoserver',
-    geoserverLayer: 'IIAP:cobertura_ideam_2017',
-    color: '#32CD32',
-    opacity: 0.5,
-    visible: false,
-    order: 8,
-    enabled: true,
-    metadata: {
-      source: 'IDEAM 2017',
-      year: 2017,
-      resolution: '100k'
-    }
-  },
-  {
-    id: 'bosque-nobosque',
-    name: 'Bosque/No Bosque IDEAM 2018',
-    description: 'Clasificación bosque y no bosque según IDEAM 2018',
-    category: 'ecosistemas',
-    source: 'geoserver',
-    storageType: 'geoserver',
-    geoserverLayer: 'IIAP:bosquenobosque_ideam_2018',
-    color: '#228B22',
-    opacity: 0.6,
-    visible: false,
-    order: 9,
-    enabled: true,
-    metadata: {
-      source: 'IDEAM 2018',
-      year: 2018,
-      resolution: '100k'
-    }
-  },
 
   // Social
   {
@@ -245,24 +189,7 @@ export const thematicLayers: ThematicLayer[] = [
   },
 
   // Hidrografía
-  {
-    id: 'cuencas',
-    name: 'Cuencas Hidrográficas',
-    description: 'Cuencas hidrográficas del Chocó',
-    category: 'hidrografia',
-    source: 'geoserver',
-    storageType: 'geoserver',
-    geoserverLayer: 'IIAP:Cuenca_Hidrograficas',
-    color: '#4169E1',
-    opacity: 0.4,
-    visible: false,
-    order: 20,
-    enabled: true,
-    metadata: {
-      source: 'IIAP GeoServer',
-      resolution: '100k'
-    }
-  },
+  // Capa 'cuencas' eliminada - requiere GeoServer del backend y no muestra datos
   {
     id: 'drenaje',
     name: 'Drenaje',

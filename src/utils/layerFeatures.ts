@@ -10,12 +10,18 @@ export function parseLayerFeatures(
   geojson: GeoJSONFeatureCollection,
   config: LayerFeatureConfig
 ): LayerFeature[] {
-  return geojson.features.map(feature => ({
-    id: feature.properties[config.idProperty]?.toString() || '',
-    name: feature.properties[config.nameProperty] || 'Sin nombre',
-    properties: feature.properties,
-    layerId: config.layerId
-  }))
+  return geojson.features.map(feature => {
+    const nameValue = feature.properties[config.nameProperty]
+    // Verificar que el nombre no esté vacío, null, undefined, o sea solo espacios
+    const name = (nameValue && String(nameValue).trim()) || 'Sin nombre'
+    
+    return {
+      id: feature.properties[config.idProperty]?.toString() || '',
+      name,
+      properties: feature.properties,
+      layerId: config.layerId
+    }
+  })
 }
 
 /**
@@ -100,18 +106,38 @@ export function getSecondaryProperties(
 }
 
 /**
+ * Validar si un feature tiene nombre válido basándose en propiedades raw y configuración
+ * Útil para validar features antes de parsearlos o en el mapa
+ */
+export function hasValidFeatureName(
+  properties: Record<string, any>,
+  config: LayerFeatureConfig
+): boolean {
+  if (!properties || !config) return false
+  const nameValue = properties[config.nameProperty]
+  const name = (nameValue && String(nameValue).trim()) || ''
+  return name !== '' && name !== 'Sin nombre'
+}
+
+/**
  * Validar si un feature tiene datos válidos
  */
 export function isValidFeature(feature: LayerFeature, config: LayerFeatureConfig): boolean {
-  // Verificar que tenga ID y nombre
-  if (!feature.id || !feature.name || feature.name === 'Sin nombre') {
+  // Verificar que tenga ID válido
+  if (!feature.id || feature.id.trim() === '') {
+    return false
+  }
+  
+  // Verificar que tenga nombre válido (no vacío, no "Sin nombre", no solo espacios)
+  const name = feature.name?.trim()
+  if (!name || name === '' || name === 'Sin nombre') {
     return false
   }
   
   // Verificar que tenga al menos una propiedad con valor
   return config.displayProperties.some(prop => {
     const value = feature.properties[prop.key]
-    return value != null && value !== ''
+    return value != null && value !== '' && String(value).trim() !== ''
   })
 }
 

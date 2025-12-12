@@ -6,15 +6,15 @@ import type { LayerFeatureConfig } from '../types'
 export const layerFeaturesConfig: Record<string, LayerFeatureConfig> = {
   'admin-boundaries': {
     layerId: 'admin-boundaries',
-    nameProperty: 'MpNombre',
-    idProperty: 'MpCodigo',
-    searchableProperties: ['MpNombre', 'DeptoNom', 'Subregion'],
+    nameProperty: 'name', // El GeoJSON usa 'name' en minúscula
+    idProperty: 'name', // Usar 'name' como ID también ya que es único
+    searchableProperties: ['name', 'country', 'capital'],
     displayProperties: [
-      { key: 'DeptoNom', label: 'Departamento', icon: 'MapPin', format: 'text' },
-      { key: 'AreaHa', label: 'Área', icon: 'Ruler', format: 'area', unit: 'ha' },
-      { key: 'MpAltitud', label: 'Altitud', icon: 'Mountain', format: 'altitude', unit: 'msnm' },
-      { key: 'MpCodigo', label: 'Código Municipal', icon: 'Hash', format: 'text' },
-      { key: 'Subregion', label: 'Subregión', icon: 'Map', format: 'text' }
+      { key: 'country', label: 'País', icon: 'MapPin', format: 'text' },
+      { key: 'area_km2', label: 'Área', icon: 'Ruler', format: 'number', unit: 'km²' },
+      { key: 'population', label: 'Población', icon: 'Users', format: 'number' },
+      { key: 'capital', label: 'Capital', icon: 'MapPin', format: 'text' },
+      { key: 'admin_level', label: 'Nivel Administrativo', icon: 'Hash', format: 'text' }
     ]
   },
   'comunidades-negras': {
@@ -41,32 +41,33 @@ export const layerFeaturesConfig: Record<string, LayerFeatureConfig> = {
       { key: 'ACTO_ADMIN', label: 'Acto Administrativo', icon: 'FileText', format: 'text' }
     ]
   },
-  'cuencas': {
-    layerId: 'cuencas',
-    nameProperty: 'NOMBRE',
-    idProperty: 'COD_CUENCA',
-    searchableProperties: ['NOMBRE', 'SUBZONA', 'COD_CUENCA'],
-    displayProperties: [
-      { key: 'SUBZONA', label: 'Subzona Hidrográfica', icon: 'Waves', format: 'text' },
-      { key: 'AREA_KM2', label: 'Área', icon: 'Ruler', format: 'number', unit: 'km²' },
-      { key: 'COD_CUENCA', label: 'Código de Cuenca', icon: 'Hash', format: 'text' }
-    ]
-  },
+  // 'cuencas': {
+  //   layerId: 'cuencas',
+  //   nameProperty: 'NOMBRE',
+  //   idProperty: 'COD_CUENCA',
+  //   searchableProperties: ['NOMBRE', 'SUBZONA', 'COD_CUENCA'],
+  //   displayProperties: [
+  //     { key: 'SUBZONA', label: 'Subzona Hidrográfica', icon: 'Waves', format: 'text' },
+  //     { key: 'AREA_KM2', label: 'Área', icon: 'Ruler', format: 'number', unit: 'km²' },
+  //     { key: 'COD_CUENCA', label: 'Código de Cuenca', icon: 'Hash', format: 'text' }
+  //   ]
+  // },
+  // Nota: Comentado porque no existe el archivo GeoJSON correspondiente
   'ecosistemas': {
     layerId: 'ecosistemas',
-    nameProperty: 'ECOSISTEMA',
+    nameProperty: 'ecos_general', // El GeoJSON usa 'ecos_general' para nombres descriptivos
     idProperty: 'OBJECTID',
-    searchableProperties: ['ECOSISTEMA', 'BIOMA', 'TIPO'],
+    searchableProperties: ['ecos_general', 'ecos_sintesis', 'bioma_IAvH', 'tipo_ecos'],
     displayProperties: [
-      { key: 'BIOMA', label: 'Bioma', icon: 'TreePine', format: 'text' },
-      { key: 'TIPO', label: 'Tipo de Ecosistema', icon: 'Leaf', format: 'text' },
-      { key: 'AREA_HA', label: 'Área', icon: 'Ruler', format: 'area', unit: 'ha' },
-      { key: 'ESTADO', label: 'Estado de Conservación', icon: 'ShieldCheck', format: 'text' }
+      { key: 'bioma_IAvH', label: 'Bioma', icon: 'TreePine', format: 'text' },
+      { key: 'tipo_ecos', label: 'Tipo de Ecosistema', icon: 'Leaf', format: 'text' },
+      { key: 'area_ha', label: 'Área', icon: 'Ruler', format: 'area', unit: 'ha' },
+      { key: 'ecos_sintesis', label: 'Ecosistema Síntesis', icon: 'Leaf', format: 'text' }
     ]
   },
   'manglares': {
     layerId: 'manglares',
-    nameProperty: 'NOMBRE',
+    nameProperty: 'NOMBRE', // Esta propiedad no existe en el GeoJSON, por lo que todos serán "Sin nombre" y se filtrarán
     idProperty: 'OBJECTID',
     searchableProperties: ['NOMBRE', 'MUNICIPIO', 'TIPO'],
     displayProperties: [
@@ -78,39 +79,39 @@ export const layerFeaturesConfig: Record<string, LayerFeatureConfig> = {
   },
   'runap': {
     layerId: 'runap',
-    nameProperty: 'NOMBRE',
+    nameProperty: 'ap_nombre', // El GeoJSON usa 'ap_nombre', no 'NOMBRE'
     idProperty: 'OBJECTID',
-    searchableProperties: ['NOMBRE', 'CATEGORIA', 'DEPARTAMEN'],
+    searchableProperties: ['ap_nombre', 'ap_categor', 'condicion'],
     displayProperties: [
-      { key: 'CATEGORIA', label: 'Categoría', icon: 'ShieldCheck', format: 'text' },
-      { key: 'DEPARTAMEN', label: 'Departamento', icon: 'MapPin', format: 'text' },
-      { key: 'AREA_HA', label: 'Área', icon: 'Ruler', format: 'area', unit: 'ha' },
-      { key: 'ACTO_ADMIN', label: 'Acto Administrativo', icon: 'FileText', format: 'text' },
-      { key: 'FECHA_CREA', label: 'Fecha de Creación', icon: 'Calendar', format: 'date' }
+      { key: 'ap_categor', label: 'Categoría', icon: 'ShieldCheck', format: 'text' },
+      { key: 'condicion', label: 'Condición', icon: 'Info', format: 'text' },
+      { key: 'area_ha_to', label: 'Área Total', icon: 'Ruler', format: 'area', unit: 'ha' },
+      { key: 'organizaci', label: 'Organización', icon: 'Building', format: 'text' },
+      { key: 'fecha_regi', label: 'Fecha de Registro', icon: 'Calendar', format: 'date' }
     ]
   },
   'humedales': {
     layerId: 'humedales',
-    nameProperty: 'NOMBRE',
+    nameProperty: 'humedales', // El GeoJSON usa 'humedales' para el nombre del tipo
     idProperty: 'OBJECTID',
-    searchableProperties: ['NOMBRE', 'TIPO', 'MUNICIPIO'],
+    searchableProperties: ['humedales', 'id', 'gridcode'],
     displayProperties: [
-      { key: 'TIPO', label: 'Tipo de Humedal', icon: 'Waves', format: 'text' },
-      { key: 'MUNICIPIO', label: 'Municipio', icon: 'MapPin', format: 'text' },
-      { key: 'AREA_HA', label: 'Área', icon: 'Ruler', format: 'area', unit: 'ha' },
-      { key: 'IMPORTANCI', label: 'Importancia', icon: 'Star', format: 'text' }
+      { key: 'id', label: 'ID', icon: 'Hash', format: 'text' },
+      { key: 'gridcode', label: 'Código Grid', icon: 'Hash', format: 'text' },
+      { key: 'AreaHa', label: 'Área', icon: 'Ruler', format: 'area', unit: 'ha' }
     ]
   },
   'paramos': {
     layerId: 'paramos',
-    nameProperty: 'NOMBRE',
+    nameProperty: 'Nombre', // El GeoJSON usa 'Nombre' con mayúscula inicial
     idProperty: 'OBJECTID',
-    searchableProperties: ['NOMBRE', 'COMPLEJO', 'DEPARTAMEN'],
+    searchableProperties: ['Nombre', 'Id', 'Acto_Admin', 'Fuente'],
     displayProperties: [
-      { key: 'COMPLEJO', label: 'Complejo de Páramo', icon: 'Mountain', format: 'text' },
-      { key: 'DEPARTAMEN', label: 'Departamento', icon: 'MapPin', format: 'text' },
-      { key: 'AREA_HA', label: 'Área', icon: 'Ruler', format: 'area', unit: 'ha' },
-      { key: 'ALTITUD', label: 'Altitud', icon: 'TrendingUp', format: 'altitude', unit: 'msnm' }
+      { key: 'Id', label: 'ID', icon: 'Hash', format: 'text' },
+      { key: 'Area_Ha', label: 'Área', icon: 'Ruler', format: 'area', unit: 'ha' },
+      { key: 'Acto_Admin', label: 'Acto Administrativo', icon: 'FileText', format: 'text' },
+      { key: 'Fecha_Acto', label: 'Fecha del Acto', icon: 'Calendar', format: 'date' },
+      { key: 'Fuente', label: 'Fuente', icon: 'Info', format: 'text' }
     ]
   },
   'sedes-iiap': {

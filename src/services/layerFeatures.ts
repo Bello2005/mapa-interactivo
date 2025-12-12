@@ -4,7 +4,7 @@
 import type { LayerFeature, GeoJSONFeatureCollection } from '../types'
 import { getLayerFeatureConfig } from '@config/layerFeatures'
 import { getLayerById } from '@config/layers'
-import { parseLayerFeatures, sortFeaturesByName } from '@utils/layerFeatures'
+import { parseLayerFeatures, sortFeaturesByName, isValidFeature } from '@utils/layerFeatures'
 
 // Cache de features cargados
 const featuresCache = new Map<string, LayerFeature[]>()
@@ -36,8 +36,11 @@ export async function loadLayerFeatures(
   // Parsear features
   const features = parseLayerFeatures(geojson, config)
   
+  // Filtrar solo features con nombres válidos (optimización: no mostrar features sin nombre)
+  const validFeatures = features.filter(feature => isValidFeature(feature, config))
+  
   // Ordenar alfabéticamente
-  const sortedFeatures = sortFeaturesByName(features)
+  const sortedFeatures = sortFeaturesByName(validFeatures)
   
   // Guardar en cache
   featuresCache.set(layerId, sortedFeatures)
@@ -156,6 +159,19 @@ export function clearCache(layerId?: string) {
   } else {
     featuresCache.clear()
     geojsonCache.clear()
+  }
+}
+
+/**
+ * Verificar si una capa tiene features con nombres válidos
+ * Útil para determinar si mostrar el botón "Ver elementos"
+ */
+export async function hasNamedFeatures(layerId: string): Promise<boolean> {
+  try {
+    const features = await loadLayerFeatures(layerId)
+    return features.length > 0
+  } catch {
+    return false
   }
 }
 

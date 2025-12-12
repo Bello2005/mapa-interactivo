@@ -19,6 +19,7 @@ import { useGameProgress } from '@hooks/useGameProgress'
 import { thematicLayers } from '@config/layers'
 import { getLayers as getLayersFromAPI, checkBackendHealth } from '@services/api'
 import { getLayerFeatureConfig } from '@config/layerFeatures'
+import { hasValidFeatureName } from '@utils/layerFeatures'
 
 // Fix para iconos de Leaflet
 delete (L.Icon.Default.prototype as any)._getIconUrl
@@ -286,7 +287,14 @@ export function MapView({ fullHeight = false }: MapViewProps) {
           console.log('✅ Backend disponible, cargando capas desde API...')
           const apiLayers = await getLayersFromAPI({ enabled: true })
           if (apiLayers.length > 0 && mounted) {
-            useUIStore.getState().setAvailableLayers(apiLayers)
+            // Reemplazar admin-boundaries con la configuración del frontend para evitar conflictos
+            const frontendAdminBoundaries = thematicLayers.find(l => l.id === 'admin-boundaries')
+            const filteredApiLayers = apiLayers.filter(l => l.id !== 'admin-boundaries')
+            const finalLayers = frontendAdminBoundaries 
+              ? [...filteredApiLayers, frontendAdminBoundaries]
+              : filteredApiLayers
+            
+            useUIStore.getState().setAvailableLayers(finalLayers)
             return
           }
         }
@@ -381,49 +389,70 @@ export function MapView({ fullHeight = false }: MapViewProps) {
       if (config) {
         const featureId = props[config.idProperty]?.toString()
         const featureName = props[config.nameProperty] || 'Sin nombre'
+        
+        // Verificar si el feature tiene nombre válido
+        const isValid = hasValidFeatureName(props, config)
 
-        // Hover effect
-        layer.on('mouseover', function(this: L.Path) {
-          this.setStyle({
-            fillOpacity: 0.7,
-            weight: 3
-          })
-          const container = (this as any)._path
-          if (container) {
-            container.style.cursor = 'pointer'
-          }
-        })
-
-        layer.on('mouseout', function(this: L.Path) {
-          const currentLayer = availableLayers.find(l => l.id === layerId)
-          const currentOpacity = layerOpacities[layerId] ?? currentLayer?.opacity ?? 0.5
-          this.setStyle({
-            fillOpacity: currentOpacity,
-            weight: 2
-          })
-          const container = (this as any)._path
-          if (container) {
-            container.style.cursor = ''
-          }
-        })
-
-        // Click handler
-        layer.on('click', (e) => {
-          if (featureId) {
-            enterFeatureDrillDown(layerId, featureId, featureName)
-            setSidebarOpen(true)
-
-            // Hacer zoom al feature
-            const bounds = (layer as any).getBounds()
-            if (bounds && mapRef.current) {
-              mapRef.current.fitBounds(bounds, { 
-                padding: [50, 50],
-                maxZoom: 12 
-              })
+        // Solo agregar interactividad si tiene nombre válido
+        if (isValid) {
+          // Hover effect
+          layer.on('mouseover', function(this: L.Path) {
+            this.setStyle({
+              fillOpacity: 0.7,
+              weight: 3
+            })
+            const container = (this as any)._path
+            if (container) {
+              container.style.cursor = 'pointer'
             }
-          }
-          L.DomEvent.stopPropagation(e as any)
-        })
+          })
+
+          layer.on('mouseout', function(this: L.Path) {
+            const currentLayer = availableLayers.find(l => l.id === layerId)
+            const currentOpacity = layerOpacities[layerId] ?? currentLayer?.opacity ?? 0.5
+            this.setStyle({
+              fillOpacity: currentOpacity,
+              weight: 2
+            })
+            const container = (this as any)._path
+            if (container) {
+              container.style.cursor = ''
+            }
+          })
+
+          // Click handler - solo si tiene nombre válido
+          layer.on('click', (e) => {
+            if (featureId && isValid) {
+              enterFeatureDrillDown(layerId, featureId, featureName)
+              setSidebarOpen(true)
+
+              // Hacer zoom al feature
+              const bounds = (layer as any).getBounds()
+              if (bounds && mapRef.current) {
+                mapRef.current.fitBounds(bounds, { 
+                  padding: [50, 50],
+                  maxZoom: 12 
+                })
+              }
+            }
+            L.DomEvent.stopPropagation(e as any)
+          })
+        } else {
+          // Features sin nombre: no interactivos, cursor normal
+          layer.on('mouseover', function(this: L.Path) {
+            const container = (this as any)._path
+            if (container) {
+              container.style.cursor = 'not-allowed'
+            }
+          })
+
+          layer.on('mouseout', function(this: L.Path) {
+            const container = (this as any)._path
+            if (container) {
+              container.style.cursor = ''
+            }
+          })
+        }
 
         return
       }
