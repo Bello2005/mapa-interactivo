@@ -140,6 +140,7 @@ export function MapView({ fullHeight = false }: MapViewProps) {
     layerOpacities, 
     availableLayers,
     floatingControlsVisible,
+    featureDrillDown,
   } = useUIStore()
   const { discoverNewSpecies } = useGameProgress()
 
@@ -758,6 +759,25 @@ export function MapView({ fullHeight = false }: MapViewProps) {
     window.addEventListener('feature-selected', handleFeatureSelected as EventListener)
     return () => window.removeEventListener('feature-selected', handleFeatureSelected as EventListener)
   }, [])
+
+  // Resetear vista del mapa cuando se presiona "volver" (featureDrillDown se vuelve null)
+  const prevFeatureDrillDownRef = useRef<typeof featureDrillDown>(null)
+  useEffect(() => {
+    // Solo resetear si había un feature seleccionado (prevFeatureDrillDownRef.current !== null) 
+    // y ahora es null (featureDrillDown === null)
+    if (prevFeatureDrillDownRef.current !== null && featureDrillDown === null && mapRef.current) {
+      // Pequeño delay para asegurar que el estado se haya actualizado
+      const timeoutId = setTimeout(() => {
+        handleFitBounds()
+      }, 100)
+      // Actualizar la referencia
+      prevFeatureDrillDownRef.current = null
+      return () => clearTimeout(timeoutId)
+    } else {
+      // Actualizar la referencia en cada render
+      prevFeatureDrillDownRef.current = featureDrillDown
+    }
+  }, [featureDrillDown, handleFitBounds])
 
   if (loading) {
     return (
