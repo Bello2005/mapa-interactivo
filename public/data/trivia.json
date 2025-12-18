@@ -49,6 +49,66 @@
           "category": "geografia",
           "difficulty": "facil",
           "points": 10
+        },
+        {
+          "id": "geo-1",
+          "question": "¿Qué océano baña las costas del Chocó biogeográfico?",
+          "options": [
+            "Océano Atlántico",
+            "Océano Pacífico",
+            "Océano Índico",
+            "Mar Caribe"
+          ],
+          "correctAnswer": 1,
+          "explanation": "El Chocó biogeográfico se extiende a lo largo de la costa del Océano Pacífico, desde Panamá hasta Ecuador.",
+          "category": "geografia",
+          "difficulty": "facil",
+          "points": 10
+        },
+        {
+          "id": "geo-2",
+          "question": "¿Cuál es el río más importante del Chocó colombiano?",
+          "options": [
+            "Río Magdalena",
+            "Río Amazonas",
+            "Río Atrato",
+            "Río Cauca"
+          ],
+          "correctAnswer": 2,
+          "explanation": "El río Atrato es uno de los ríos más importantes del Chocó, navegable y vital para las comunidades de la región.",
+          "category": "geografia",
+          "difficulty": "facil",
+          "points": 10
+        },
+        {
+          "id": "geo-3",
+          "question": "¿Cuál de estas ciudades NO está en la región del Chocó biogeográfico?",
+          "options": [
+            "Quibdó, Colombia",
+            "Tumaco, Colombia",
+            "Buenaventura, Colombia",
+            "Cali, Colombia"
+          ],
+          "correctAnswer": 3,
+          "explanation": "Cali está en el Valle del Cauca, en la región andina, no en el Chocó biogeográfico que es principalmente costero.",
+          "category": "geografia",
+          "difficulty": "medio",
+          "points": 15
+        },
+        {
+          "id": "geo-4",
+          "question": "¿Qué tipo de relieve predomina en el Chocó biogeográfico?",
+          "options": [
+            "Montañas altas de más de 5000 msnm",
+            "Llanuras aluviales y colinas bajas",
+            "Desiertos y mesetas",
+            "Volcanes activos"
+          ],
+          "correctAnswer": 1,
+          "explanation": "El Chocó se caracteriza por llanuras aluviales, colinas bajas y serranías que no superan los 1000 msnm en su mayoría.",
+          "category": "geografia",
+          "difficulty": "medio",
+          "points": 15
         }
       ]
     },
@@ -68,6 +128,66 @@
           ],
           "correctAnswer": 2,
           "explanation": "El Chocó biogeográfico alberga más de 900 especies de aves, representando aproximadamente el 25% de las especies de aves del mundo en solo el 0.01% de la superficie terrestre.",
+          "category": "fauna",
+          "difficulty": "medio",
+          "points": 15
+        },
+        {
+          "id": "fauna-1",
+          "question": "¿Cuál de estos animales es endémico del Chocó?",
+          "options": [
+            "Oso de anteojos",
+            "Tigrillo lanudo",
+            "Mono araña del Chocó",
+            "Cóndor de los Andes"
+          ],
+          "correctAnswer": 2,
+          "explanation": "El mono araña del Chocó (Ateles geoffroyi) es una especie endémica de esta región biogeográfica.",
+          "category": "fauna",
+          "difficulty": "medio",
+          "points": 15
+        },
+        {
+          "id": "fauna-2",
+          "question": "¿Cuántas especies de anfibios aproximadamente tiene el Chocó?",
+          "options": [
+            "50-100 especies",
+            "100-150 especies",
+            "200-250 especies",
+            "300-350 especies"
+          ],
+          "correctAnswer": 2,
+          "explanation": "El Chocó alberga aproximadamente 200-250 especies de anfibios, siendo uno de los grupos más diversos de la región.",
+          "category": "fauna",
+          "difficulty": "dificil",
+          "points": 20
+        },
+        {
+          "id": "fauna-3",
+          "question": "¿Qué especie de rana venenosa es emblemática del Chocó?",
+          "options": [
+            "Rana dorada venenosa",
+            "Rana flecha azul",
+            "Rana flecha roja y azul",
+            "Rana tomate"
+          ],
+          "correctAnswer": 0,
+          "explanation": "La rana dorada venenosa (Phyllobates terribilis) es una especie endémica del Chocó y una de las más venenosas del mundo.",
+          "category": "fauna",
+          "difficulty": "medio",
+          "points": 15
+        },
+        {
+          "id": "fauna-4",
+          "question": "¿Cuál de estas aves es endémica del Chocó?",
+          "options": [
+            "Pavo real",
+            "Águila harpía",
+            "Tangara multicolor del Chocó",
+            "Guacamaya azul"
+          ],
+          "correctAnswer": 2,
+          "explanation": "La tangara multicolor del Chocó (Chlorochrysa nitidissima) es una especie de ave endémica de esta región.",
           "category": "fauna",
           "difficulty": "medio",
           "points": 15
@@ -108,6 +228,66 @@
           "category": "flora",
           "difficulty": "dificil",
           "points": 20
+        },
+        {
+          "id": "flora-1",
+          "question": "¿Qué tipo de bosque predomina en el Chocó?",
+          "options": [
+            "Bosque seco tropical",
+            "Bosque nublado",
+            "Bosque húmedo tropical",
+            "Bosque de coníferas"
+          ],
+          "correctAnswer": 2,
+          "explanation": "El bosque húmedo tropical es el ecosistema predominante en el Chocó, con alta humedad y temperaturas cálidas durante todo el año.",
+          "category": "flora",
+          "difficulty": "facil",
+          "points": 10
+        },
+        {
+          "id": "flora-2",
+          "question": "¿Cuál de estos árboles es común en el Chocó?",
+          "options": [
+            "Pino",
+            "Roble",
+            "Guayacán",
+            "Cedro"
+          ],
+          "correctAnswer": 3,
+          "explanation": "El cedro (Cedrela odorata) es una especie maderable importante en el Chocó, aunque actualmente amenazada por la sobreexplotación.",
+          "category": "flora",
+          "difficulty": "medio",
+          "points": 15
+        },
+        {
+          "id": "flora-3",
+          "question": "¿Qué característica tienen muchas plantas del Chocó?",
+          "options": [
+            "Son plantas desérticas",
+            "Tienen hojas pequeñas para reducir transpiración",
+            "Son epífitas (crecen sobre otras plantas)",
+            "Son principalmente cactus"
+          ],
+          "correctAnswer": 2,
+          "explanation": "Debido a la alta humedad, muchas plantas del Chocó son epífitas, como orquídeas y bromelias, que crecen sobre otras plantas para obtener luz.",
+          "category": "flora",
+          "difficulty": "medio",
+          "points": 15
+        },
+        {
+          "id": "flora-4",
+          "question": "¿Cuántas especies de orquídeas aproximadamente hay en el Chocó?",
+          "options": [
+            "100-200 especies",
+            "300-400 especies",
+            "500-600 especies",
+            "Más de 1000 especies"
+          ],
+          "correctAnswer": 3,
+          "explanation": "El Chocó alberga más de 1000 especies de orquídeas, siendo una de las regiones más ricas en este tipo de plantas en el mundo.",
+          "category": "flora",
+          "difficulty": "dificil",
+          "points": 20
         }
       ]
     },
@@ -142,6 +322,66 @@
           ],
           "correctAnswer": 1,
           "explanation": "El Chocó es uno de los 36 hotspots de biodiversidad del mundo debido a su extraordinaria concentración de especies endémicas y su alta biodiversidad en un área geográfica relativamente pequeña, combinado con amenazas significativas.",
+          "category": "conservacion",
+          "difficulty": "medio",
+          "points": 15
+        },
+        {
+          "id": "conserv-1",
+          "question": "¿Qué organización internacional ha declarado al Chocó como hotspot de biodiversidad?",
+          "options": [
+            "UNESCO",
+            "Conservation International",
+            "WWF",
+            "ONU"
+          ],
+          "correctAnswer": 1,
+          "explanation": "Conservation International identificó al Chocó como uno de los 36 hotspots de biodiversidad mundiales por su alta concentración de especies endémicas.",
+          "category": "conservacion",
+          "difficulty": "medio",
+          "points": 15
+        },
+        {
+          "id": "conserv-2",
+          "question": "¿Qué porcentaje del bosque original del Chocó se ha perdido?",
+          "options": [
+            "Menos del 10%",
+            "Entre 20-30%",
+            "Entre 40-50%",
+            "Más del 70%"
+          ],
+          "correctAnswer": 3,
+          "explanation": "Se estima que más del 70% del bosque original del Chocó ha sido deforestado, principalmente para agricultura, ganadería y minería.",
+          "category": "conservacion",
+          "difficulty": "dificil",
+          "points": 20
+        },
+        {
+          "id": "conserv-3",
+          "question": "¿Cuál de estas actividades es una amenaza emergente para el Chocó?",
+          "options": [
+            "Turismo ecológico",
+            "Minería ilegal de oro",
+            "Investigación científica",
+            "Agricultura orgánica"
+          ],
+          "correctAnswer": 1,
+          "explanation": "La minería ilegal de oro es una amenaza emergente que contamina los ríos con mercurio y destruye grandes áreas de bosque.",
+          "category": "conservacion",
+          "difficulty": "medio",
+          "points": 15
+        },
+        {
+          "id": "conserv-4",
+          "question": "¿Qué área protegida importante se encuentra en el Chocó?",
+          "options": [
+            "Parque Nacional Natural Los Katíos",
+            "Parque Nacional Yellowstone",
+            "Reserva de la Biosfera Galápagos",
+            "Parque Nacional Torres del Paine"
+          ],
+          "correctAnswer": 0,
+          "explanation": "El Parque Nacional Natural Los Katíos, declarado Patrimonio de la Humanidad por la UNESCO, se encuentra en el Chocó colombiano.",
           "category": "conservacion",
           "difficulty": "medio",
           "points": 15
@@ -182,6 +422,66 @@
           "category": "cultura",
           "difficulty": "medio",
           "points": 15
+        },
+        {
+          "id": "cultura-1",
+          "question": "¿Qué música tradicional es característica del Pacífico colombiano (Chocó)?",
+          "options": [
+            "Salsa",
+            "Currulao",
+            "Vallenato",
+            "Cumbia"
+          ],
+          "correctAnswer": 1,
+          "explanation": "El currulao es la música tradicional del Pacífico colombiano, con instrumentos como la marimba de chonta, los cununos y el guasá.",
+          "category": "cultura",
+          "difficulty": "facil",
+          "points": 10
+        },
+        {
+          "id": "cultura-2",
+          "question": "¿Qué festividad importante se celebra en Quibdó?",
+          "options": [
+            "Carnaval de Barranquilla",
+            "Feria de Cali",
+            "Fiestas de San Francisco de Asís (San Pacho)",
+            "Festival de la Leyenda Vallenata"
+          ],
+          "correctAnswer": 2,
+          "explanation": "Las Fiestas de San Francisco de Asís, conocidas como 'San Pacho', son las fiestas patronales de Quibdó y se celebran en septiembre.",
+          "category": "cultura",
+          "difficulty": "medio",
+          "points": 15
+        },
+        {
+          "id": "cultura-3",
+          "question": "¿Qué lengua indígena se habla en el Chocó?",
+          "options": [
+            "Quechua",
+            "Wayuunaiki",
+            "Emberá",
+            "Guaraní"
+          ],
+          "correctAnswer": 2,
+          "explanation": "El emberá es una de las lenguas indígenas que se hablan en el Chocó, principalmente por la comunidad Emberá.",
+          "category": "cultura",
+          "difficulty": "medio",
+          "points": 15
+        },
+        {
+          "id": "cultura-4",
+          "question": "¿Qué actividad económica tradicional practican las comunidades del Chocó?",
+          "options": [
+            "Minería industrial",
+            "Pesca artesanal",
+            "Industria manufacturera",
+            "Tecnología"
+          ],
+          "correctAnswer": 1,
+          "explanation": "La pesca artesanal es una actividad económica tradicional importante para las comunidades costeras y ribereñas del Chocó.",
+          "category": "cultura",
+          "difficulty": "facil",
+          "points": 10
         }
       ]
     },
@@ -216,6 +516,66 @@
           ],
           "correctAnswer": 0,
           "explanation": "Según los datos geográficos, el Chocó biogeográfico tiene exactamente 161 parques nacionales.",
+          "category": "conservacion",
+          "difficulty": "medio",
+          "points": 15
+        },
+        {
+          "id": "runap-1",
+          "question": "¿Cuál es el propósito principal de los parques nacionales en el Chocó?",
+          "options": [
+            "Turismo masivo",
+            "Explotación maderera",
+            "Conservación de la biodiversidad",
+            "Desarrollo urbano"
+          ],
+          "correctAnswer": 2,
+          "explanation": "Los parques nacionales en el Chocó tienen como propósito principal la conservación de la biodiversidad y los ecosistemas únicos de la región.",
+          "category": "conservacion",
+          "difficulty": "facil",
+          "points": 10
+        },
+        {
+          "id": "runap-2",
+          "question": "¿Qué parque nacional en el Chocó es Patrimonio de la Humanidad por la UNESCO?",
+          "options": [
+            "Parque Nacional Natural Los Katíos",
+            "Parque Nacional Natural Utría",
+            "Parque Nacional Natural Sanquianga",
+            "Parque Nacional Natural Farallones de Cali"
+          ],
+          "correctAnswer": 0,
+          "explanation": "El Parque Nacional Natural Los Katíos fue declarado Patrimonio de la Humanidad por la UNESCO en 1994 por su excepcional biodiversidad.",
+          "category": "conservacion",
+          "difficulty": "medio",
+          "points": 15
+        },
+        {
+          "id": "runap-3",
+          "question": "¿Qué porcentaje del territorio del Chocó está cubierto por áreas protegidas?",
+          "options": [
+            "Menos del 5%",
+            "Entre 10-15%",
+            "Entre 20-25%",
+            "Más del 30%"
+          ],
+          "correctAnswer": 1,
+          "explanation": "Aproximadamente entre el 10-15% del territorio del Chocó biogeográfico está bajo alguna figura de protección como parques nacionales o reservas.",
+          "category": "conservacion",
+          "difficulty": "medio",
+          "points": 15
+        },
+        {
+          "id": "runap-4",
+          "question": "¿Qué amenaza enfrentan muchos parques nacionales del Chocó?",
+          "options": [
+            "Falta de visitantes",
+            "Deforestación ilegal",
+            "Exceso de turismo",
+            "Falta de personal administrativo"
+          ],
+          "correctAnswer": 1,
+          "explanation": "La deforestación ilegal para agricultura, ganadería y minería es una amenaza constante para los parques nacionales del Chocó.",
           "category": "conservacion",
           "difficulty": "medio",
           "points": 15
@@ -256,6 +616,66 @@
           "category": "geografia",
           "difficulty": "medio",
           "points": 15
+        },
+        {
+          "id": "admin-1",
+          "question": "¿En cuántos países se distribuyen los municipios del Chocó?",
+          "options": [
+            "1 país",
+            "2 países",
+            "3 países",
+            "4 países"
+          ],
+          "correctAnswer": 2,
+          "explanation": "Los 93 municipios del Chocó se distribuyen en 3 países: Panamá, Colombia y Ecuador.",
+          "category": "geografia",
+          "difficulty": "facil",
+          "points": 10
+        },
+        {
+          "id": "admin-2",
+          "question": "¿Qué departamento colombiano tiene más municipios en el Chocó biogeográfico?",
+          "options": [
+            "Chocó",
+            "Valle del Cauca",
+            "Nariño",
+            "Antioquia"
+          ],
+          "correctAnswer": 0,
+          "explanation": "El departamento del Chocó tiene la mayor cantidad de municipios dentro de la región biogeográfica.",
+          "category": "geografia",
+          "difficulty": "medio",
+          "points": 15
+        },
+        {
+          "id": "admin-3",
+          "question": "¿Qué característica comparten la mayoría de municipios del Chocó?",
+          "options": [
+            "Son grandes ciudades industriales",
+            "Tienen acceso al mar",
+            "Son principalmente rurales con economía basada en recursos naturales",
+            "Tienen aeropuertos internacionales"
+          ],
+          "correctAnswer": 2,
+          "explanation": "La mayoría de municipios del Chocó son rurales, con economías basadas en la pesca, agricultura, minería artesanal y aprovechamiento forestal.",
+          "category": "geografia",
+          "difficulty": "medio",
+          "points": 15
+        },
+        {
+          "id": "admin-4",
+          "question": "¿Cuál es el municipio más poblado del Chocó biogeográfico?",
+          "options": [
+            "Quibdó",
+            "Buenaventura",
+            "Tumaco",
+            "Esmeraldas (Ecuador)"
+          ],
+          "correctAnswer": 1,
+          "explanation": "Buenaventura, en el departamento del Valle del Cauca, es el municipio más poblado del Chocó biogeográfico y el principal puerto de Colombia en el Pacífico.",
+          "category": "geografia",
+          "difficulty": "dificil",
+          "points": 20
         }
       ]
     },
@@ -293,6 +713,66 @@
           "category": "cultura",
           "difficulty": "medio",
           "points": 15
+        },
+        {
+          "id": "resguardos-1",
+          "question": "¿Qué son los resguardos indígenas en el Chocó?",
+          "options": [
+            "Hoteles para turistas",
+            "Áreas de conservación privada",
+            "Territorios colectivos de comunidades indígenas",
+            "Parques nacionales"
+          ],
+          "correctAnswer": 2,
+          "explanation": "Los resguardos indígenas son territorios colectivos legalmente reconocidos donde las comunidades indígenas ejercen su autonomía y mantienen sus tradiciones.",
+          "category": "cultura",
+          "difficulty": "facil",
+          "points": 10
+        },
+        {
+          "id": "resguardos-2",
+          "question": "¿Qué grupo indígena tiene más resguardos en el Chocó?",
+          "options": [
+            "Wayúu",
+            "Emberá",
+            "Inga",
+            "Nasa"
+          ],
+          "correctAnswer": 1,
+          "explanation": "El pueblo Emberá, junto con los Wounaan, tienen la mayor cantidad de resguardos en el Chocó biogeográfico.",
+          "category": "cultura",
+          "difficulty": "medio",
+          "points": 15
+        },
+        {
+          "id": "resguardos-3",
+          "question": "¿Qué importancia tienen los resguardos para la conservación del Chocó?",
+          "options": [
+            "No tienen importancia",
+            "Son barreras para el desarrollo",
+            "Protegen grandes extensiones de bosque y biodiversidad",
+            "Solo benefician a las comunidades indígenas"
+          ],
+          "correctAnswer": 2,
+          "explanation": "Los resguardos indígenas protegen grandes extensiones de bosque y biodiversidad, ya que las comunidades indígenas practican formas tradicionales de manejo sostenible del territorio.",
+          "category": "cultura",
+          "difficulty": "medio",
+          "points": 15
+        },
+        {
+          "id": "resguardos-4",
+          "question": "¿Qué amenazas enfrentan los resguardos indígenas del Chocó?",
+          "options": [
+            "Falta de turismo",
+            "Invasión de tierras y deforestación",
+            "Exceso de lluvia",
+            "Falta de identidad cultural"
+          ],
+          "correctAnswer": 1,
+          "explanation": "Los resguardos enfrentan amenazas como invasión de tierras, deforestación, minería ilegal y conflictos por el uso de recursos naturales.",
+          "category": "cultura",
+          "difficulty": "medio",
+          "points": 15
         }
       ]
     },
@@ -327,6 +807,66 @@
           ],
           "correctAnswer": 0,
           "explanation": "Según los datos geográficos, el Chocó biogeográfico tiene exactamente 183 comunidades negras.",
+          "category": "cultura",
+          "difficulty": "medio",
+          "points": 15
+        },
+        {
+          "id": "comunidades-1",
+          "question": "¿Qué son las comunidades negras en el contexto del Chocó?",
+          "options": [
+            "Comunidades urbanas",
+            "Comunidades afrodescendientes con territorios colectivos",
+            "Comunidades de inmigrantes africanos",
+            "Comunidades deportivas"
+          ],
+          "correctAnswer": 1,
+          "explanation": "Las comunidades negras en el Chocó son comunidades afrodescendientes con territorios colectivos legalmente reconocidos, descendientes de africanos esclavizados durante la colonia.",
+          "category": "cultura",
+          "difficulty": "facil",
+          "points": 10
+        },
+        {
+          "id": "comunidades-2",
+          "question": "¿Qué instrumento musical es emblemático de las comunidades negras del Pacífico?",
+          "options": [
+            "Guitarra",
+            "Marimba de chonta",
+            "Piano",
+            "Violín"
+          ],
+          "correctAnswer": 1,
+          "explanation": "La marimba de chonta es un instrumento musical emblemático de las comunidades afrodescendientes del Pacífico colombiano, especialmente del Chocó.",
+          "category": "cultura",
+          "difficulty": "medio",
+          "points": 15
+        },
+        {
+          "id": "comunidades-3",
+          "question": "¿Qué derecho consagró la Constitución de 1991 para las comunidades negras?",
+          "options": [
+            "Derecho a la nacionalidad española",
+            "Derecho a territorios colectivos",
+            "Derecho a votar en elecciones extranjeras",
+            "Derecho a educación gratuita en el exterior"
+          ],
+          "correctAnswer": 1,
+          "explanation": "La Constitución de 1991 de Colombia reconoció el derecho de las comunidades negras a territorios colectivos, lo que llevó a la titulación de tierras en el Pacífico.",
+          "category": "cultura",
+          "difficulty": "medio",
+          "points": 15
+        },
+        {
+          "id": "comunidades-4",
+          "question": "¿Qué actividad económica tradicional practican las comunidades negras del Chocó?",
+          "options": [
+            "Minería a gran escala",
+            "Pesca artesanal y agricultura de subsistencia",
+            "Industria tecnológica",
+            "Comercio internacional"
+          ],
+          "correctAnswer": 1,
+          "explanation": "Las comunidades negras del Chocó practican tradicionalmente la pesca artesanal, agricultura de subsistencia, recolección de productos del bosque y minería artesanal.",
           "category": "cultura",
           "difficulty": "medio",
           "points": 15
