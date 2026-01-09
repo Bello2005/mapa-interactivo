@@ -111,10 +111,29 @@ interface Translations {
     loading: string
     ready: string
     readyDescription: string
+    selectChallenge: string
+    selectChallengeDescription: string
+    understood: string
+    selectSection: string
+    selectSectionDescription: string
+    allQuestions: string
+    allQuestionsDescription: string
     questions: string
+    question: string
     maxPoints: string
     minutes: string
     start: string
+    backToHome: string
+    difficulty: string
+    status: string
+    all: string
+    easy: string
+    medium: string
+    hard: string
+    new: string
+    completed: string
+    clearFilters: string
+    seeAllCategories: string
     points: string
     confirm: string
     next: string
@@ -123,7 +142,10 @@ interface Translations {
     incorrect: string
     progress: string
     questionOf: string
-    results: {
+      currentQuestionNotFound: string
+      restartTrivia: string
+      bestScore: string
+      results: {
       title: string
       score: string
       percentage: string
@@ -279,10 +301,29 @@ const translations: Record<Language, Translations> = {
       loading: 'Cargando trivia...',
       ready: '¿Listo para el reto?',
       readyDescription: 'Pon a prueba tus conocimientos sobre el Chocó biogeográfico. Responde {count} preguntas y descubre cuánto sabes sobre esta increíble región.',
+      selectChallenge: 'Selecciona tu Reto',
+      selectChallengeDescription: 'Por favor, selecciona al menos una sección de trivia para comenzar tu aventura de aprendizaje.',
+      understood: 'Entendido',
+      selectSection: 'Selecciona una sección',
+      selectSectionDescription: 'Selecciona una o más secciones de trivia para comenzar tu aventura de aprendizaje.',
+      allQuestions: 'Todas las Preguntas',
+      allQuestionsDescription: '{count} preguntas de todas las categorías',
       questions: 'Preguntas',
+      question: 'pregunta',
       maxPoints: 'Puntos máx.',
       minutes: 'Minutos',
       start: 'Comenzar Trivia',
+      backToHome: 'Volver al inicio',
+      difficulty: 'Dificultad',
+      status: 'Estado',
+      all: 'Todas',
+      easy: 'Fácil',
+      medium: 'Media',
+      hard: 'Difícil',
+      new: 'Nuevas',
+      completed: 'Completadas',
+      clearFilters: 'Limpiar filtros',
+      seeAllCategories: 'Ver todas las categorías',
       points: 'Puntos',
       confirm: 'Confirmar Respuesta',
       next: 'Siguiente Pregunta',
@@ -291,6 +332,9 @@ const translations: Record<Language, Translations> = {
       incorrect: 'Respuesta incorrecta',
       progress: 'Progreso',
       questionOf: 'Pregunta {current} de {total}',
+      currentQuestionNotFound: 'No se encontró la pregunta actual.',
+      restartTrivia: 'Reiniciar Trivia',
+      bestScore: 'Mejor: {score} pts',
       results: {
         title: '¡Trivia Completada!',
         correctAnswers: 'Correctas',
@@ -445,10 +489,29 @@ const translations: Record<Language, Translations> = {
       loading: 'Loading trivia...',
       ready: 'Ready for the challenge?',
       readyDescription: 'Test your knowledge about the Chocó biogeographic region. Answer {count} questions and discover how much you know about this incredible region.',
+      selectChallenge: 'Select Your Challenge',
+      selectChallengeDescription: 'Please select at least one trivia section to begin your learning adventure.',
+      understood: 'Got it',
+      selectSection: 'Select a section',
+      selectSectionDescription: 'Select one or more trivia sections to begin your learning adventure.',
+      allQuestions: 'All Questions',
+      allQuestionsDescription: '{count} questions from all categories',
       questions: 'Questions',
+      question: 'question',
       maxPoints: 'Max Points',
       minutes: 'Minutes',
       start: 'Start Trivia',
+      backToHome: 'Back to home',
+      difficulty: 'Difficulty',
+      status: 'Status',
+      all: 'All',
+      easy: 'Easy',
+      medium: 'Medium',
+      hard: 'Hard',
+      new: 'New',
+      completed: 'Completed',
+      clearFilters: 'Clear filters',
+      seeAllCategories: 'See all categories',
       points: 'Points',
       confirm: 'Confirm Answer',
       next: 'Next Question',
@@ -457,6 +520,9 @@ const translations: Record<Language, Translations> = {
       incorrect: 'Incorrect Answer',
       progress: 'Progress',
       questionOf: 'Question {current} of {total}',
+      currentQuestionNotFound: 'Current question not found.',
+      restartTrivia: 'Restart Trivia',
+      bestScore: 'Best: {score} pts',
       results: {
         title: 'Trivia Completed!',
         correctAnswers: 'Correct',

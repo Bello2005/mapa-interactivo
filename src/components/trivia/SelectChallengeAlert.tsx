@@ -4,6 +4,7 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { Sparkles, X } from 'lucide-react'
 import { useUIStore } from '@stores/uiStore'
+import { t } from '@utils/translations'
 
 interface SelectChallengeAlertProps {
   isOpen: boolean
@@ -12,6 +13,7 @@ interface SelectChallengeAlertProps {
 
 export function SelectChallengeAlert({ isOpen, onClose }: SelectChallengeAlertProps) {
   const language = useUIStore((state) => state.language)
+  const translations = t(language)
 
   return (
     <AnimatePresence>
@@ -64,7 +66,7 @@ export function SelectChallengeAlert({ isOpen, onClose }: SelectChallengeAlertPr
                          transition-colors touch-manipulation
                          border border-white/20
                          min-w-[44px] min-h-[44px]"
-                aria-label={language === 'es' ? 'Cerrar' : 'Close'}
+                aria-label={translations.common.close}
               >
                 <X className="w-4 h-4 md:w-5 md:h-5 text-choco-sand-700" />
               </button>
@@ -79,14 +81,12 @@ export function SelectChallengeAlert({ isOpen, onClose }: SelectChallengeAlertPr
 
               {/* Título - responsive */}
               <h3 className="font-display font-bold text-xl md:text-2xl text-center text-choco-sand-900 mb-3 px-2">
-                {language === 'es' ? 'Selecciona tu Reto' : 'Select Your Challenge'}
+                {translations.trivia.selectChallenge}
               </h3>
 
               {/* Mensaje - responsive */}
               <p className="text-center text-sm md:text-base text-choco-sand-700 mb-6 leading-relaxed px-2">
-                {language === 'es' 
-                  ? 'Por favor, selecciona al menos una sección de trivia para comenzar tu aventura de aprendizaje.'
-                  : 'Please select at least one trivia section to begin your learning adventure.'}
+                {translations.trivia.selectChallengeDescription}
               </p>
 
               {/* Botón de acción - responsive */}
@@ -102,7 +102,7 @@ export function SelectChallengeAlert({ isOpen, onClose }: SelectChallengeAlertPr
                          touch-manipulation
                          min-h-[44px]"
               >
-                {language === 'es' ? 'Entendido' : 'Got it'}
+                {translations.trivia.understood}
               </button>
             </div>
           </motion.div>

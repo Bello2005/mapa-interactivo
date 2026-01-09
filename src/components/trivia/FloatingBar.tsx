@@ -4,6 +4,8 @@
 import { motion } from 'framer-motion'
 import { Play, FileText, Clock, Trophy } from 'lucide-react'
 import { Button } from '@components/atoms/Button'
+import { useUIStore } from '@stores/uiStore'
+import { t } from '@utils/translations'
 
 interface FloatingBarProps {
   questionsCount: number
@@ -18,6 +20,8 @@ export function FloatingBar({
   maxPoints,
   onStart,
 }: FloatingBarProps) {
+  const language = useUIStore((state) => state.language)
+  const translations = t(language)
   return (
     <motion.div
       initial={{ y: 100, opacity: 0 }}
@@ -44,21 +48,21 @@ export function FloatingBar({
         <div className="flex items-center gap-2 px-3 py-2 bg-choco-pacific-50 rounded-full">
           <FileText className="w-4 h-4 text-choco-pacific-600" />
           <span className="text-xs md:text-sm font-semibold text-choco-pacific-700">
-            {questionsCount} {questionsCount === 1 ? 'pregunta' : 'preguntas'}
+            {questionsCount} {questionsCount === 1 ? translations.trivia.question : translations.trivia.questions}
           </span>
         </div>
 
         <div className="flex items-center gap-2 px-3 py-2 bg-choco-gold-50 rounded-full">
           <Clock className="w-4 h-4 text-choco-gold-600" />
           <span className="text-xs md:text-sm font-semibold text-choco-gold-700">
-            ~{estimatedTime} min
+            ~{estimatedTime} {translations.trivia.minutes.toLowerCase()}
           </span>
         </div>
 
         <div className="flex items-center gap-2 px-3 py-2 bg-choco-forest-50 rounded-full">
           <Trophy className="w-4 h-4 text-choco-forest-600" />
           <span className="text-xs md:text-sm font-semibold text-choco-forest-700">
-            {maxPoints} pts máx
+            {maxPoints} {translations.trivia.maxPoints.toLowerCase()}
           </span>
         </div>
       </div>
@@ -72,7 +76,7 @@ export function FloatingBar({
         iconPosition="right"
         className="shadow-lg hover:shadow-xl transition-shadow w-full md:w-auto"
       >
-        Comenzar Trivia
+        {translations.trivia.start}
       </Button>
     </motion.div>
   )

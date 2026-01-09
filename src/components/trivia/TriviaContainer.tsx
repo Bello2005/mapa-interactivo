@@ -60,11 +60,13 @@ export function TriviaContainer() {
         // Manejar tanto formato antiguo (array) como nuevo (objeto con sections)
         if (Array.isArray(data)) {
           // Formato antiguo: convertir a formato con secciones
+          // Usar traducciones actuales
+          const currentTranslations = t(language)
           const sections: TriviaSection[] = [
             {
               id: 'all',
-              name: 'Todas las Preguntas',
-              description: 'Todas las preguntas disponibles',
+              name: currentTranslations.trivia.allQuestions,
+              description: currentTranslations.trivia.allQuestionsDescription.replace('{count}', data.length.toString()),
               questions: data
             }
           ]
@@ -85,7 +87,7 @@ export function TriviaContainer() {
 
     loadTriviaData()
     loadSavedState()
-  }, [loadSavedState])
+  }, [loadSavedState, language])
 
   // Actualizar preguntas cuando se seleccionan secciones
   useEffect(() => {
@@ -181,7 +183,7 @@ export function TriviaContainer() {
             className="inline-flex items-center gap-2 text-choco-sand-700 hover:text-choco-forest-700 transition-colors text-sm sm:text-base"
           >
             <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
-            <span className="font-medium">Volver al inicio</span>
+            <span className="font-medium">{translations.trivia.backToHome}</span>
           </Link>
         </div>
 
@@ -205,7 +207,7 @@ export function TriviaContainer() {
               backdropFilter: 'blur(20px)',
               boxShadow: '0 10px 30px rgba(37, 99, 235, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1) inset',
             }}
-            aria-label={language === 'es' ? 'Comenzar trivia' : 'Start trivia'}
+            aria-label={translations.trivia.start}
           >
             {/* Efecto de brillo al hover */}
             <div 
@@ -224,9 +226,7 @@ export function TriviaContainer() {
           <p className="text-base sm:text-lg text-choco-sand-700 mb-6 sm:mb-8 text-center px-2">
             {questions.length > 0
               ? translations.trivia.readyDescription.replace('{count}', questions.length.toString())
-              : language === 'es'
-              ? 'Selecciona una o más secciones de trivia para comenzar tu aventura de aprendizaje.'
-              : 'Select one or more trivia sections to begin your learning adventure.'}
+              : translations.trivia.selectSectionDescription}
           </p>
 
           {/* Selector de secciones */}
@@ -280,9 +280,9 @@ export function TriviaContainer() {
     return (
       <div className="max-w-2xl mx-auto text-center py-12">
         <div className="bg-white rounded-3xl shadow-strong p-8 md:p-12">
-          <p className="text-choco-sand-700 mb-4">No se encontró la pregunta actual.</p>
+          <p className="text-choco-sand-700 mb-4">{translations.trivia.currentQuestionNotFound}</p>
           <Button onClick={handleRestart} variant="primary">
-            Reiniciar Trivia
+            {translations.trivia.restartTrivia}
           </Button>
         </div>
       </div>

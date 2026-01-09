@@ -10,6 +10,8 @@ import { getUserName } from '@utils/storage'
 import { FloatingBar } from './FloatingBar'
 import { FilterChip } from './FilterChip'
 import { useState, useMemo } from 'react'
+import { useUIStore } from '@stores/uiStore'
+import { t } from '@utils/translations'
 
 interface TriviaSectionSelectorProps {
   sections: TriviaSection[]
@@ -137,8 +139,10 @@ export function TriviaSectionSelector({
   onStartTrivia,
 }: TriviaSectionSelectorProps) {
   const [showAll, setShowAll] = useState(false)
-  const [difficultyFilter, setDifficultyFilter] = useState<string>('Todas')
-  const [statusFilter, setStatusFilter] = useState<string>('Todas')
+  const language = useUIStore((state) => state.language)
+  const translations = t(language)
+  const [difficultyFilter, setDifficultyFilter] = useState<string>(translations.trivia.all)
+  const [statusFilter, setStatusFilter] = useState<string>(translations.trivia.all)
   const { getPersonalBest } = useTriviaStore()
   const userName = getUserName()
 
@@ -171,26 +175,26 @@ export function TriviaSectionSelector({
   const filteredSections = useMemo(() => {
     return sections.filter(section => {
       // Filtro de dificultad
-      if (difficultyFilter !== 'Todas') {
+      if (difficultyFilter !== translations.trivia.all) {
         const avgDiff = getAverageDifficulty(section)
         const diffMap: Record<string, string> = {
-          'Fácil': 'facil',
-          'Media': 'medio',
-          'Difícil': 'dificil',
+          [translations.trivia.easy]: 'facil',
+          [translations.trivia.medium]: 'medio',
+          [translations.trivia.hard]: 'dificil',
         }
         if (avgDiff !== diffMap[difficultyFilter]) return false
       }
 
       // Filtro de estado
-      if (statusFilter !== 'Todas') {
+      if (statusFilter !== translations.trivia.all) {
         const hasAttempted = hasAttemptedSection(section.id)
-        if (statusFilter === 'Nuevas' && hasAttempted) return false
-        if (statusFilter === 'Completadas' && !hasAttempted) return false
+        if (statusFilter === translations.trivia.new && hasAttempted) return false
+        if (statusFilter === translations.trivia.completed && !hasAttempted) return false
       }
 
       return true
     })
-  }, [sections, difficultyFilter, statusFilter])
+  }, [sections, difficultyFilter, statusFilter, translations])
 
   const displayedSections = showAll ? filteredSections : filteredSections.slice(0, INITIAL_DISPLAY_COUNT)
 
@@ -213,11 +217,11 @@ export function TriviaSectionSelector({
   }
 
   const clearFilters = () => {
-    setDifficultyFilter('Todas')
-    setStatusFilter('Todas')
+    setDifficultyFilter(translations.trivia.all)
+    setStatusFilter(translations.trivia.all)
   }
 
-  const hasActiveFilters = difficultyFilter !== 'Todas' || statusFilter !== 'Todas'
+  const hasActiveFilters = difficultyFilter !== translations.trivia.all || statusFilter !== translations.trivia.all
 
   // Calcular métricas
   const selectedSections = sections.filter(s => selectedSectionIds.includes(s.id))
@@ -230,21 +234,21 @@ export function TriviaSectionSelector({
   return (
     <div className="space-y-6">
       <h3 className="text-lg font-semibold text-choco-sand-900 text-center mb-6">
-        Selecciona una sección
+        {translations.trivia.selectSection}
       </h3>
 
       {/* Filtros */}
       <div className="flex flex-wrap gap-3 justify-center items-center mb-4">
         <FilterChip
-          label="Dificultad"
-          options={['Todas', 'Fácil', 'Media', 'Difícil']}
+          label={translations.trivia.difficulty}
+          options={[translations.trivia.all, translations.trivia.easy, translations.trivia.medium, translations.trivia.hard]}
           value={difficultyFilter}
           onChange={setDifficultyFilter}
         />
 
         <FilterChip
-          label="Estado"
-          options={['Todas', 'Nuevas', 'Completadas']}
+          label={translations.trivia.status}
+          options={[translations.trivia.all, translations.trivia.new, translations.trivia.completed]}
           value={statusFilter}
           onChange={setStatusFilter}
         />
@@ -257,7 +261,7 @@ export function TriviaSectionSelector({
             className="flex items-center gap-1 text-sm text-choco-sand-500 hover:text-choco-sand-700 transition-colors"
           >
             <X className="w-4 h-4" />
-            Limpiar filtros
+            {translations.trivia.clearFilters}
           </motion.button>
         )}
       </div>
@@ -294,11 +298,11 @@ export function TriviaSectionSelector({
               <BookOpen className="w-5 h-5" />
             </div>
             <h4 className="font-bold text-base text-choco-sand-900">
-              Todas las Preguntas
+              {translations.trivia.allQuestions}
             </h4>
           </div>
           <p className="text-sm text-choco-sand-600">
-            {sections.reduce((sum, s) => sum + s.questions.length, 0)} preguntas de todas las categorías
+            {translations.trivia.allQuestionsDescription.replace('{count}', sections.reduce((sum, s) => sum + s.questions.length, 0).toString())}
           </p>
         </motion.button>
 
@@ -348,7 +352,7 @@ export function TriviaSectionSelector({
                 <div className="absolute top-3 right-3">
                   <span className="inline-flex items-center gap-1 px-2 py-1 bg-emerald-100 text-emerald-700 border border-emerald-200 text-xs font-semibold rounded-full">
                     <Sparkles className="w-3 h-3" />
-                    Nuevo
+                    {translations.trivia.new}
                   </span>
                 </div>
               )}
@@ -370,7 +374,7 @@ export function TriviaSectionSelector({
                     <div className="flex items-center gap-1 mt-1">
                       <Trophy className="w-3 h-3 text-choco-gold-600" />
                       <span className="text-xs font-semibold text-choco-gold-700">
-                        Mejor: {bestScore.score} pts
+                        {translations.trivia.bestScore.replace('{score}', bestScore.score.toString())}
                       </span>
                     </div>
                   )}
@@ -383,7 +387,7 @@ export function TriviaSectionSelector({
               )}
               <div className="flex items-center justify-between">
                 <p className="text-xs font-semibold text-choco-sand-500">
-                  {section.questions.length} pregunta{section.questions.length !== 1 ? 's' : ''}
+                  {section.questions.length} {section.questions.length === 1 ? translations.trivia.question : translations.trivia.questions}
                 </p>
                 <span className={clsx(
                   'text-xs px-2 py-0.5 rounded-full font-medium',
@@ -391,7 +395,7 @@ export function TriviaSectionSelector({
                   avgDifficulty === 'medio' && 'bg-yellow-100 text-yellow-700',
                   avgDifficulty === 'dificil' && 'bg-red-100 text-red-700'
                 )}>
-                  {avgDifficulty === 'facil' ? 'Fácil' : avgDifficulty === 'medio' ? 'Medio' : 'Difícil'}
+                  {avgDifficulty === 'facil' ? translations.trivia.easy : avgDifficulty === 'medio' ? translations.trivia.medium : translations.trivia.hard}
                 </span>
               </div>
             </motion.button>
@@ -406,7 +410,7 @@ export function TriviaSectionSelector({
             onClick={() => setShowAll(true)}
             className="col-span-full mx-auto flex items-center gap-2 text-choco-pacific-600 hover:text-choco-pacific-700 font-medium py-4 px-6 rounded-xl hover:bg-choco-pacific-50 transition-colors"
           >
-            <span>Ver todas las categorías ({filteredSections.length})</span>
+            <span>{translations.trivia.seeAllCategories} ({filteredSections.length})</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="w-5 h-5"
