@@ -12,6 +12,7 @@ import { Badge } from '@components/atoms/Badge'
 import { useUIStore } from '@stores/uiStore'
 import { t } from '@utils/translations'
 import { ExitConfirmModal } from './ExitConfirmModal'
+import { getTranslatedQuestion, getTranslatedOptions, getTranslatedExplanation } from '@utils/questionTranslations'
 
 interface TriviaQuestionProps {
   question: TriviaQuestionType
@@ -65,23 +66,34 @@ export function TriviaQuestion({
 
   const isCorrect = hasAnswered && currentAnswer === question.correctAnswer
 
-  // Funciones para formatear categoría y dificultad con tildes
+  // Obtener textos traducidos de la pregunta
+  const translatedQuestion = getTranslatedQuestion(question, language)
+  const translatedOptions = getTranslatedOptions(question, language)
+  const translatedExplanation = getTranslatedExplanation(question, language)
+
+  // Funciones para formatear categoría y dificultad con traducciones
   const formatCategory = (category: string): string => {
+    const sections = translations.trivia.sections as Record<string, { name: string; description: string }>
+    const sectionTranslation = sections[category]
+    if (sectionTranslation) {
+      return sectionTranslation.name
+    }
+    // Fallback a traducciones de categorías comunes
     const categoryMap: Record<string, string> = {
-      geografia: 'geografía',
-      fauna: 'fauna',
-      flora: 'flora',
-      conservacion: 'conservación',
-      cultura: 'cultura',
+      geografia: language === 'es' ? 'Geografía' : 'Geography',
+      fauna: language === 'es' ? 'Fauna' : 'Fauna',
+      flora: language === 'es' ? 'Flora' : 'Flora',
+      conservacion: language === 'es' ? 'Conservación' : 'Conservation',
+      cultura: language === 'es' ? 'Cultura' : 'Culture',
     }
     return categoryMap[category] || category
   }
 
   const formatDifficulty = (difficulty: string): string => {
     const difficultyMap: Record<string, string> = {
-      facil: 'fácil',
-      medio: 'medio',
-      dificil: 'difícil',
+      facil: translations.trivia.easy,
+      medio: translations.trivia.medium,
+      dificil: translations.trivia.hard,
     }
     return difficultyMap[difficulty] || difficulty
   }
@@ -109,8 +121,8 @@ export function TriviaQuestion({
         <button
           onClick={() => setShowExitModal(true)}
           className="absolute top-4 right-4 p-2 text-choco-sand-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-          aria-label="Salir del test"
-          title="Salir del test"
+          aria-label={language === 'es' ? 'Salir del test' : 'Exit test'}
+          title={language === 'es' ? 'Salir del test' : 'Exit test'}
         >
           <LogOut className="w-5 h-5" />
         </button>
@@ -135,7 +147,7 @@ export function TriviaQuestion({
 
       {/* Pregunta */}
       <h3 className="font-display font-bold text-2xl md:text-3xl text-choco-sand-900 mb-6">
-        {question.question}
+        {translatedQuestion}
       </h3>
 
       {/* Imagen (si existe) */}
@@ -143,7 +155,7 @@ export function TriviaQuestion({
         <div className="mb-6 rounded-2xl overflow-hidden">
           <img
             src={question.imageUrl}
-            alt="Imagen de la pregunta"
+            alt={language === 'es' ? 'Imagen de la pregunta' : 'Question image'}
             className="w-full h-64 object-cover"
           />
         </div>
@@ -151,7 +163,7 @@ export function TriviaQuestion({
 
       {/* Opciones */}
       <div className="space-y-3 mb-6">
-        {question.options.map((option, index) => {
+        {translatedOptions.map((option, index) => {
           const isSelected = selectedAnswer === index || currentAnswer === index
           const isCorrectAnswer = index === question.correctAnswer
           const showCorrect = hasAnswered && isCorrectAnswer
@@ -229,7 +241,7 @@ export function TriviaQuestion({
                   {isCorrect ? translations.trivia.correct : translations.trivia.incorrect}
                 </div>
                 <div className="text-sm text-choco-sand-700">
-                  {question.explanation}
+                  {translatedExplanation}
                 </div>
               </div>
             </div>

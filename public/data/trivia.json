@@ -8,14 +8,22 @@
         {
           "id": "q1",
           "question": "¿Qué países abarca el Chocó biogeográfico?",
+          "questionEn": "Which countries does the Chocó biogeographic region encompass?",
           "options": [
             "Solo Colombia",
             "Colombia y Ecuador",
             "Panamá, Colombia y Ecuador",
             "Colombia, Venezuela y Ecuador"
           ],
+          "optionsEn": [
+            "Only Colombia",
+            "Colombia and Ecuador",
+            "Panama, Colombia and Ecuador",
+            "Colombia, Venezuela and Ecuador"
+          ],
           "correctAnswer": 2,
           "explanation": "El Chocó biogeográfico se extiende desde el este de Panamá, a lo largo de toda la costa pacífica de Colombia, hasta el noroccidente de Ecuador.",
+          "explanationEn": "The Chocó biogeographic region extends from eastern Panama, along the entire Pacific coast of Colombia, to northwestern Ecuador.",
           "category": "geografia",
           "difficulty": "facil",
           "points": 10
@@ -38,7 +46,14 @@
         {
           "id": "q10",
           "question": "¿Cuál es la capital del departamento del Chocó en Colombia?",
+          "questionEn": "What is the capital of the Chocó department in Colombia?",
           "options": [
+            "Quibdó",
+            "Tumaco",
+            "Buenaventura",
+            "Bahía Solano"
+          ],
+          "optionsEn": [
             "Quibdó",
             "Tumaco",
             "Buenaventura",
@@ -46,6 +61,7 @@
           ],
           "correctAnswer": 0,
           "explanation": "Quibdó es la capital del departamento del Chocó, ubicada a orillas del río Atrato, uno de los ríos más caudalosos de Colombia.",
+          "explanationEn": "Quibdó is the capital of the Chocó department, located on the banks of the Atrato River, one of Colombia's most voluminous rivers.",
           "category": "geografia",
           "difficulty": "facil",
           "points": 10
@@ -53,14 +69,22 @@
         {
           "id": "geo-1",
           "question": "¿Qué océano baña las costas del Chocó biogeográfico?",
+          "questionEn": "Which ocean bathes the coasts of the Chocó biogeographic region?",
           "options": [
             "Océano Atlántico",
             "Océano Pacífico",
             "Océano Índico",
             "Mar Caribe"
           ],
+          "optionsEn": [
+            "Atlantic Ocean",
+            "Pacific Ocean",
+            "Indian Ocean",
+            "Caribbean Sea"
+          ],
           "correctAnswer": 1,
           "explanation": "El Chocó biogeográfico se extiende a lo largo de la costa del Océano Pacífico, desde Panamá hasta Ecuador.",
+          "explanationEn": "The Chocó biogeographic region extends along the Pacific Ocean coast, from Panama to Ecuador.",
           "category": "geografia",
           "difficulty": "facil",
           "points": 10
@@ -68,14 +92,22 @@
         {
           "id": "geo-2",
           "question": "¿Cuál es el río más importante del Chocó colombiano?",
+          "questionEn": "What is the most important river in the Colombian Chocó?",
           "options": [
             "Río Magdalena",
             "Río Amazonas",
             "Río Atrato",
             "Río Cauca"
           ],
+          "optionsEn": [
+            "Magdalena River",
+            "Amazon River",
+            "Atrato River",
+            "Cauca River"
+          ],
           "correctAnswer": 2,
           "explanation": "El río Atrato es uno de los ríos más importantes del Chocó, navegable y vital para las comunidades de la región.",
+          "explanationEn": "The Atrato River is one of the most important rivers in the Chocó, navigable and vital for the communities of the region.",
           "category": "geografia",
           "difficulty": "facil",
           "points": 10
@@ -83,7 +115,14 @@
         {
           "id": "geo-3",
           "question": "¿Cuál de estas ciudades NO está en la región del Chocó biogeográfico?",
+          "questionEn": "Which of these cities is NOT in the Chocó biogeographic region?",
           "options": [
+            "Quibdó, Colombia",
+            "Tumaco, Colombia",
+            "Buenaventura, Colombia",
+            "Cali, Colombia"
+          ],
+          "optionsEn": [
             "Quibdó, Colombia",
             "Tumaco, Colombia",
             "Buenaventura, Colombia",
@@ -91,6 +130,7 @@
           ],
           "correctAnswer": 3,
           "explanation": "Cali está en el Valle del Cauca, en la región andina, no en el Chocó biogeográfico que es principalmente costero.",
+          "explanationEn": "Cali is in the Cauca Valley, in the Andean region, not in the Chocó biogeographic region which is mainly coastal.",
           "category": "geografia",
           "difficulty": "medio",
           "points": 15

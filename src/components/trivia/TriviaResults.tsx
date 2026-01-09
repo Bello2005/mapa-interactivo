@@ -13,6 +13,7 @@ import { useUIStore } from '@stores/uiStore'
 import { t } from '@utils/translations'
 import { ScoreHistory } from './ScoreHistory'
 import { useTriviaStore } from '@stores/triviaStore'
+import { getTranslatedQuestion, getTranslatedOptions } from '@utils/questionTranslations'
 import { getUserName } from '@utils/storage'
 
 interface TriviaResultsProps {
@@ -198,6 +199,8 @@ export function TriviaResults({
           {questions.map((question, index) => {
             const userAnswer = answers[index]
             const isCorrect = userAnswer === question.correctAnswer
+            const translatedQuestion = getTranslatedQuestion(question, language)
+            const translatedOptions = getTranslatedOptions(question, language)
 
             return (
               <div
@@ -221,18 +224,18 @@ export function TriviaResults({
 
                   <div className="flex-1">
                     <div className="font-semibold text-choco-sand-900 mb-2">
-                      {question.question}
+                      {translatedQuestion}
                     </div>
 
                     <div className="text-sm text-choco-sand-700">
                       <span className="font-medium">{translations.trivia.results.yourAnswer}</span>{' '}
-                      {userAnswer !== null ? question.options[userAnswer] : translations.trivia.results.noAnswer}
+                      {userAnswer !== null ? translatedOptions[userAnswer] : translations.trivia.results.noAnswer}
                     </div>
 
                     {!isCorrect && (
                       <div className="text-sm text-choco-sand-700 mt-1">
                         <span className="font-medium">{translations.trivia.results.correctAnswer}</span>{' '}
-                        {question.options[question.correctAnswer]}
+                        {translatedOptions[question.correctAnswer]}
                       </div>
                     )}
                   </div>

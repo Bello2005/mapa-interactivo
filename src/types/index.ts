@@ -137,6 +137,10 @@ export interface TriviaQuestion {
   difficulty: 'facil' | 'medio' | 'dificil'
   points: number
   imageUrl?: string
+  // Campos opcionales para traducciones
+  questionEn?: string
+  optionsEn?: string[]
+  explanationEn?: string
 }
 
 export interface TriviaSection {
