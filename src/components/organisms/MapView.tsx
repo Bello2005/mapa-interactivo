@@ -143,6 +143,8 @@ export function MapView({ fullHeight = false }: MapViewProps) {
     featureDrillDown,
     sidebarOpen,
     setSidebarOpen,
+    exitFeatureDrillDown,
+    exitFeatureListView,
   } = useUIStore()
   const { discoverNewSpecies } = useGameProgress()
 
@@ -806,6 +808,12 @@ export function MapView({ fullHeight = false }: MapViewProps) {
       <MapSidebar
         isOpen={sidebarOpen}
         onClose={() => {
+          // Limpiar estado de features
+          exitFeatureDrillDown()
+          exitFeatureListView()
+          // Resetear vista del mapa
+          handleFitBounds()
+          // Cerrar sidebar y limpiar ciudad seleccionada
           setSidebarOpen(false)
           setSelectedCity(null)
         }}
