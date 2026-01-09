@@ -172,38 +172,40 @@ export function TriviaContainer() {
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="max-w-4xl mx-auto py-12"
+        className="max-w-4xl mx-auto py-6 sm:py-8 md:py-12 px-4"
       >
-        {/* Botón de volver */}
-        <div className="mb-6">
+        {/* Botón de volver - responsive */}
+        <div className="mb-4 sm:mb-6">
           <Link
             to="/"
-            className="inline-flex items-center gap-2 text-choco-sand-700 hover:text-choco-forest-700 transition-colors"
+            className="inline-flex items-center gap-2 text-choco-sand-700 hover:text-choco-forest-700 transition-colors text-sm sm:text-base"
           >
-            <ArrowLeft className="w-5 h-5" />
+            <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
             <span className="font-medium">Volver al inicio</span>
           </Link>
         </div>
 
-        <div className="bg-white rounded-3xl shadow-strong p-10 md:p-14">
-          {/* Botón de play clickeable con diseño liquid glass */}
+        <div className="bg-white rounded-2xl sm:rounded-3xl shadow-strong p-6 sm:p-8 md:p-10 lg:p-14">
+          {/* Botón de play clickeable con diseño liquid glass - responsive */}
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={handlePlayButtonClick}
-            className="w-20 h-20 mx-auto mb-6
+            className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 mx-auto mb-6
                      bg-gradient-to-br from-choco-pacific-500 to-choco-forest-500
                      rounded-full flex items-center justify-center
-                     shadow-lg hover:shadow-xl
+                     shadow-lg hover:shadow-xl active:shadow-md
                      transition-all duration-200
-                     cursor-pointer
+                     cursor-pointer touch-manipulation
                      relative
                      overflow-hidden
-                     group"
+                     group
+                     min-w-[64px] min-h-[64px]"
             style={{
               backdropFilter: 'blur(20px)',
               boxShadow: '0 10px 30px rgba(37, 99, 235, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1) inset',
             }}
+            aria-label={language === 'es' ? 'Comenzar trivia' : 'Start trivia'}
           >
             {/* Efecto de brillo al hover */}
             <div 
@@ -212,14 +214,14 @@ export function TriviaContainer() {
                 background: 'radial-gradient(circle at center, rgba(255, 255, 255, 0.4) 0%, transparent 70%)',
               }}
             />
-            <Play className="w-10 h-10 text-white relative z-10" />
+            <Play className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-white relative z-10" />
           </motion.button>
 
-          <h2 className="font-display font-bold text-3xl md:text-4xl text-choco-sand-900 mb-4 text-center">
+          <h2 className="font-display font-bold text-2xl sm:text-3xl md:text-4xl text-choco-sand-900 mb-3 sm:mb-4 text-center px-2">
             {translations.trivia.ready}
           </h2>
 
-          <p className="text-lg text-choco-sand-700 mb-8 text-center">
+          <p className="text-base sm:text-lg text-choco-sand-700 mb-6 sm:mb-8 text-center px-2">
             {questions.length > 0
               ? translations.trivia.readyDescription.replace('{count}', questions.length.toString())
               : language === 'es'

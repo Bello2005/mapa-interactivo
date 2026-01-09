@@ -17,33 +17,36 @@ export function SelectChallengeAlert({ isOpen, onClose }: SelectChallengeAlertPr
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* Overlay con blur */}
+          {/* Overlay con blur - responsive */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 z-[9998] bg-black/20 backdrop-blur-md"
+            className="fixed inset-0 z-[9998] bg-black/20 backdrop-blur-md p-4"
           />
 
-          {/* Alerta con diseño liquid glass */}
+          {/* Alerta con diseño liquid glass - completamente responsive */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="fixed z-[9999] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
-                       w-[90%] max-w-md
+            className="fixed z-[9999] 
+                       left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
+                       w-[calc(100%-2rem)] max-w-md
                        bg-white/80 backdrop-blur-xl
                        border border-white/20
-                       rounded-3xl
+                       rounded-2xl md:rounded-3xl
                        shadow-2xl
-                       p-8
+                       p-6 md:p-8
                        relative
-                       overflow-hidden"
+                       overflow-hidden
+                       max-h-[90vh] overflow-y-auto"
             style={{
               boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1) inset',
             }}
+            onClick={(e) => e.stopPropagation()}
           >
             {/* Efecto de brillo sutil en el fondo */}
             <div 
@@ -55,46 +58,54 @@ export function SelectChallengeAlert({ isOpen, onClose }: SelectChallengeAlertPr
 
             {/* Contenido */}
             <div className="relative z-10">
-              {/* Botón de cerrar */}
+              {/* Botón de cerrar - responsive */}
               <button
                 onClick={onClose}
-                className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/50 backdrop-blur-sm 
+                className="absolute top-3 right-3 md:top-4 md:right-4 
+                         w-8 h-8 md:w-9 md:h-9 
+                         rounded-full bg-white/50 backdrop-blur-sm 
                          flex items-center justify-center
-                         hover:bg-white/70 transition-colors
-                         border border-white/20"
+                         hover:bg-white/70 active:bg-white/60
+                         transition-colors touch-manipulation
+                         border border-white/20
+                         min-w-[44px] min-h-[44px]"
+                aria-label={language === 'es' ? 'Cerrar' : 'Close'}
               >
-                <X className="w-4 h-4 text-choco-sand-700" />
+                <X className="w-4 h-4 md:w-5 md:h-5 text-choco-sand-700" />
               </button>
 
-              {/* Icono */}
-              <div className="w-16 h-16 mx-auto mb-4 
+              {/* Icono - responsive */}
+              <div className="w-14 h-14 md:w-16 md:h-16 mx-auto mb-4 
                             bg-gradient-to-br from-choco-pacific-500 to-choco-forest-500
-                            rounded-2xl flex items-center justify-center
+                            rounded-xl md:rounded-2xl flex items-center justify-center
                             shadow-lg">
-                <Sparkles className="w-8 h-8 text-white" />
+                <Sparkles className="w-7 h-7 md:w-8 md:h-8 text-white" />
               </div>
 
-              {/* Título */}
-              <h3 className="font-display font-bold text-2xl text-center text-choco-sand-900 mb-3">
+              {/* Título - responsive */}
+              <h3 className="font-display font-bold text-xl md:text-2xl text-center text-choco-sand-900 mb-3 px-2">
                 {language === 'es' ? 'Selecciona tu Reto' : 'Select Your Challenge'}
               </h3>
 
-              {/* Mensaje */}
-              <p className="text-center text-choco-sand-700 mb-6 leading-relaxed">
+              {/* Mensaje - responsive */}
+              <p className="text-center text-sm md:text-base text-choco-sand-700 mb-6 leading-relaxed px-2">
                 {language === 'es' 
                   ? 'Por favor, selecciona al menos una sección de trivia para comenzar tu aventura de aprendizaje.'
                   : 'Please select at least one trivia section to begin your learning adventure.'}
               </p>
 
-              {/* Botón de acción */}
+              {/* Botón de acción - responsive */}
               <button
                 onClick={onClose}
-                className="w-full py-3 px-6
+                className="w-full py-3 md:py-3.5 px-6
                          bg-gradient-to-r from-choco-pacific-500 to-choco-forest-500
-                         text-white font-semibold rounded-xl
-                         shadow-lg hover:shadow-xl
+                         text-white font-semibold text-sm md:text-base
+                         rounded-xl md:rounded-xl
+                         shadow-lg hover:shadow-xl active:shadow-md
                          transition-all duration-200
-                         hover:scale-[1.02] active:scale-[0.98]"
+                         hover:scale-[1.02] active:scale-[0.98]
+                         touch-manipulation
+                         min-h-[44px]"
               >
                 {language === 'es' ? 'Entendido' : 'Got it'}
               </button>
