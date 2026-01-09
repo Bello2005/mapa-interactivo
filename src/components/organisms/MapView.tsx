@@ -353,10 +353,19 @@ export function MapView({ fullHeight = false }: MapViewProps) {
               const bounds = getBounds(data)
               const boundsArray = bounds as [[number, number], [number, number]]
               const leafletBounds = L.latLngBounds(boundsArray[0], boundsArray[1])
-              const expandedBounds = leafletBounds.pad(0.1)
+              
+              // Expandir bounds: más horizontal (30%) para permitir mayor movimiento lateral
+              const south = leafletBounds.getSouth()
+              const north = leafletBounds.getNorth()
+              const west = leafletBounds.getWest()
+              const east = leafletBounds.getEast()
+              
+              const latPadding = (north - south) * 0.15  // 15% vertical
+              const lngPadding = (east - west) * 0.3     // 30% horizontal (más movimiento lateral)
+              
               setMapBounds([
-                [expandedBounds.getSouth(), expandedBounds.getWest()],
-                [expandedBounds.getNorth(), expandedBounds.getEast()]
+                [south - latPadding, west - lngPadding],
+                [north + latPadding, east + lngPadding]
               ])
             }
           }
@@ -400,7 +409,7 @@ export function MapView({ fullHeight = false }: MapViewProps) {
 
           // Solo agregar interactividad si tiene nombre válido
           if (isValid && featureId && featureName !== 'Sin nombre') {
-            // Almacenar la capa usando el nombre como clave principal (más único)
+            // Almacenar la capa usando múltiples claves para facilitar la búsqueda
             // Normalizar el nombre para evitar problemas con espacios/acentos/mayúsculas
             // Usar la misma normalización que cuando se busca
             const normalizedName = featureName.toLowerCase().trim().replace(/\s+/g, '-').normalize('NFD').replace(/[\u0300-\u036f]/g, '')
@@ -413,8 +422,9 @@ export function MapView({ fullHeight = false }: MapViewProps) {
             const layerKeyByIdAndName = `${layerId}-${featureId}-${normalizedName}`
             featureLayersRef.current.set(layerKeyByIdAndName, layer)
             
-            // Debug: verificar qué se está almacenando
-            console.log('📦 Almacenando capa:', { layerId, featureId, featureName, normalizedName, layerKeyByName })
+            // Clave adicional: solo por ID (más confiable para búsqueda)
+            const layerKeyById = `${layerId}-id-${featureId}`
+            featureLayersRef.current.set(layerKeyById, layer)
 
           // Hover effect - solo si no está seleccionado
           layer.on('mouseover', function(this: L.Path) {
@@ -819,93 +829,29 @@ export function MapView({ fullHeight = false }: MapViewProps) {
   }, [])
 
   // Aplicar estilo destacado al feature seleccionado
+  // NOTA: El estilo de selección se aplica principalmente en la función getStyle() del GeoJSON
+  // Este useEffect es un fallback para casos donde el layer ya existe y no se re-renderiza
   useEffect(() => {
-    // Validar que availableLayers sea un array antes de usar
-    if (!availableLayers || !Array.isArray(availableLayers) || availableLayers.length === 0) {
+    // El estilo principal se aplica en getStyle(), este useEffect es solo para debugging
+    // y para traer al frente el feature seleccionado si existe en la referencia
+    if (!featureDrillDown?.layerId || !featureDrillDown?.featureId || !featureDrillDown?.featureName) {
       return
     }
 
-    // Capturar availableLayers al inicio para evitar cambios durante la ejecución
-    const layers = [...availableLayers] // Crear copia para evitar mutaciones
+    // Buscar el layer seleccionado para traerlo al frente
+    const normalizedName = featureDrillDown.featureName.toLowerCase().trim().replace(/\s+/g, '-').normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    const selectedKeyByName = `${featureDrillDown.layerId}-${normalizedName}`
+    const selectedKeyByIdAndName = `${featureDrillDown.layerId}-${featureDrillDown.featureId}-${normalizedName}`
+    const selectedKeyById = `${featureDrillDown.layerId}-id-${featureDrillDown.featureId}`
     
-    const currentLayer = layers.find(l => l?.id === featureDrillDown?.layerId)
-    const currentOpacity = featureDrillDown?.layerId 
-      ? (layerOpacities[featureDrillDown.layerId] ?? currentLayer?.opacity ?? 0.5)
-      : 0.5
-
-    // Restaurar estilo de todas las capas primero
-    featureLayersRef.current.forEach((layer, key) => {
-      if (!layer || typeof (layer as any).setStyle !== 'function') return
-      
-      const [layerId] = key.split('-')
-      const layerConfig = Array.isArray(layers) ? layers.find(l => l?.id === layerId) : null
-      const layerOpacity = layerOpacities[layerId] ?? layerConfig?.opacity ?? 0.5
-      
-      // Restaurar estilo normal
-      try {
-        (layer as L.Path).setStyle({
-          fillOpacity: layerOpacity,
-          weight: 2,
-          color: layerConfig?.color || '#059669',
-          opacity: 0.9,
-        })
-      } catch (error) {
-        console.warn('Error setting layer style:', error)
-      }
-    })
-
-    // Aplicar estilo destacado al feature seleccionado
-    if (featureDrillDown?.layerId && featureDrillDown?.featureId && featureDrillDown?.featureName) {
-      // Normalizar el nombre para buscar la clave correcta (igual que cuando se almacena)
-      const normalizedName = featureDrillDown.featureName.toLowerCase().trim().replace(/\s+/g, '-').normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-      
-      // Buscar usando el nombre normalizado como clave principal (más único)
-      const selectedKeyByName = `${featureDrillDown.layerId}-${normalizedName}`
-      const selectedKeyByIdAndName = `${featureDrillDown.layerId}-${featureDrillDown.featureId}-${normalizedName}`
-      
-      let selectedLayer = featureLayersRef.current.get(selectedKeyByName) || featureLayersRef.current.get(selectedKeyByIdAndName)
-      
-      // Debug: verificar qué se está seleccionando
-      if (!selectedLayer) {
-        console.warn('⚠️ No se encontró la capa para:', { 
-          layerId: featureDrillDown.layerId, 
-          featureId: featureDrillDown.featureId,
-          featureName: featureDrillDown.featureName,
-          normalizedName,
-          searchedKeys: [selectedKeyByName, selectedKeyByIdAndName],
-          availableKeys: Array.from(featureLayersRef.current.keys()).filter(k => 
-            k.startsWith(`${featureDrillDown.layerId}-`) && 
-            (k.includes(normalizedName) || (featureDrillDown.featureId && k.includes(featureDrillDown.featureId)))
-          )
-        })
-      } else {
-        const foundKey = selectedLayer === featureLayersRef.current.get(selectedKeyByName) ? selectedKeyByName : selectedKeyByIdAndName
-        console.log('✅ Aplicando estilo a:', { 
-          layerId: featureDrillDown.layerId, 
-          featureId: featureDrillDown.featureId,
-          featureName: featureDrillDown.featureName,
-          normalizedName,
-          foundWithKey: foundKey
-        })
-      }
-      
-      if (selectedLayer && typeof (selectedLayer as any).setStyle === 'function') {
-        const layerConfig = Array.isArray(layers) ? layers.find(l => l?.id === featureDrillDown.layerId) : null
-        // Estilo destacado: contorno grueso, color vibrante, relleno más claro
-        try {
-          (selectedLayer as L.Path).setStyle({
-            fillColor: layerConfig?.color || '#059669',
-            fillOpacity: Math.max(0.2, currentOpacity * 0.4), // Relleno más transparente
-            color: '#3b82f6', // Azul vibrante para el contorno
-            weight: 4, // Contorno más grueso
-            opacity: 1, // Contorno completamente opaco
-          })
-        } catch (error) {
-          console.warn('Error setting selected layer style:', error)
-        }
-      }
+    const selectedLayer = featureLayersRef.current.get(selectedKeyByName) || 
+                         featureLayersRef.current.get(selectedKeyByIdAndName) || 
+                         featureLayersRef.current.get(selectedKeyById)
+    
+    if (selectedLayer && typeof (selectedLayer as L.Path).bringToFront === 'function') {
+      (selectedLayer as L.Path).bringToFront()
     }
-  }, [featureDrillDown, availableLayers, layerOpacities])
+  }, [featureDrillDown])
 
   // Resetear vista del mapa cuando se presiona "volver" (featureDrillDown se vuelve null)
   const prevFeatureDrillDownRef = useRef<typeof featureDrillDown>(null)
@@ -1037,8 +983,8 @@ export function MapView({ fullHeight = false }: MapViewProps) {
         zoom={6} // Zoom inicial más amplio para ver mejor la región completa
         minZoom={6} // Zoom mínimo: vista completa del Chocó
         maxZoom={15} // Zoom máximo: nivel de detalle razonable
-        maxBounds={mapBounds || undefined} // Limitar movimiento al área del Chocó
-        maxBoundsViscosity={1.0} // Forzar que el mapa permanezca dentro de los bounds
+        maxBounds={mapBounds || undefined} // Limitar movimiento al área del Chocó (expandido)
+        maxBoundsViscosity={0.7} // Permitir algo de movimiento suave fuera de los bounds
         className="w-full h-full touch-pan-x touch-pan-y touch-pinch-zoom"
         zoomControl={false} // Desactivar controles por defecto de Leaflet para evitar conflictos
         zoomSnap={0.5} // Permitir zoom más suave
@@ -1147,7 +1093,36 @@ export function MapView({ fullHeight = false }: MapViewProps) {
           const isBoundaryLayer = layerId === 'admin-boundaries'
 
           // Función de estilo para mejor control con react-leaflet
+          // Esta función se llama para cada feature al renderizar
           const getStyle = (_feature: any) => {
+            // Verificar si este feature está seleccionado
+            const config = getLayerFeatureConfig(layerId)
+            let isSelected = false
+            
+            if (config && featureDrillDown?.layerId === layerId && _feature.properties) {
+              const featureId = _feature.properties[config.idProperty]?.toString()
+              const featureName = _feature.properties[config.nameProperty]
+              
+              // Verificar si coincide con el feature seleccionado
+              // Usar ID + nombre para casos donde múltiples features comparten el mismo ID
+              // (ej: Riosucio y Belén de Bajirá comparten el código municipal 27615)
+              isSelected = (featureId === featureDrillDown.featureId) && 
+                          (featureName === featureDrillDown.featureName)
+            }
+            
+            // Si está seleccionado, aplicar estilo de selección
+            if (isSelected) {
+              return {
+                fillColor: layer.color,
+                fillOpacity: 0.01, // Sin relleno - solo borde azul
+                color: '#3b82f6', // Azul vibrante para el contorno
+                weight: 4, // Contorno grueso para mejor visibilidad
+                opacity: 1, // Contorno completamente opaco
+                dashArray: undefined, // Línea sólida
+              }
+            }
+            
+            // Estilo normal según el tipo de capa
             if (isBoundaryLayer) {
               return {
                 fillColor: layer.color, // Verde esmeralda
@@ -1173,9 +1148,14 @@ export function MapView({ fullHeight = false }: MapViewProps) {
             onEachFeature(feature, leafletLayer, layerId)
           }
 
+          // Construir key dinámica que incluya el feature seleccionado para forzar re-render
+          const selectedFeatureKey = (featureDrillDown?.layerId === layerId && featureDrillDown?.featureId) 
+            ? `-selected-${featureDrillDown.featureId}` 
+            : ''
+          
           return (
             <GeoJSON
-              key={`${layerId}-layer-${data.features.length}`}
+              key={`${layerId}-layer-${data.features.length}${selectedFeatureKey}`}
               data={data}
               style={getStyle}
               onEachFeature={onEachFeatureLayer}
