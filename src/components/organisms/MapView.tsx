@@ -896,8 +896,8 @@ export function MapView({ fullHeight = false }: MapViewProps) {
       )}>
         <MapContainer
         center={[5.5, -77]}
-        zoom={8} // Zoom inicial más cercano para mejor visualización
-        minZoom={7} // Zoom mínimo: vista completa del Chocó
+        zoom={6} // Zoom inicial más amplio para ver mejor la región completa
+        minZoom={6} // Zoom mínimo: vista completa del Chocó
         maxZoom={15} // Zoom máximo: nivel de detalle razonable
         maxBounds={mapBounds || undefined} // Limitar movimiento al área del Chocó
         maxBoundsViscosity={1.0} // Forzar que el mapa permanezca dentro de los bounds
