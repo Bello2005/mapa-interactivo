@@ -31,14 +31,22 @@
         {
           "id": "q3",
           "question": "¿Qué característica hace del Chocó uno de los bosques más húmedos del mundo?",
+          "questionEn": "What characteristic makes the Chocó one of the wettest forests in the world?",
           "options": [
             "Está cerca del océano",
             "Tiene ríos muy grandes",
             "Recibe hasta 13,000 mm de lluvia al año",
             "Tiene muchos lagos"
           ],
+          "optionsEn": [
+            "It's near the ocean",
+            "It has very large rivers",
+            "It receives up to 13,000 mm of rain per year",
+            "It has many lakes"
+          ],
           "correctAnswer": 2,
           "explanation": "El Chocó biogeográfico es uno de los lugares más lluviosos del planeta, con precipitaciones que pueden alcanzar hasta 13,000 mm anuales en algunas zonas.",
+          "explanationEn": "The Chocó biogeographic region is one of the rainiest places on the planet, with rainfall that can reach up to 13,000 mm annually in some areas.",
           "category": "geografia",
           "difficulty": "medio",
           "points": 15
@@ -168,14 +176,22 @@
         {
           "id": "q2",
           "question": "¿Aproximadamente cuántas especies de aves se encuentran en el Chocó?",
+          "questionEn": "Approximately how many bird species are found in the Chocó?",
           "options": [
             "Menos de 500",
             "Entre 500 y 700",
             "Más de 900",
             "Más de 2000"
           ],
+          "optionsEn": [
+            "Less than 500",
+            "Between 500 and 700",
+            "More than 900",
+            "More than 2000"
+          ],
           "correctAnswer": 2,
           "explanation": "El Chocó biogeográfico alberga más de 900 especies de aves, representando aproximadamente el 25% de las especies de aves del mundo en solo el 0.01% de la superficie terrestre.",
+          "explanationEn": "The Chocó biogeographic region is home to more than 900 bird species, representing approximately 25% of the world's bird species in just 0.01% of the Earth's surface.",
           "category": "fauna",
           "difficulty": "medio",
           "points": 15
@@ -183,14 +199,22 @@
         {
           "id": "fauna-1",
           "question": "¿Cuál de estos animales es endémico del Chocó?",
+          "questionEn": "Which of these animals is endemic to the Chocó?",
           "options": [
             "Oso de anteojos",
             "Tigrillo lanudo",
             "Mono araña del Chocó",
             "Cóndor de los Andes"
           ],
+          "optionsEn": [
+            "Spectacled bear",
+            "Woolly ocelot",
+            "Chocó spider monkey",
+            "Andean condor"
+          ],
           "correctAnswer": 2,
           "explanation": "El mono araña del Chocó (Ateles geoffroyi) es una especie endémica de esta región biogeográfica.",
+          "explanationEn": "The Chocó spider monkey (Ateles geoffroyi) is an endemic species of this biogeographic region.",
           "category": "fauna",
           "difficulty": "medio",
           "points": 15
@@ -198,14 +222,22 @@
         {
           "id": "fauna-2",
           "question": "¿Cuántas especies de anfibios aproximadamente tiene el Chocó?",
+          "questionEn": "Approximately how many amphibian species does the Chocó have?",
           "options": [
             "50-100 especies",
             "100-150 especies",
             "200-250 especies",
             "300-350 especies"
           ],
+          "optionsEn": [
+            "50-100 species",
+            "100-150 species",
+            "200-250 species",
+            "300-350 species"
+          ],
           "correctAnswer": 2,
           "explanation": "El Chocó alberga aproximadamente 200-250 especies de anfibios, siendo uno de los grupos más diversos de la región.",
+          "explanationEn": "The Chocó is home to approximately 200-250 amphibian species, making it one of the most diverse groups in the region.",
           "category": "fauna",
           "difficulty": "dificil",
           "points": 20
@@ -213,14 +245,22 @@
         {
           "id": "fauna-3",
           "question": "¿Qué especie de rana venenosa es emblemática del Chocó?",
+          "questionEn": "What species of poisonous frog is emblematic of the Chocó?",
           "options": [
             "Rana dorada venenosa",
             "Rana flecha azul",
             "Rana flecha roja y azul",
             "Rana tomate"
           ],
+          "optionsEn": [
+            "Golden poison frog",
+            "Blue poison dart frog",
+            "Red and blue poison dart frog",
+            "Tomato frog"
+          ],
           "correctAnswer": 0,
           "explanation": "La rana dorada venenosa (Phyllobates terribilis) es una especie endémica del Chocó y una de las más venenosas del mundo.",
+          "explanationEn": "The golden poison frog (Phyllobates terribilis) is an endemic species of the Chocó and one of the most poisonous in the world.",
           "category": "fauna",
           "difficulty": "medio",
           "points": 15
@@ -228,14 +268,22 @@
         {
           "id": "fauna-4",
           "question": "¿Cuál de estas aves es endémica del Chocó?",
+          "questionEn": "Which of these birds is endemic to the Chocó?",
           "options": [
             "Pavo real",
             "Águila harpía",
             "Tangara multicolor del Chocó",
             "Guacamaya azul"
           ],
+          "optionsEn": [
+            "Peacock",
+            "Harpy eagle",
+            "Chocó multicolored tanager",
+            "Blue macaw"
+          ],
           "correctAnswer": 2,
           "explanation": "La tangara multicolor del Chocó (Chlorochrysa nitidissima) es una especie de ave endémica de esta región.",
+          "explanationEn": "The Chocó multicolored tanager (Chlorochrysa nitidissima) is an endemic bird species of this region.",
           "category": "fauna",
           "difficulty": "medio",
           "points": 15
@@ -250,14 +298,22 @@
         {
           "id": "q4",
           "question": "¿Qué porcentaje aproximado de las especies del Chocó son endémicas?",
+          "questionEn": "What approximate percentage of Chocó species are endemic?",
           "options": [
             "Menos del 10%",
             "Alrededor del 25%",
             "Más del 50%",
             "Casi el 100%"
           ],
+          "optionsEn": [
+            "Less than 10%",
+            "Around 25%",
+            "More than 50%",
+            "Almost 100%"
+          ],
           "correctAnswer": 1,
           "explanation": "Aproximadamente el 25% de las especies de plantas y animales del Chocó son endémicas, lo que significa que no se encuentran naturalmente en ningún otro lugar del mundo.",
+          "explanationEn": "Approximately 25% of Chocó plant and animal species are endemic, meaning they are not naturally found anywhere else in the world.",
           "category": "flora",
           "difficulty": "medio",
           "points": 15
@@ -265,14 +321,22 @@
         {
           "id": "q7",
           "question": "¿Cuántas especies de plantas aproximadamente tiene el Chocó?",
+          "questionEn": "Approximately how many plant species does the Chocó have?",
           "options": [
             "Alrededor de 2,000",
             "Alrededor de 4,000",
             "Más de 8,000",
             "Más de 15,000"
           ],
+          "optionsEn": [
+            "Around 2,000",
+            "Around 4,000",
+            "More than 8,000",
+            "More than 15,000"
+          ],
           "correctAnswer": 2,
           "explanation": "El Chocó biogeográfico alberga más de 8,000 especies de plantas, muchas de ellas endémicas y aún por descubrir y catalogar.",
+          "explanationEn": "The Chocó biogeographic region is home to more than 8,000 plant species, many of them endemic and still to be discovered and cataloged.",
           "category": "flora",
           "difficulty": "dificil",
           "points": 20
@@ -280,14 +344,22 @@
         {
           "id": "flora-1",
           "question": "¿Qué tipo de bosque predomina en el Chocó?",
+          "questionEn": "What type of forest predominates in the Chocó?",
           "options": [
             "Bosque seco tropical",
             "Bosque nublado",
             "Bosque húmedo tropical",
             "Bosque de coníferas"
           ],
+          "optionsEn": [
+            "Tropical dry forest",
+            "Cloud forest",
+            "Tropical humid forest",
+            "Coniferous forest"
+          ],
           "correctAnswer": 2,
           "explanation": "El bosque húmedo tropical es el ecosistema predominante en el Chocó, con alta humedad y temperaturas cálidas durante todo el año.",
+          "explanationEn": "Tropical humid forest is the predominant ecosystem in the Chocó, with high humidity and warm temperatures throughout the year.",
           "category": "flora",
           "difficulty": "facil",
           "points": 10
@@ -295,14 +367,22 @@
         {
           "id": "flora-2",
           "question": "¿Cuál de estos árboles es común en el Chocó?",
+          "questionEn": "Which of these trees is common in the Chocó?",
           "options": [
             "Pino",
             "Roble",
             "Guayacán",
             "Cedro"
           ],
+          "optionsEn": [
+            "Pine",
+            "Oak",
+            "Guayacán",
+            "Cedar"
+          ],
           "correctAnswer": 3,
           "explanation": "El cedro (Cedrela odorata) es una especie maderable importante en el Chocó, aunque actualmente amenazada por la sobreexplotación.",
+          "explanationEn": "Cedar (Cedrela odorata) is an important timber species in the Chocó, although currently threatened by overexploitation.",
           "category": "flora",
           "difficulty": "medio",
           "points": 15
@@ -310,14 +390,22 @@
         {
           "id": "flora-3",
           "question": "¿Qué característica tienen muchas plantas del Chocó?",
+          "questionEn": "What characteristic do many Chocó plants have?",
           "options": [
             "Son plantas desérticas",
             "Tienen hojas pequeñas para reducir transpiración",
             "Son epífitas (crecen sobre otras plantas)",
             "Son principalmente cactus"
           ],
+          "optionsEn": [
+            "They are desert plants",
+            "They have small leaves to reduce transpiration",
+            "They are epiphytes (grow on other plants)",
+            "They are mainly cacti"
+          ],
           "correctAnswer": 2,
           "explanation": "Debido a la alta humedad, muchas plantas del Chocó son epífitas, como orquídeas y bromelias, que crecen sobre otras plantas para obtener luz.",
+          "explanationEn": "Due to high humidity, many Chocó plants are epiphytes, such as orchids and bromeliads, which grow on other plants to obtain light.",
           "category": "flora",
           "difficulty": "medio",
           "points": 15
@@ -325,14 +413,22 @@
         {
           "id": "flora-4",
           "question": "¿Cuántas especies de orquídeas aproximadamente hay en el Chocó?",
+          "questionEn": "Approximately how many orchid species are there in the Chocó?",
           "options": [
             "100-200 especies",
             "300-400 especies",
             "500-600 especies",
             "Más de 1000 especies"
           ],
+          "optionsEn": [
+            "100-200 species",
+            "300-400 species",
+            "500-600 species",
+            "More than 1000 species"
+          ],
           "correctAnswer": 3,
           "explanation": "El Chocó alberga más de 1000 especies de orquídeas, siendo una de las regiones más ricas en este tipo de plantas en el mundo.",
+          "explanationEn": "The Chocó is home to more than 1000 orchid species, making it one of the richest regions for this type of plant in the world.",
           "category": "flora",
           "difficulty": "dificil",
           "points": 20
@@ -347,14 +443,22 @@
         {
           "id": "q5",
           "question": "¿Cuál es la principal amenaza para la biodiversidad del Chocó?",
+          "questionEn": "What is the main threat to Chocó biodiversity?",
           "options": [
             "El cambio climático",
             "La deforestación",
             "Las especies invasoras",
             "La contaminación del aire"
           ],
+          "optionsEn": [
+            "Climate change",
+            "Deforestation",
+            "Invasive species",
+            "Air pollution"
+          ],
           "correctAnswer": 1,
           "explanation": "La deforestación es la principal amenaza para la biodiversidad del Chocó, causada principalmente por la expansión agrícola, la minería ilegal y la explotación maderera no sostenible.",
+          "explanationEn": "Deforestation is the main threat to Chocó biodiversity, caused mainly by agricultural expansion, illegal mining, and unsustainable logging.",
           "category": "conservacion",
           "difficulty": "facil",
           "points": 10
@@ -362,14 +466,22 @@
         {
           "id": "q9",
           "question": "¿Por qué el Chocó es considerado un 'hotspot' de biodiversidad?",
+          "questionEn": "Why is the Chocó considered a biodiversity 'hotspot'?",
           "options": [
             "Porque hace mucho calor",
             "Por su alta biodiversidad y endemismo en un área relativamente pequeña",
             "Porque tiene muchos volcanes",
             "Porque es muy turístico"
           ],
+          "optionsEn": [
+            "Because it's very hot",
+            "Due to its high biodiversity and endemism in a relatively small area",
+            "Because it has many volcanoes",
+            "Because it's very touristy"
+          ],
           "correctAnswer": 1,
           "explanation": "El Chocó es uno de los 36 hotspots de biodiversidad del mundo debido a su extraordinaria concentración de especies endémicas y su alta biodiversidad en un área geográfica relativamente pequeña, combinado con amenazas significativas.",
+          "explanationEn": "The Chocó is one of the world's 36 biodiversity hotspots due to its extraordinary concentration of endemic species and high biodiversity in a relatively small geographic area, combined with significant threats.",
           "category": "conservacion",
           "difficulty": "medio",
           "points": 15
@@ -377,14 +489,22 @@
         {
           "id": "conserv-1",
           "question": "¿Qué organización internacional ha declarado al Chocó como hotspot de biodiversidad?",
+          "questionEn": "What international organization has declared the Chocó as a biodiversity hotspot?",
           "options": [
             "UNESCO",
             "Conservation International",
             "WWF",
             "ONU"
           ],
+          "optionsEn": [
+            "UNESCO",
+            "Conservation International",
+            "WWF",
+            "UN"
+          ],
           "correctAnswer": 1,
           "explanation": "Conservation International identificó al Chocó como uno de los 36 hotspots de biodiversidad mundiales por su alta concentración de especies endémicas.",
+          "explanationEn": "Conservation International identified the Chocó as one of the world's 36 biodiversity hotspots due to its high concentration of endemic species.",
           "category": "conservacion",
           "difficulty": "medio",
           "points": 15
@@ -392,14 +512,22 @@
         {
           "id": "conserv-2",
           "question": "¿Qué porcentaje del bosque original del Chocó se ha perdido?",
+          "questionEn": "What percentage of the original Chocó forest has been lost?",
           "options": [
             "Menos del 10%",
             "Entre 20-30%",
             "Entre 40-50%",
             "Más del 70%"
           ],
+          "optionsEn": [
+            "Less than 10%",
+            "Between 20-30%",
+            "Between 40-50%",
+            "More than 70%"
+          ],
           "correctAnswer": 3,
           "explanation": "Se estima que más del 70% del bosque original del Chocó ha sido deforestado, principalmente para agricultura, ganadería y minería.",
+          "explanationEn": "It is estimated that more than 70% of the original Chocó forest has been deforested, mainly for agriculture, livestock, and mining.",
           "category": "conservacion",
           "difficulty": "dificil",
           "points": 20
@@ -407,14 +535,22 @@
         {
           "id": "conserv-3",
           "question": "¿Cuál de estas actividades es una amenaza emergente para el Chocó?",
+          "questionEn": "Which of these activities is an emerging threat to the Chocó?",
           "options": [
             "Turismo ecológico",
             "Minería ilegal de oro",
             "Investigación científica",
             "Agricultura orgánica"
           ],
+          "optionsEn": [
+            "Ecotourism",
+            "Illegal gold mining",
+            "Scientific research",
+            "Organic agriculture"
+          ],
           "correctAnswer": 1,
           "explanation": "La minería ilegal de oro es una amenaza emergente que contamina los ríos con mercurio y destruye grandes áreas de bosque.",
+          "explanationEn": "Illegal gold mining is an emerging threat that contaminates rivers with mercury and destroys large areas of forest.",
           "category": "conservacion",
           "difficulty": "medio",
           "points": 15
@@ -422,14 +558,22 @@
         {
           "id": "conserv-4",
           "question": "¿Qué área protegida importante se encuentra en el Chocó?",
+          "questionEn": "What important protected area is located in the Chocó?",
           "options": [
             "Parque Nacional Natural Los Katíos",
             "Parque Nacional Yellowstone",
             "Reserva de la Biosfera Galápagos",
             "Parque Nacional Torres del Paine"
           ],
+          "optionsEn": [
+            "Los Katíos National Natural Park",
+            "Yellowstone National Park",
+            "Galápagos Biosphere Reserve",
+            "Torres del Paine National Park"
+          ],
           "correctAnswer": 0,
           "explanation": "El Parque Nacional Natural Los Katíos, declarado Patrimonio de la Humanidad por la UNESCO, se encuentra en el Chocó colombiano.",
+          "explanationEn": "Los Katíos National Natural Park, declared a World Heritage Site by UNESCO, is located in the Colombian Chocó.",
           "category": "conservacion",
           "difficulty": "medio",
           "points": 15
@@ -444,14 +588,22 @@
         {
           "id": "q6",
           "question": "¿Qué significa IIAP?",
+          "questionEn": "What does IIAP stand for?",
           "options": [
             "Instituto Internacional de Análisis del Pacífico",
             "Instituto de Investigaciones Ambientales del Pacífico",
             "Iniciativa Interamericana para el Ambiente y la Paz",
             "Instituto Indígena de Acción Pacífica"
           ],
+          "optionsEn": [
+            "International Institute for Pacific Analysis",
+            "Institute for Environmental Research of the Pacific",
+            "Inter-American Initiative for Environment and Peace",
+            "Indigenous Institute for Pacific Action"
+          ],
           "correctAnswer": 1,
           "explanation": "IIAP significa Instituto de Investigaciones Ambientales del Pacífico 'John Von Neumann', una institución dedicada a la investigación científica y tradicional del Chocó biogeográfico.",
+          "explanationEn": "IIAP stands for Institute for Environmental Research of the Pacific 'John Von Neumann', an institution dedicated to scientific and traditional research of the Chocó biogeographic region.",
           "category": "cultura",
           "difficulty": "facil",
           "points": 10
@@ -459,14 +611,22 @@
         {
           "id": "q8",
           "question": "¿Qué comunidades étnicas habitan tradicionalmente el Chocó?",
+          "questionEn": "What ethnic communities traditionally inhabit the Chocó?",
           "options": [
             "Solo comunidades mestizas",
             "Comunidades afrodescendientes e indígenas",
             "Solo comunidades indígenas",
             "Comunidades europeas"
           ],
+          "optionsEn": [
+            "Only mestizo communities",
+            "Afro-descendant and indigenous communities",
+            "Only indigenous communities",
+            "European communities"
+          ],
           "correctAnswer": 1,
           "explanation": "El Chocó está habitado principalmente por comunidades afrodescendientes (descendientes de africanos esclavizados) y varios grupos indígenas como los Emberá y Wounaan, quienes han desarrollado un profundo conocimiento del bosque.",
+          "explanationEn": "The Chocó is primarily inhabited by Afro-descendant communities (descendants of enslaved Africans) and various indigenous groups such as the Emberá and Wounaan, who have developed deep knowledge of the forest.",
           "category": "cultura",
           "difficulty": "medio",
           "points": 15
@@ -474,7 +634,14 @@
         {
           "id": "cultura-1",
           "question": "¿Qué música tradicional es característica del Pacífico colombiano (Chocó)?",
+          "questionEn": "What traditional music is characteristic of the Colombian Pacific (Chocó)?",
           "options": [
+            "Salsa",
+            "Currulao",
+            "Vallenato",
+            "Cumbia"
+          ],
+          "optionsEn": [
             "Salsa",
             "Currulao",
             "Vallenato",
@@ -482,6 +649,7 @@
           ],
           "correctAnswer": 1,
           "explanation": "El currulao es la música tradicional del Pacífico colombiano, con instrumentos como la marimba de chonta, los cununos y el guasá.",
+          "explanationEn": "Currulao is the traditional music of the Colombian Pacific, with instruments such as the chonta marimba, cununos, and guasá.",
           "category": "cultura",
           "difficulty": "facil",
           "points": 10
@@ -489,14 +657,22 @@
         {
           "id": "cultura-2",
           "question": "¿Qué festividad importante se celebra en Quibdó?",
+          "questionEn": "What important festival is celebrated in Quibdó?",
           "options": [
             "Carnaval de Barranquilla",
             "Feria de Cali",
             "Fiestas de San Francisco de Asís (San Pacho)",
             "Festival de la Leyenda Vallenata"
           ],
+          "optionsEn": [
+            "Barranquilla Carnival",
+            "Cali Fair",
+            "Festival of Saint Francis of Assisi (San Pacho)",
+            "Vallenato Legend Festival"
+          ],
           "correctAnswer": 2,
           "explanation": "Las Fiestas de San Francisco de Asís, conocidas como 'San Pacho', son las fiestas patronales de Quibdó y se celebran en septiembre.",
+          "explanationEn": "The Festival of Saint Francis of Assisi, known as 'San Pacho', is the patron saint festival of Quibdó and is celebrated in September.",
           "category": "cultura",
           "difficulty": "medio",
           "points": 15
@@ -504,7 +680,14 @@
         {
           "id": "cultura-3",
           "question": "¿Qué lengua indígena se habla en el Chocó?",
+          "questionEn": "What indigenous language is spoken in the Chocó?",
           "options": [
+            "Quechua",
+            "Wayuunaiki",
+            "Emberá",
+            "Guaraní"
+          ],
+          "optionsEn": [
             "Quechua",
             "Wayuunaiki",
             "Emberá",
@@ -512,6 +695,7 @@
           ],
           "correctAnswer": 2,
           "explanation": "El emberá es una de las lenguas indígenas que se hablan en el Chocó, principalmente por la comunidad Emberá.",
+          "explanationEn": "Emberá is one of the indigenous languages spoken in the Chocó, mainly by the Emberá community.",
           "category": "cultura",
           "difficulty": "medio",
           "points": 15
@@ -519,14 +703,22 @@
         {
           "id": "cultura-4",
           "question": "¿Qué actividad económica tradicional practican las comunidades del Chocó?",
+          "questionEn": "What traditional economic activity do Chocó communities practice?",
           "options": [
             "Minería industrial",
             "Pesca artesanal",
             "Industria manufacturera",
             "Tecnología"
           ],
+          "optionsEn": [
+            "Industrial mining",
+            "Artisanal fishing",
+            "Manufacturing industry",
+            "Technology"
+          ],
           "correctAnswer": 1,
           "explanation": "La pesca artesanal es una actividad económica tradicional importante para las comunidades costeras y ribereñas del Chocó.",
+          "explanationEn": "Artisanal fishing is an important traditional economic activity for coastal and riverside communities of the Chocó.",
           "category": "cultura",
           "difficulty": "facil",
           "points": 10
@@ -541,14 +733,22 @@
         {
           "id": "count-runap-1",
           "question": "¿Cuántos parques nacionales hay aproximadamente en el Chocó biogeográfico?",
+          "questionEn": "Approximately how many national parks are there in the Chocó biogeographic region?",
           "options": [
             "Entre 100 y 200",
             "Entre 150 y 200",
             "Entre 200 y 500",
             "Entre 50 y 100"
           ],
+          "optionsEn": [
+            "Between 100 and 200",
+            "Between 150 and 200",
+            "Between 200 and 500",
+            "Between 50 and 100"
+          ],
           "correctAnswer": 1,
           "explanation": "El Chocó biogeográfico cuenta con aproximadamente 161 parques nacionales, lo que refleja la gran diversidad y riqueza de esta región.",
+          "explanationEn": "The Chocó biogeographic region has approximately 161 national parks, reflecting the great diversity and richness of this region.",
           "category": "conservacion",
           "difficulty": "facil",
           "points": 10
@@ -556,7 +756,14 @@
         {
           "id": "count-runap-2",
           "question": "¿Cuántos parques nacionales hay en el Chocó biogeográfico?",
+          "questionEn": "How many national parks are there in the Chocó biogeographic region?",
           "options": [
+            "161",
+            "120",
+            "180",
+            "200"
+          ],
+          "optionsEn": [
             "161",
             "120",
             "180",
@@ -564,6 +771,7 @@
           ],
           "correctAnswer": 0,
           "explanation": "Según los datos geográficos, el Chocó biogeográfico tiene exactamente 161 parques nacionales.",
+          "explanationEn": "According to geographic data, the Chocó biogeographic region has exactly 161 national parks.",
           "category": "conservacion",
           "difficulty": "medio",
           "points": 15
@@ -571,14 +779,22 @@
         {
           "id": "runap-1",
           "question": "¿Cuál es el propósito principal de los parques nacionales en el Chocó?",
+          "questionEn": "What is the main purpose of national parks in the Chocó?",
           "options": [
             "Turismo masivo",
             "Explotación maderera",
             "Conservación de la biodiversidad",
             "Desarrollo urbano"
           ],
+          "optionsEn": [
+            "Mass tourism",
+            "Logging",
+            "Biodiversity conservation",
+            "Urban development"
+          ],
           "correctAnswer": 2,
           "explanation": "Los parques nacionales en el Chocó tienen como propósito principal la conservación de la biodiversidad y los ecosistemas únicos de la región.",
+          "explanationEn": "National parks in the Chocó have as their main purpose the conservation of biodiversity and the unique ecosystems of the region.",
           "category": "conservacion",
           "difficulty": "facil",
           "points": 10
@@ -586,14 +802,22 @@
         {
           "id": "runap-2",
           "question": "¿Qué parque nacional en el Chocó es Patrimonio de la Humanidad por la UNESCO?",
+          "questionEn": "What national park in the Chocó is a UNESCO World Heritage Site?",
           "options": [
             "Parque Nacional Natural Los Katíos",
             "Parque Nacional Natural Utría",
             "Parque Nacional Natural Sanquianga",
             "Parque Nacional Natural Farallones de Cali"
           ],
+          "optionsEn": [
+            "Los Katíos National Natural Park",
+            "Utría National Natural Park",
+            "Sanquianga National Natural Park",
+            "Farallones de Cali National Natural Park"
+          ],
           "correctAnswer": 0,
           "explanation": "El Parque Nacional Natural Los Katíos fue declarado Patrimonio de la Humanidad por la UNESCO en 1994 por su excepcional biodiversidad.",
+          "explanationEn": "Los Katíos National Natural Park was declared a UNESCO World Heritage Site in 1994 for its exceptional biodiversity.",
           "category": "conservacion",
           "difficulty": "medio",
           "points": 15
@@ -601,14 +825,22 @@
         {
           "id": "runap-3",
           "question": "¿Qué porcentaje del territorio del Chocó está cubierto por áreas protegidas?",
+          "questionEn": "What percentage of Chocó territory is covered by protected areas?",
           "options": [
             "Menos del 5%",
             "Entre 10-15%",
             "Entre 20-25%",
             "Más del 30%"
           ],
+          "optionsEn": [
+            "Less than 5%",
+            "Between 10-15%",
+            "Between 20-25%",
+            "More than 30%"
+          ],
           "correctAnswer": 1,
           "explanation": "Aproximadamente entre el 10-15% del territorio del Chocó biogeográfico está bajo alguna figura de protección como parques nacionales o reservas.",
+          "explanationEn": "Approximately 10-15% of the Chocó biogeographic territory is under some form of protection such as national parks or reserves.",
           "category": "conservacion",
           "difficulty": "medio",
           "points": 15
@@ -616,14 +848,22 @@
         {
           "id": "runap-4",
           "question": "¿Qué amenaza enfrentan muchos parques nacionales del Chocó?",
+          "questionEn": "What threat do many Chocó national parks face?",
           "options": [
             "Falta de visitantes",
             "Deforestación ilegal",
             "Exceso de turismo",
             "Falta de personal administrativo"
           ],
+          "optionsEn": [
+            "Lack of visitors",
+            "Illegal deforestation",
+            "Excessive tourism",
+            "Lack of administrative staff"
+          ],
           "correctAnswer": 1,
           "explanation": "La deforestación ilegal para agricultura, ganadería y minería es una amenaza constante para los parques nacionales del Chocó.",
+          "explanationEn": "Illegal deforestation for agriculture, livestock, and mining is a constant threat to Chocó national parks.",
           "category": "conservacion",
           "difficulty": "medio",
           "points": 15
@@ -638,14 +878,22 @@
         {
           "id": "count-admin-1",
           "question": "¿Cuántos municipios hay aproximadamente en el Chocó biogeográfico?",
+          "questionEn": "Approximately how many municipalities are there in the Chocó biogeographic region?",
           "options": [
             "Entre 50 y 100",
             "Entre 80 y 100",
             "Entre 100 y 200",
             "Entre 200 y 500"
           ],
+          "optionsEn": [
+            "Between 50 and 100",
+            "Between 80 and 100",
+            "Between 100 and 200",
+            "Between 200 and 500"
+          ],
           "correctAnswer": 1,
           "explanation": "El Chocó biogeográfico cuenta con aproximadamente 93 municipios, lo que refleja la gran diversidad y riqueza de esta región.",
+          "explanationEn": "The Chocó biogeographic region has approximately 93 municipalities, reflecting the great diversity and richness of this region.",
           "category": "geografia",
           "difficulty": "facil",
           "points": 10
@@ -653,7 +901,14 @@
         {
           "id": "count-admin-2",
           "question": "¿Cuántos municipios hay en el Chocó biogeográfico?",
+          "questionEn": "How many municipalities are there in the Chocó biogeographic region?",
           "options": [
+            "93",
+            "80",
+            "100",
+            "120"
+          ],
+          "optionsEn": [
             "93",
             "80",
             "100",
@@ -661,6 +916,7 @@
           ],
           "correctAnswer": 0,
           "explanation": "Según los datos geográficos, el Chocó biogeográfico tiene exactamente 93 municipios.",
+          "explanationEn": "According to geographic data, the Chocó biogeographic region has exactly 93 municipalities.",
           "category": "geografia",
           "difficulty": "medio",
           "points": 15
@@ -668,14 +924,22 @@
         {
           "id": "admin-1",
           "question": "¿En cuántos países se distribuyen los municipios del Chocó?",
+          "questionEn": "Across how many countries are Chocó municipalities distributed?",
           "options": [
             "1 país",
             "2 países",
             "3 países",
             "4 países"
           ],
+          "optionsEn": [
+            "1 country",
+            "2 countries",
+            "3 countries",
+            "4 countries"
+          ],
           "correctAnswer": 2,
           "explanation": "Los 93 municipios del Chocó se distribuyen en 3 países: Panamá, Colombia y Ecuador.",
+          "explanationEn": "The 93 Chocó municipalities are distributed across 3 countries: Panama, Colombia, and Ecuador.",
           "category": "geografia",
           "difficulty": "facil",
           "points": 10
@@ -683,7 +947,14 @@
         {
           "id": "admin-2",
           "question": "¿Qué departamento colombiano tiene más municipios en el Chocó biogeográfico?",
+          "questionEn": "Which Colombian department has the most municipalities in the Chocó biogeographic region?",
           "options": [
+            "Chocó",
+            "Valle del Cauca",
+            "Nariño",
+            "Antioquia"
+          ],
+          "optionsEn": [
             "Chocó",
             "Valle del Cauca",
             "Nariño",
@@ -691,6 +962,7 @@
           ],
           "correctAnswer": 0,
           "explanation": "El departamento del Chocó tiene la mayor cantidad de municipios dentro de la región biogeográfica.",
+          "explanationEn": "The Chocó department has the largest number of municipalities within the biogeographic region.",
           "category": "geografia",
           "difficulty": "medio",
           "points": 15
@@ -698,14 +970,22 @@
         {
           "id": "admin-3",
           "question": "¿Qué característica comparten la mayoría de municipios del Chocó?",
+          "questionEn": "What characteristic do most Chocó municipalities share?",
           "options": [
             "Son grandes ciudades industriales",
             "Tienen acceso al mar",
             "Son principalmente rurales con economía basada en recursos naturales",
             "Tienen aeropuertos internacionales"
           ],
+          "optionsEn": [
+            "They are large industrial cities",
+            "They have access to the sea",
+            "They are mainly rural with economies based on natural resources",
+            "They have international airports"
+          ],
           "correctAnswer": 2,
           "explanation": "La mayoría de municipios del Chocó son rurales, con economías basadas en la pesca, agricultura, minería artesanal y aprovechamiento forestal.",
+          "explanationEn": "Most Chocó municipalities are rural, with economies based on fishing, agriculture, artisanal mining, and forestry.",
           "category": "geografia",
           "difficulty": "medio",
           "points": 15
@@ -713,7 +993,14 @@
         {
           "id": "admin-4",
           "question": "¿Cuál es el municipio más poblado del Chocó biogeográfico?",
+          "questionEn": "What is the most populated municipality in the Chocó biogeographic region?",
           "options": [
+            "Quibdó",
+            "Buenaventura",
+            "Tumaco",
+            "Esmeraldas (Ecuador)"
+          ],
+          "optionsEn": [
             "Quibdó",
             "Buenaventura",
             "Tumaco",
@@ -721,6 +1008,7 @@
           ],
           "correctAnswer": 1,
           "explanation": "Buenaventura, en el departamento del Valle del Cauca, es el municipio más poblado del Chocó biogeográfico y el principal puerto de Colombia en el Pacífico.",
+          "explanationEn": "Buenaventura, in the Valle del Cauca department, is the most populated municipality in the Chocó biogeographic region and Colombia's main Pacific port.",
           "category": "geografia",
           "difficulty": "dificil",
           "points": 20
@@ -735,14 +1023,22 @@
         {
           "id": "count-resguardos-1",
           "question": "¿Cuántos resguardos indígenas hay aproximadamente en el Chocó biogeográfico?",
+          "questionEn": "Approximately how many indigenous territories are there in the Chocó biogeographic region?",
           "options": [
             "Entre 200 y 500",
             "Entre 300 y 500",
             "Entre 400 y 600",
             "Entre 500 y 1000"
           ],
+          "optionsEn": [
+            "Between 200 and 500",
+            "Between 300 and 500",
+            "Between 400 and 600",
+            "Between 500 and 1000"
+          ],
           "correctAnswer": 1,
           "explanation": "El Chocó biogeográfico cuenta con aproximadamente 425 resguardos indígenas, lo que refleja la gran diversidad y riqueza de esta región.",
+          "explanationEn": "The Chocó biogeographic region has approximately 425 indigenous territories, reflecting the great diversity and richness of this region.",
           "category": "cultura",
           "difficulty": "facil",
           "points": 10
@@ -750,7 +1046,14 @@
         {
           "id": "count-resguardos-2",
           "question": "¿Cuántos resguardos indígenas hay en el Chocó biogeográfico?",
+          "questionEn": "How many indigenous territories are there in the Chocó biogeographic region?",
           "options": [
+            "425",
+            "350",
+            "450",
+            "500"
+          ],
+          "optionsEn": [
             "425",
             "350",
             "450",
@@ -758,6 +1061,7 @@
           ],
           "correctAnswer": 0,
           "explanation": "Según los datos geográficos, el Chocó biogeográfico tiene exactamente 425 resguardos indígenas.",
+          "explanationEn": "According to geographic data, the Chocó biogeographic region has exactly 425 indigenous territories.",
           "category": "cultura",
           "difficulty": "medio",
           "points": 15
@@ -765,14 +1069,22 @@
         {
           "id": "resguardos-1",
           "question": "¿Qué son los resguardos indígenas en el Chocó?",
+          "questionEn": "What are indigenous territories in the Chocó?",
           "options": [
             "Hoteles para turistas",
             "Áreas de conservación privada",
             "Territorios colectivos de comunidades indígenas",
             "Parques nacionales"
           ],
+          "optionsEn": [
+            "Hotels for tourists",
+            "Private conservation areas",
+            "Collective territories of indigenous communities",
+            "National parks"
+          ],
           "correctAnswer": 2,
           "explanation": "Los resguardos indígenas son territorios colectivos legalmente reconocidos donde las comunidades indígenas ejercen su autonomía y mantienen sus tradiciones.",
+          "explanationEn": "Indigenous territories are legally recognized collective territories where indigenous communities exercise their autonomy and maintain their traditions.",
           "category": "cultura",
           "difficulty": "facil",
           "points": 10
@@ -780,7 +1092,14 @@
         {
           "id": "resguardos-2",
           "question": "¿Qué grupo indígena tiene más resguardos en el Chocó?",
+          "questionEn": "Which indigenous group has the most territories in the Chocó?",
           "options": [
+            "Wayúu",
+            "Emberá",
+            "Inga",
+            "Nasa"
+          ],
+          "optionsEn": [
             "Wayúu",
             "Emberá",
             "Inga",
@@ -788,6 +1107,7 @@
           ],
           "correctAnswer": 1,
           "explanation": "El pueblo Emberá, junto con los Wounaan, tienen la mayor cantidad de resguardos en el Chocó biogeográfico.",
+          "explanationEn": "The Emberá people, together with the Wounaan, have the largest number of territories in the Chocó biogeographic region.",
           "category": "cultura",
           "difficulty": "medio",
           "points": 15
@@ -795,14 +1115,22 @@
         {
           "id": "resguardos-3",
           "question": "¿Qué importancia tienen los resguardos para la conservación del Chocó?",
+          "questionEn": "What importance do indigenous territories have for Chocó conservation?",
           "options": [
             "No tienen importancia",
             "Son barreras para el desarrollo",
             "Protegen grandes extensiones de bosque y biodiversidad",
             "Solo benefician a las comunidades indígenas"
           ],
+          "optionsEn": [
+            "They have no importance",
+            "They are barriers to development",
+            "They protect large areas of forest and biodiversity",
+            "They only benefit indigenous communities"
+          ],
           "correctAnswer": 2,
           "explanation": "Los resguardos indígenas protegen grandes extensiones de bosque y biodiversidad, ya que las comunidades indígenas practican formas tradicionales de manejo sostenible del territorio.",
+          "explanationEn": "Indigenous territories protect large areas of forest and biodiversity, as indigenous communities practice traditional forms of sustainable territory management.",
           "category": "cultura",
           "difficulty": "medio",
           "points": 15
@@ -810,14 +1138,22 @@
         {
           "id": "resguardos-4",
           "question": "¿Qué amenazas enfrentan los resguardos indígenas del Chocó?",
+          "questionEn": "What threats do Chocó indigenous territories face?",
           "options": [
             "Falta de turismo",
             "Invasión de tierras y deforestación",
             "Exceso de lluvia",
             "Falta de identidad cultural"
           ],
+          "optionsEn": [
+            "Lack of tourism",
+            "Land invasion and deforestation",
+            "Excessive rain",
+            "Lack of cultural identity"
+          ],
           "correctAnswer": 1,
           "explanation": "Los resguardos enfrentan amenazas como invasión de tierras, deforestación, minería ilegal y conflictos por el uso de recursos naturales.",
+          "explanationEn": "Indigenous territories face threats such as land invasion, deforestation, illegal mining, and conflicts over the use of natural resources.",
           "category": "cultura",
           "difficulty": "medio",
           "points": 15
@@ -832,14 +1168,22 @@
         {
           "id": "count-comunidades-1",
           "question": "¿Cuántas comunidades negras hay aproximadamente en el Chocó biogeográfico?",
+          "questionEn": "Approximately how many Afro-descendant communities are there in the Chocó biogeographic region?",
           "options": [
             "Entre 100 y 200",
             "Entre 150 y 200",
             "Entre 200 y 500",
             "Entre 50 y 100"
           ],
+          "optionsEn": [
+            "Between 100 and 200",
+            "Between 150 and 200",
+            "Between 200 and 500",
+            "Between 50 and 100"
+          ],
           "correctAnswer": 1,
           "explanation": "El Chocó biogeográfico cuenta con aproximadamente 183 comunidades negras, lo que refleja la gran diversidad y riqueza de esta región.",
+          "explanationEn": "The Chocó biogeographic region has approximately 183 Afro-descendant communities, reflecting the great diversity and richness of this region.",
           "category": "cultura",
           "difficulty": "facil",
           "points": 10
@@ -847,7 +1191,14 @@
         {
           "id": "count-comunidades-2",
           "question": "¿Cuántas comunidades negras hay en el Chocó biogeográfico?",
+          "questionEn": "How many Afro-descendant communities are there in the Chocó biogeographic region?",
           "options": [
+            "183",
+            "150",
+            "200",
+            "220"
+          ],
+          "optionsEn": [
             "183",
             "150",
             "200",
@@ -855,6 +1206,7 @@
           ],
           "correctAnswer": 0,
           "explanation": "Según los datos geográficos, el Chocó biogeográfico tiene exactamente 183 comunidades negras.",
+          "explanationEn": "According to geographic data, the Chocó biogeographic region has exactly 183 Afro-descendant communities.",
           "category": "cultura",
           "difficulty": "medio",
           "points": 15
@@ -862,14 +1214,22 @@
         {
           "id": "comunidades-1",
           "question": "¿Qué son las comunidades negras en el contexto del Chocó?",
+          "questionEn": "What are Afro-descendant communities in the context of the Chocó?",
           "options": [
             "Comunidades urbanas",
             "Comunidades afrodescendientes con territorios colectivos",
             "Comunidades de inmigrantes africanos",
             "Comunidades deportivas"
           ],
+          "optionsEn": [
+            "Urban communities",
+            "Afro-descendant communities with collective territories",
+            "African immigrant communities",
+            "Sports communities"
+          ],
           "correctAnswer": 1,
           "explanation": "Las comunidades negras en el Chocó son comunidades afrodescendientes con territorios colectivos legalmente reconocidos, descendientes de africanos esclavizados durante la colonia.",
+          "explanationEn": "Afro-descendant communities in the Chocó are Afro-descendant communities with legally recognized collective territories, descendants of enslaved Africans during the colonial period.",
           "category": "cultura",
           "difficulty": "facil",
           "points": 10
@@ -877,14 +1237,22 @@
         {
           "id": "comunidades-2",
           "question": "¿Qué instrumento musical es emblemático de las comunidades negras del Pacífico?",
+          "questionEn": "What musical instrument is emblematic of Afro-descendant communities of the Pacific?",
           "options": [
             "Guitarra",
             "Marimba de chonta",
             "Piano",
             "Violín"
           ],
+          "optionsEn": [
+            "Guitar",
+            "Chonta marimba",
+            "Piano",
+            "Violin"
+          ],
           "correctAnswer": 1,
           "explanation": "La marimba de chonta es un instrumento musical emblemático de las comunidades afrodescendientes del Pacífico colombiano, especialmente del Chocó.",
+          "explanationEn": "The chonta marimba is an emblematic musical instrument of Afro-descendant communities of the Colombian Pacific, especially the Chocó.",
           "category": "cultura",
           "difficulty": "medio",
           "points": 15
@@ -892,14 +1260,22 @@
         {
           "id": "comunidades-3",
           "question": "¿Qué derecho consagró la Constitución de 1991 para las comunidades negras?",
+          "questionEn": "What right did the 1991 Constitution establish for Afro-descendant communities?",
           "options": [
             "Derecho a la nacionalidad española",
             "Derecho a territorios colectivos",
             "Derecho a votar en elecciones extranjeras",
             "Derecho a educación gratuita en el exterior"
           ],
+          "optionsEn": [
+            "Right to Spanish nationality",
+            "Right to collective territories",
+            "Right to vote in foreign elections",
+            "Right to free education abroad"
+          ],
           "correctAnswer": 1,
           "explanation": "La Constitución de 1991 de Colombia reconoció el derecho de las comunidades negras a territorios colectivos, lo que llevó a la titulación de tierras en el Pacífico.",
+          "explanationEn": "Colombia's 1991 Constitution recognized the right of Afro-descendant communities to collective territories, which led to land titling in the Pacific.",
           "category": "cultura",
           "difficulty": "medio",
           "points": 15
@@ -907,14 +1283,22 @@
         {
           "id": "comunidades-4",
           "question": "¿Qué actividad económica tradicional practican las comunidades negras del Chocó?",
+          "questionEn": "What traditional economic activity do Afro-descendant communities of the Chocó practice?",
           "options": [
             "Minería a gran escala",
             "Pesca artesanal y agricultura de subsistencia",
             "Industria tecnológica",
             "Comercio internacional"
           ],
+          "optionsEn": [
+            "Large-scale mining",
+            "Artisanal fishing and subsistence agriculture",
+            "Technology industry",
+            "International trade"
+          ],
           "correctAnswer": 1,
           "explanation": "Las comunidades negras del Chocó practican tradicionalmente la pesca artesanal, agricultura de subsistencia, recolección de productos del bosque y minería artesanal.",
+          "explanationEn": "Afro-descendant communities of the Chocó traditionally practice artisanal fishing, subsistence agriculture, forest product gathering, and artisanal mining.",
           "category": "cultura",
           "difficulty": "medio",
           "points": 15
