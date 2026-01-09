@@ -516,7 +516,12 @@ export function MapView({ fullHeight = false }: MapViewProps) {
 
   const handleZoomOut = useCallback(() => {
     if (mapRef.current) {
-      mapRef.current.zoomOut()
+      const currentZoom = mapRef.current.getZoom()
+      const minZoom = 6 // Zoom mínimo: vista principal
+      // Solo hacer zoom out si no estamos en el zoom mínimo
+      if (currentZoom > minZoom) {
+        mapRef.current.zoomOut()
+      }
     }
   }, [])
 
@@ -915,6 +920,15 @@ export function MapView({ fullHeight = false }: MapViewProps) {
               // Habilitar tap y mejorar tolerancia táctil
               if ((map as any).tap) (map as any).tap.enable()
               if ((map as any).touchZoom) (map as any).touchZoom.enable()
+              
+              // Prevenir zoom out más allá del mínimo (vista principal)
+              const minZoom = 6 // Zoom mínimo: vista principal
+              map.on('zoomend', () => {
+                const currentZoom = map.getZoom()
+                if (currentZoom < minZoom) {
+                  map.setZoom(minZoom)
+                }
+              })
             }
           }
         }}
