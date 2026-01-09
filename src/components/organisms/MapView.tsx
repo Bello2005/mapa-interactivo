@@ -424,8 +424,9 @@ export function MapView({ fullHeight = false }: MapViewProps) {
           // Click handler - solo si tiene nombre válido
           layer.on('click', (e) => {
             if (featureId && isValid) {
-              enterFeatureDrillDown(layerId, featureId, featureName)
+              // Abrir sidebar primero para asegurar que esté visible
               setSidebarOpen(true)
+              enterFeatureDrillDown(layerId, featureId, featureName)
 
               // Hacer zoom al feature
               const bounds = (layer as any).getBounds()
@@ -473,6 +474,11 @@ export function MapView({ fullHeight = false }: MapViewProps) {
           ${countries ? `<p class="text-xs text-gray-600">${countries}</p>` : ''}
         </div>
       `)
+      
+      // Abrir sidebar cuando se hace click en estos features también
+      layer.on('click', () => {
+        setSidebarOpen(true)
+      })
     }
 
     // Popup para especies
@@ -492,6 +498,7 @@ export function MapView({ fullHeight = false }: MapViewProps) {
         `)
 
         layer.on('click', () => {
+          setSidebarOpen(true) // Abrir sidebar cuando se hace click en especies
           discoverNewSpecies(speciesInfo.id)
         })
       }
