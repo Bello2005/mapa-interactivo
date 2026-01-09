@@ -141,6 +141,8 @@ export function MapView({ fullHeight = false }: MapViewProps) {
     availableLayers,
     floatingControlsVisible,
     featureDrillDown,
+    sidebarOpen,
+    setSidebarOpen,
   } = useUIStore()
   const { discoverNewSpecies } = useGameProgress()
 
@@ -150,8 +152,6 @@ export function MapView({ fullHeight = false }: MapViewProps) {
   const [species, setSpecies] = useState<Species[]>([])
   const loadingRef = useRef<Set<string>>(new Set()) // Ref para evitar cargas duplicadas
   const loadedRef = useRef<Set<string>>(new Set()) // Ref para trackear capas ya cargadas
-
-  const [sidebarOpen, setSidebarOpen] = useState(true) // Panel lateral abierto por defecto
   const [loading, setLoading] = useState(true)
   const [mapBounds, setMapBounds] = useState<L.LatLngBoundsExpression | null>(null) // Bounds del Chocó
   const [mapStyle, setMapStyle] = useState<'default' | 'satellite' | 'terrain'>('default')
@@ -369,19 +369,19 @@ export function MapView({ fullHeight = false }: MapViewProps) {
     }
   }, [availableLayers])
 
-  // Colapsar panel en mobile al cargar
+  // Colapsar panel en mobile al cargar (solo una vez al montar)
   useEffect(() => {
-    if (window.innerWidth < 768) {
+    if (window.innerWidth < 768 && sidebarOpen) {
       setSidebarOpen(false)
     }
-  }, [])
+  }, []) // Solo ejecutar al montar
 
   // Manejo de eventos - Sistema genérico con configuración
   const onEachFeature = (feature: any, layer: L.Layer, layerId?: string) => {
     if (!feature.properties) return
 
     const props = feature.properties
-    const { enterFeatureDrillDown, setSidebarOpen } = useUIStore.getState()
+    const { enterFeatureDrillDown } = useUIStore.getState()
 
     // Si la capa tiene configuración de features, usar sistema genérico
     if (layerId) {
@@ -670,7 +670,7 @@ export function MapView({ fullHeight = false }: MapViewProps) {
       }
       if (event.key.toLowerCase() === 'b') {
         event.preventDefault()
-        setSidebarOpen((prev) => !prev)
+        setSidebarOpen(!sidebarOpen)
       }
       if (event.key.toLowerCase() === 'l') {
         event.preventDefault()
