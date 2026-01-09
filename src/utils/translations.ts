@@ -81,6 +81,8 @@ interface Translations {
     }
     facts: {
       title: string
+      badge: string
+      description: string
       forest: {
         title: string
         description: string
@@ -99,6 +101,24 @@ interface Translations {
       subtitle: string
       description: string
       visit: string
+      pillars: {
+        research: {
+          title: string
+          description: string
+        }
+        region: {
+          title: string
+          description: string
+        }
+        conservation: {
+          title: string
+          description: string
+        }
+        community: {
+          title: string
+          description: string
+        }
+      }
     }
     cta: {
       title: string
@@ -282,6 +302,8 @@ const translations: Record<Language, Translations> = {
       },
       facts: {
         title: 'Datos sobre el Chocó',
+        badge: 'Región Biodiversa',
+        description: 'El Chocó biogeográfico es una región natural que se extiende desde el este de Panamá, a lo largo de toda la costa pacífica de Colombia, hasta el noroccidente de Ecuador. Es reconocida mundialmente como una de las zonas con mayor biodiversidad y endemismo del planeta.',
         forest: {
           title: 'Bosque Húmedo Tropical',
           description: 'El Chocó es uno de los bosques lluviosos más húmedos del mundo, con precipitaciones anuales de hasta 13,000 mm.',
@@ -300,6 +322,24 @@ const translations: Record<Language, Translations> = {
         subtitle: 'Instituto de Investigaciones Ambientales del Pacífico "John Von Neumann"',
         description: 'El IIAP es una institución dedicada a la investigación y generación de conocimiento para el Pacífico y el Chocó biogeográfico. Apoya la toma de decisiones y el desarrollo sostenible en la región, actuando como instrumento de coordinación para fortalecer la capacidad de investigación regional.',
         visit: 'Visitar IIAP.org.co',
+        pillars: {
+          research: {
+            title: 'Investigación',
+            description: 'Ciencia y conocimiento tradicional',
+          },
+          region: {
+            title: 'Región',
+            description: 'Pacífico colombiano',
+          },
+          conservation: {
+            title: 'Conservación',
+            description: 'Gestión ambiental sostenible',
+          },
+          community: {
+            title: 'Comunidad',
+            description: 'Participación local',
+          },
+        },
       },
       cta: {
         title: '¿Listo para explorar?',
@@ -508,6 +548,8 @@ const translations: Record<Language, Translations> = {
       },
       facts: {
         title: 'Facts about Chocó',
+        badge: 'Biodiverse Region',
+        description: 'The Chocó biogeographic region is a natural region that extends from eastern Panama, along the entire Pacific coast of Colombia, to northwestern Ecuador. It is globally recognized as one of the areas with the highest biodiversity and endemism on the planet.',
         forest: {
           title: 'Tropical Humid Forest',
           description: 'The Chocó is one of the wettest rainforests in the world, with annual rainfall of up to 13,000 mm.',
@@ -526,6 +568,24 @@ const translations: Record<Language, Translations> = {
         subtitle: 'Institute of Environmental Research of the Pacific "John Von Neumann"',
         description: 'IIAP is an institution dedicated to research and knowledge generation for the Pacific and Chocó biogeographic region. It supports decision-making and sustainable development in the region, acting as a coordination instrument to strengthen regional research capacity.',
         visit: 'Visit IIAP.org.co',
+        pillars: {
+          research: {
+            title: 'Research',
+            description: 'Science and traditional knowledge',
+          },
+          region: {
+            title: 'Region',
+            description: 'Colombian Pacific',
+          },
+          conservation: {
+            title: 'Conservation',
+            description: 'Sustainable environmental management',
+          },
+          community: {
+            title: 'Community',
+            description: 'Local participation',
+          },
+        },
       },
       cta: {
         title: 'Ready to explore?',

@@ -115,15 +115,13 @@ export function Home() {
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
               <Badge variant="success" size="md" className="mb-4">
-                Región Biodiversa
+                {translations.home.facts.badge}
               </Badge>
               <h2 className="font-display font-bold text-3xl md:text-4xl text-choco-sand-900 mb-4">
                 {translations.home.facts.title}
               </h2>
               <p className="text-lg text-choco-sand-700 leading-relaxed">
-                El Chocó biogeográfico es una región natural que se extiende desde el este de Panamá,
-                a lo largo de toda la costa pacífica de Colombia, hasta el noroccidente de Ecuador.
-                Es reconocida mundialmente como una de las zonas con mayor biodiversidad y endemismo del planeta.
+                {translations.home.facts.description}
               </p>
             </div>
 
@@ -204,33 +202,33 @@ export function Home() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-choco-forest-50 rounded-2xl p-6">
                   <BookOpen className="w-8 h-8 text-choco-forest-600 mb-3" />
-                  <h4 className="font-bold text-choco-sand-900 mb-2">Investigación</h4>
+                  <h4 className="font-bold text-choco-sand-900 mb-2">{translations.home.iiap.pillars.research.title}</h4>
                   <p className="text-sm text-choco-sand-700">
-                    Ciencia y conocimiento tradicional
+                    {translations.home.iiap.pillars.research.description}
                   </p>
                 </div>
 
                 <div className="bg-choco-pacific-50 rounded-2xl p-6">
                   <MapPin className="w-8 h-8 text-choco-pacific-600 mb-3" />
-                  <h4 className="font-bold text-choco-sand-900 mb-2">Región</h4>
+                  <h4 className="font-bold text-choco-sand-900 mb-2">{translations.home.iiap.pillars.region.title}</h4>
                   <p className="text-sm text-choco-sand-700">
-                    Pacífico colombiano
+                    {translations.home.iiap.pillars.region.description}
                   </p>
                 </div>
 
                 <div className="bg-choco-gold-50 rounded-2xl p-6">
                   <Trees className="w-8 h-8 text-choco-gold-600 mb-3" />
-                  <h4 className="font-bold text-choco-sand-900 mb-2">Conservación</h4>
+                  <h4 className="font-bold text-choco-sand-900 mb-2">{translations.home.iiap.pillars.conservation.title}</h4>
                   <p className="text-sm text-choco-sand-700">
-                    Gestión ambiental sostenible
+                    {translations.home.iiap.pillars.conservation.description}
                   </p>
                 </div>
 
                 <div className="bg-choco-sand-100 rounded-2xl p-6">
                   <Users className="w-8 h-8 text-choco-sand-600 mb-3" />
-                  <h4 className="font-bold text-choco-sand-900 mb-2">Comunidad</h4>
+                  <h4 className="font-bold text-choco-sand-900 mb-2">{translations.home.iiap.pillars.community.title}</h4>
                   <p className="text-sm text-choco-sand-700">
-                    Participación local
+                    {translations.home.iiap.pillars.community.description}
                   </p>
                 </div>
               </div>
