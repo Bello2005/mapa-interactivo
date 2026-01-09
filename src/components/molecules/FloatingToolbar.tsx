@@ -31,8 +31,11 @@ export function FloatingToolbar({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.2 }}
       className={clsx(
-        'backdrop-blur-md bg-white/80 border border-white/60 shadow-xl rounded-2xl p-2',
-        layout === 'vertical' ? 'flex flex-col gap-2' : 'flex flex-row gap-2',
+        'backdrop-blur-md bg-white/80 border border-white/60 shadow-xl rounded-2xl',
+        // Padding responsive
+        'p-1.5 sm:p-2',
+        // Gap responsive
+        layout === 'vertical' ? 'flex flex-col gap-1.5 sm:gap-2' : 'flex flex-row gap-1.5 sm:gap-2',
         className
       )}
     >

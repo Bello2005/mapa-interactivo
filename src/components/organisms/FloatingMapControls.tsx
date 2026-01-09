@@ -45,7 +45,10 @@ export function FloatingMapControls({
   return (
     <div
       className={clsx(
-        'fixed right-4 top-20 z-[950] flex flex-col gap-3',
+        'fixed z-[950] flex flex-col gap-2 sm:gap-3',
+        // Posicionamiento responsive - más cerca del borde en móvil
+        'right-2 top-20',
+        'sm:right-3 sm:top-20',
         'md:right-6 lg:right-8',
         className
       )}

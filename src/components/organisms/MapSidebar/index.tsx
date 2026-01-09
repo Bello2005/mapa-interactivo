@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useMemo, useState } from 'react'
+import { createPortal } from 'react-dom'
 import clsx from 'clsx'
 import { useUIStore } from '@stores/uiStore'
 import { TabBar } from '@components/molecules/TabBar'
@@ -60,13 +61,17 @@ export function MapSidebar({ isOpen, onClose, selectedCity = null }: MapSidebarP
     <AnimatePresence>
       {isOpen && (
         <>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={onClose}
-            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[900] md:hidden"
-          />
+          {/* Overlay renderizado en el body usando Portal para cubrir el header */}
+          {createPortal(
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={onClose}
+              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[1150] md:hidden"
+            />,
+            document.body
+          )}
 
           <motion.aside
             initial={{ x: -320, opacity: 0 }}
@@ -74,12 +79,19 @@ export function MapSidebar({ isOpen, onClose, selectedCity = null }: MapSidebarP
             exit={{ x: -320, opacity: 0 }}
             transition={{ type: 'spring', stiffness: 280, damping: 30 }}
             className={clsx(
-              'fixed md:absolute z-[901]',
-              'left-3 md:left-6 lg:left-10 xl:left-20',
-              'top-16 md:top-20',
-              'w-[calc(100vw-1.5rem)] md:w-[380px] lg:w-[400px]',
-              'max-h-[calc(100vh-8rem)] md:max-h-[calc(100vh-10rem)]',
-              'bg-white rounded-2xl shadow-2xl border border-gray-200 flex flex-col overflow-hidden'
+              'fixed md:absolute z-[1200]',
+              // Móvil: casi pantalla completa con margen mínimo
+              'left-2 right-2 sm:left-3 sm:right-auto',
+              'md:left-6 lg:left-10 xl:left-20',
+              // Top: más bajo en móvil para evitar overlap con header
+              'top-20 sm:top-20 md:top-20',
+              // Width: flexible en móvil, fijo en desktop
+              'w-auto sm:w-[calc(100vw-1.5rem)] md:w-[380px] lg:w-[400px]',
+              // Altura reducida en móvil: 75% de pantalla en lugar de 94%
+              'max-h-[calc(100vh-12rem)] sm:max-h-[calc(100vh-8rem)] md:max-h-[calc(100vh-10rem)]',
+              'bg-white rounded-2xl shadow-2xl border border-gray-200 flex flex-col overflow-hidden',
+              // Mejor touch en móvil
+              'touch-pan-y'
             )}
           >
             <MapSidebarHeader onClose={onClose} selectedCity={selectedCity} />

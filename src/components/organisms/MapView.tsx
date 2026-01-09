@@ -806,27 +806,31 @@ export function MapView({ fullHeight = false }: MapViewProps) {
       />
 
       {floatingControlsVisible && (
-        <FloatingMapControls
-          onZoomIn={handleZoomIn}
-          onZoomOut={handleZoomOut}
-          onFitBounds={handleFitBounds}
-          onLocate={handleLocate}
-          onToggleMapStyle={handleToggleMapStyle}
-          mapStyle={mapStyle}
-          onShareLocation={handleShareLocation}
-          onToggleFullscreen={handleToggleFullscreen}
-          isFullscreen={isFullscreen}
-          onToggleCoordinates={handleToggleCoordinates}
-          showCoordinates={showCoordinates}
-        />
+        <div className={clsx(
+          sidebarOpen && 'hidden md:flex'
+        )}>
+          <FloatingMapControls
+            onZoomIn={handleZoomIn}
+            onZoomOut={handleZoomOut}
+            onFitBounds={handleFitBounds}
+            onLocate={handleLocate}
+            onToggleMapStyle={handleToggleMapStyle}
+            mapStyle={mapStyle}
+            onShareLocation={handleShareLocation}
+            onToggleFullscreen={handleToggleFullscreen}
+            isFullscreen={isFullscreen}
+            onToggleCoordinates={handleToggleCoordinates}
+            showCoordinates={showCoordinates}
+          />
+        </div>
       )}
 
       {/* Botón para abrir panel (cuando está cerrado) - Estilo tarjeta flotante - Responsive mejorado */}
       {!sidebarOpen && (
         <motion.button
           initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ 
-            opacity: 1, 
+          animate={{
+            opacity: 1,
             scale: [1, 1.02, 1],
           }}
           transition={{
@@ -842,8 +846,8 @@ export function MapView({ fullHeight = false }: MapViewProps) {
           className={clsx(
             'fixed z-[1001]', // Por encima del sidebar y del mapa
             'left-3 sm:left-4 md:left-6 lg:left-8 xl:left-24',
-            'top-20 sm:top-24 md:top-24 lg:top-24',
-            'px-3 py-3 sm:px-3.5 sm:py-3.5 md:px-3 md:py-3', // Padding adaptativo
+            'top-20 sm:top-20 md:top-20',
+            'px-4 py-3 sm:px-3.5 sm:py-3.5 md:px-3 md:py-3', // Padding adaptativo
             'rounded-xl',
             'bg-white', // Fondo sólido para mejor visibilidad
             'shadow-2xl shadow-black/20', // Sombra más pronunciada
@@ -853,29 +857,22 @@ export function MapView({ fullHeight = false }: MapViewProps) {
             'hover:shadow-2xl hover:shadow-choco-forest-200/50',
             'transition-all duration-200',
             'flex items-center justify-center gap-2', // Gap para texto
-            'min-w-[56px] min-h-[48px]', // Tamaño mínimo táctil en móvil
+            'min-w-[56px] min-h-[56px]', // Tamaño mínimo táctil en móvil (más grande)
+            'sm:min-w-[52px] sm:min-h-[52px]',
             'md:min-w-[48px] md:min-h-[44px]',
-            'active:scale-95' // Feedback táctil
+            'active:scale-95', // Feedback táctil
+            'touch-manipulation' // Mejor rendimiento touch
           )}
           aria-label="Abrir panel de controles"
         >
           <Menu className="w-6 h-6 sm:w-5 sm:h-5 text-choco-forest-700 flex-shrink-0" strokeWidth={2.5} />
-          <span className="text-xs sm:text-sm font-semibold text-choco-forest-700 hidden sm:inline md:hidden lg:inline">
-            Menú
+          <span className="text-sm font-semibold text-choco-forest-700 hidden xs:inline sm:hidden lg:inline">
+            Capas
           </span>
         </motion.button>
       )}
 
-      {/* Overlay para móviles cuando el panel está abierto */}
-      {sidebarOpen && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          onClick={() => setSidebarOpen(false)}
-          className="md:hidden fixed inset-0 bg-black/50 z-[999]"
-        />
-      )}
+      {/* Overlay movido a MapSidebar/index.tsx (z-[1150]) para cubrir header correctamente en móvil */}
 
       {/* Mapa */}
       <div className={clsx(
@@ -889,10 +886,22 @@ export function MapView({ fullHeight = false }: MapViewProps) {
         maxZoom={15} // Zoom máximo: nivel de detalle razonable
         maxBounds={mapBounds || undefined} // Limitar movimiento al área del Chocó
         maxBoundsViscosity={1.0} // Forzar que el mapa permanezca dentro de los bounds
-        className="w-full h-full"
+        className="w-full h-full touch-pan-x touch-pan-y touch-pinch-zoom"
         zoomControl={false} // Desactivar controles por defecto de Leaflet para evitar conflictos
+        zoomSnap={0.5} // Permitir zoom más suave
+        zoomDelta={0.5} // Delta de zoom más gradual
+        wheelPxPerZoomLevel={120} // Mejor control de zoom con rueda/pinch
         ref={(ref) => {
-          if (ref) mapRef.current = ref as unknown as L.Map
+          if (ref) {
+            mapRef.current = ref as unknown as L.Map
+            // Configurar opciones de touch para móviles
+            const map = ref as unknown as L.Map
+            if (map && (map as any)._handlers) {
+              // Habilitar tap y mejorar tolerancia táctil
+              if ((map as any).tap) (map as any).tap.enable()
+              if ((map as any).touchZoom) (map as any).touchZoom.enable()
+            }
+          }
         }}
       >
         <TileLayer
@@ -908,31 +917,37 @@ export function MapView({ fullHeight = false }: MapViewProps) {
         />
         <ScaleControl position="bottomleft" />
 
-        {/* Mostrar coordenadas */}
+        {/* Mostrar coordenadas - Responsive */}
         {showCoordinates && (
-          <div className="absolute bottom-4 right-4 z-[1000] bg-white/95 backdrop-blur-sm px-4 py-3 rounded-lg shadow-lg border border-gray-200 min-w-[200px]">
+          <div className={clsx(
+            'absolute z-[1000] bg-white/95 backdrop-blur-sm rounded-lg shadow-lg border border-gray-200',
+            // Posicionamiento responsive
+            'bottom-4 right-4',
+            'max-w-[calc(100vw-2rem)] sm:max-w-[220px]',
+            'px-3 py-2 sm:px-4 sm:py-3'
+          )}>
             <div className="text-xs font-semibold text-gray-500 mb-1">Coordenadas</div>
             {mouseCoordinates ? (
               <>
                 <div className="text-xs font-mono text-gray-700">
                   <div className="text-green-600 font-semibold">Cursor:</div>
-                  <div>Lat: {mouseCoordinates.lat.toFixed(6)}</div>
-                  <div>Lng: {mouseCoordinates.lng.toFixed(6)}</div>
+                  <div className="truncate">Lat: {mouseCoordinates.lat.toFixed(6)}</div>
+                  <div className="truncate">Lng: {mouseCoordinates.lng.toFixed(6)}</div>
                 </div>
                 {currentCoordinates && (
                   <>
                     <div className="text-xs font-mono text-gray-500 mt-2 pt-2 border-t border-gray-200">
                       <div className="text-gray-500 font-semibold">Centro:</div>
-                      <div>Lat: {currentCoordinates.lat.toFixed(6)}</div>
-                      <div>Lng: {currentCoordinates.lng.toFixed(6)}</div>
+                      <div className="truncate">Lat: {currentCoordinates.lat.toFixed(6)}</div>
+                      <div className="truncate">Lng: {currentCoordinates.lng.toFixed(6)}</div>
                     </div>
                   </>
                 )}
               </>
             ) : currentCoordinates ? (
               <div className="text-xs font-mono text-gray-700">
-                <div>Lat: {currentCoordinates.lat.toFixed(6)}</div>
-                <div>Lng: {currentCoordinates.lng.toFixed(6)}</div>
+                <div className="truncate">Lat: {currentCoordinates.lat.toFixed(6)}</div>
+                <div className="truncate">Lng: {currentCoordinates.lng.toFixed(6)}</div>
               </div>
             ) : null}
           </div>
@@ -1024,26 +1039,35 @@ export function MapView({ fullHeight = false }: MapViewProps) {
         />
         </MapContainer>
 
+        {/* Leyenda de capas activas - Responsive */}
         {activeLayersList.length > 0 && (
           <div className={clsx(
-            'absolute bottom-4 z-[1000] bg-white/95 backdrop-blur-sm px-4 py-3 rounded-lg shadow-lg border border-gray-200 max-w-[260px]',
-            sidebarOpen ? 'left-[420px] md:left-[420px]' : 'left-4'
+            'absolute z-[1000] bg-white/95 backdrop-blur-sm rounded-lg shadow-lg border border-gray-200',
+            // Posicionamiento responsive
+            'bottom-4 left-4',
+            'sm:bottom-4',
+            sidebarOpen ? 'sm:left-[calc(100vw-20rem)] md:left-[420px]' : 'sm:left-4',
+            // Tamaño responsive
+            'max-w-[calc(100vw-2rem)] sm:max-w-[260px]',
+            'px-3 py-2 sm:px-4 sm:py-3',
+            // Esconder en móvil si sidebar está abierto
+            sidebarOpen && 'hidden sm:block'
           )}>
             <div className="text-xs font-semibold text-gray-600 mb-2 flex items-center justify-between">
-              <span>Capas activas</span>
-              <span className="text-emerald-600">{activeLayersList.length} de {availableLayers.length}</span>
+              <span className="truncate">Capas activas</span>
+              <span className="text-emerald-600 flex-shrink-0 ml-2">{activeLayersList.length} de {availableLayers.length}</span>
             </div>
-            <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
+            <div className="space-y-2 max-h-32 sm:max-h-48 overflow-y-auto pr-1 custom-scrollbar">
               {activeLayersList.map((layer) => {
                 const opacity = layerOpacities[layer.id] ?? layer.opacity
                 return (
-                  <div key={layer.id} className="flex items-center gap-2 text-sm text-gray-800">
+                  <div key={layer.id} className="flex items-center gap-2 text-xs sm:text-sm text-gray-800">
                     <span
-                      className="w-4 h-4 rounded-sm border border-gray-200"
+                      className="w-3 h-3 sm:w-4 sm:h-4 rounded-sm border border-gray-200 flex-shrink-0"
                       style={{ backgroundColor: layer.color, opacity }}
                     />
-                    <span className="truncate">{layer.name}</span>
-                    <span className="text-xs text-gray-500 ml-auto">{Math.round(opacity * 100)}%</span>
+                    <span className="truncate flex-1 min-w-0">{layer.name}</span>
+                    <span className="text-xs text-gray-500 flex-shrink-0">{Math.round(opacity * 100)}%</span>
                   </div>
                 )
               })}

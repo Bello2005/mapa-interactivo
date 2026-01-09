@@ -11,12 +11,18 @@
 
   html {
     @apply scroll-smooth;
+    /* Prevenir zoom en doble tap en iOS */
+    touch-action: manipulation;
   }
 
   body {
     @apply text-choco-sand-900;
     @apply antialiased;
     font-family: 'Inter', system-ui, sans-serif;
+    /* Mejorar scroll en móviles */
+    -webkit-overflow-scrolling: touch;
+    /* Prevenir bounce en iOS */
+    overscroll-behavior-y: none;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -34,6 +40,13 @@
   .leaflet-container {
     @apply font-sans;
     @apply rounded-2xl;
+    /* Mejorar rendimiento táctil en Leaflet */
+    touch-action: pan-x pan-y;
+  }
+
+  /* Mejorar interacción táctil con features del mapa */
+  .leaflet-interactive {
+    touch-action: manipulation;
   }
 
   .leaflet-popup-content-wrapper {
@@ -89,6 +102,12 @@
   }
 
   /* Scrollbar personalizado */
+  .custom-scrollbar {
+    /* Mejorar scroll en móviles */
+    -webkit-overflow-scrolling: touch;
+    overflow-y: auto;
+  }
+
   .custom-scrollbar::-webkit-scrollbar {
     @apply w-2;
   }
@@ -99,6 +118,13 @@
 
   .custom-scrollbar::-webkit-scrollbar-thumb {
     @apply bg-choco-sand-400 rounded-full hover:bg-choco-sand-500;
+  }
+
+  /* Scrollbar más pequeño en móvil */
+  @media (max-width: 640px) {
+    .custom-scrollbar::-webkit-scrollbar {
+      @apply w-1;
+    }
   }
 
   /* Text truncate con líneas múltiples */

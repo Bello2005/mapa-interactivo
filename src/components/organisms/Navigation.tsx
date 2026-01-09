@@ -33,7 +33,7 @@ export function Navigation() {
   const isActive = (path: string) => location.pathname === path
 
   return (
-    <nav className="sticky top-0 z-[1100] bg-white/95 backdrop-blur-sm border-b border-choco-sand-200 shadow-sm">
+    <nav className="sticky top-0 z-[1100] bg-white/95 border-b border-choco-sand-200 shadow-sm">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo y nombre */}
