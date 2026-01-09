@@ -16,25 +16,20 @@ export function SelectChallengeAlert({ isOpen, onClose }: SelectChallengeAlertPr
   return (
     <AnimatePresence>
       {isOpen && (
-        <>
-          {/* Overlay con blur - responsive */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={onClose}
-            className="fixed inset-0 z-[9998] bg-black/20 backdrop-blur-md p-4"
-          />
-
-          {/* Alerta con diseño liquid glass - completamente responsive */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={onClose}
+          className="fixed inset-0 z-[9998] flex items-center justify-center bg-black/20 backdrop-blur-md p-4"
+        >
+          {/* Alerta con diseño liquid glass - completamente responsive y centrada */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="fixed z-[9999] 
-                       left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
-                       w-[calc(100%-2rem)] max-w-md
+            className="w-full max-w-md
                        bg-white/80 backdrop-blur-xl
                        border border-white/20
                        rounded-2xl md:rounded-3xl
@@ -111,7 +106,7 @@ export function SelectChallengeAlert({ isOpen, onClose }: SelectChallengeAlertPr
               </button>
             </div>
           </motion.div>
-        </>
+        </motion.div>
       )}
     </AnimatePresence>
   )
