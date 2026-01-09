@@ -18,6 +18,7 @@ import { Play } from 'lucide-react'
 import { useUIStore } from '@stores/uiStore'
 import { t } from '@utils/translations'
 import { getUserName } from '@utils/storage'
+import { SelectChallengeAlert } from './SelectChallengeAlert'
 
 export function TriviaContainer() {
   const [triviaData, setTriviaData] = useState<TriviaData | null>(null)
@@ -25,6 +26,7 @@ export function TriviaContainer() {
   const [questions, setQuestions] = useState<TriviaQuestion[]>([])
   const [loading, setLoading] = useState(true)
   const [showWelcomeModal, setShowWelcomeModal] = useState(false)
+  const [showSelectAlert, setShowSelectAlert] = useState(false)
   const language = useUIStore((state) => state.language)
   const translations = t(language)
 
@@ -115,9 +117,9 @@ export function TriviaContainer() {
     e?.preventDefault()
     e?.stopPropagation()
 
-    if (questions.length === 0) {
-      console.error('No hay preguntas cargadas')
-      alert('No hay preguntas disponibles. Por favor, selecciona al menos una sección.')
+    // Validar que haya secciones seleccionadas
+    if (selectedSectionIds.length === 0 || questions.length === 0) {
+      setShowSelectAlert(true)
       return
     }
 
@@ -134,6 +136,10 @@ export function TriviaContainer() {
       console.error('Error al iniciar trivia:', error)
       alert('Error al iniciar la trivia. Por favor, intenta de nuevo.')
     }
+  }
+
+  const handlePlayButtonClick = () => {
+    handleStart()
   }
 
   const handleRestart = () => {
@@ -180,16 +186,45 @@ export function TriviaContainer() {
         </div>
 
         <div className="bg-white rounded-3xl shadow-strong p-10 md:p-14">
-          <div className="w-20 h-20 bg-gradient-pacific rounded-full flex items-center justify-center mx-auto mb-6">
-            <Play className="w-10 h-10 text-white" />
-          </div>
+          {/* Botón de play clickeable con diseño liquid glass */}
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handlePlayButtonClick}
+            className="w-20 h-20 mx-auto mb-6
+                     bg-gradient-to-br from-choco-pacific-500 to-choco-forest-500
+                     rounded-full flex items-center justify-center
+                     shadow-lg hover:shadow-xl
+                     transition-all duration-200
+                     cursor-pointer
+                     relative
+                     overflow-hidden
+                     group"
+            style={{
+              backdropFilter: 'blur(20px)',
+              boxShadow: '0 10px 30px rgba(37, 99, 235, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1) inset',
+            }}
+          >
+            {/* Efecto de brillo al hover */}
+            <div 
+              className="absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-300"
+              style={{
+                background: 'radial-gradient(circle at center, rgba(255, 255, 255, 0.4) 0%, transparent 70%)',
+              }}
+            />
+            <Play className="w-10 h-10 text-white relative z-10" />
+          </motion.button>
 
           <h2 className="font-display font-bold text-3xl md:text-4xl text-choco-sand-900 mb-4 text-center">
             {translations.trivia.ready}
           </h2>
 
           <p className="text-lg text-choco-sand-700 mb-8 text-center">
-            {translations.trivia.readyDescription.replace('{count}', questions.length.toString())}
+            {questions.length > 0
+              ? translations.trivia.readyDescription.replace('{count}', questions.length.toString())
+              : language === 'es'
+              ? 'Selecciona una o más secciones de trivia para comenzar tu aventura de aprendizaje.'
+              : 'Select one or more trivia sections to begin your learning adventure.'}
           </p>
 
           {/* Selector de secciones */}
@@ -209,6 +244,12 @@ export function TriviaContainer() {
 
           {/* Nota: El botón de inicio ahora está en la FloatingBar */}
         </div>
+
+        {/* Alerta para seleccionar reto */}
+        <SelectChallengeAlert
+          isOpen={showSelectAlert}
+          onClose={() => setShowSelectAlert(false)}
+        />
       </motion.div>
     )
   }
