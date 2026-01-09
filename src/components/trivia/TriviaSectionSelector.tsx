@@ -368,7 +368,7 @@ export function TriviaSectionSelector({
                 </div>
                 <div className="flex-1">
                   <h4 className="font-bold text-base text-choco-sand-900">
-                    {section.name}
+                    {(translations.trivia.sections as any)[section.id]?.name || section.name}
                   </h4>
                   {bestScore && (
                     <div className="flex items-center gap-1 mt-1">
@@ -382,7 +382,7 @@ export function TriviaSectionSelector({
               </div>
               {section.description && (
                 <p className="text-sm text-choco-sand-600 mb-2">
-                  {section.description}
+                  {(translations.trivia.sections as any)[section.id]?.description || section.description}
                 </p>
               )}
               <div className="flex items-center justify-between">

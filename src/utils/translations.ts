@@ -145,6 +145,17 @@ interface Translations {
       currentQuestionNotFound: string
       restartTrivia: string
       bestScore: string
+      sections: {
+        geografia: { name: string; description: string }
+        fauna: { name: string; description: string }
+        flora: { name: string; description: string }
+        conservacion: { name: string; description: string }
+        cultura: { name: string; description: string }
+        runap: { name: string; description: string }
+        'admin-boundaries': { name: string; description: string }
+        'resguardos-indigenas': { name: string; description: string }
+        'comunidades-negras': { name: string; description: string }
+      }
       results: {
       title: string
       score: string
@@ -335,6 +346,44 @@ const translations: Record<Language, Translations> = {
       currentQuestionNotFound: 'No se encontró la pregunta actual.',
       restartTrivia: 'Reiniciar Trivia',
       bestScore: 'Mejor: {score} pts',
+      sections: {
+        geografia: {
+          name: 'Geografía',
+          description: 'Preguntas sobre ubicación, características geográficas y ciudades del Chocó biogeográfico',
+        },
+        fauna: {
+          name: 'Fauna',
+          description: 'Preguntas sobre animales, aves, mamíferos y otras especies del Chocó',
+        },
+        flora: {
+          name: 'Flora',
+          description: 'Preguntas sobre plantas, árboles y vegetación del Chocó',
+        },
+        conservacion: {
+          name: 'Conservación',
+          description: 'Preguntas sobre protección, amenazas y conservación del Chocó',
+        },
+        cultura: {
+          name: 'Cultura',
+          description: 'Preguntas sobre comunidades, tradiciones e instituciones del Chocó',
+        },
+        runap: {
+          name: 'Parques Nacionales',
+          description: 'Preguntas sobre áreas protegidas y parques nacionales del Chocó',
+        },
+        'admin-boundaries': {
+          name: 'Municipios',
+          description: 'Preguntas sobre divisiones administrativas y municipios del Chocó',
+        },
+        'resguardos-indigenas': {
+          name: 'Resguardos Indígenas',
+          description: 'Preguntas sobre territorios y comunidades indígenas del Chocó',
+        },
+        'comunidades-negras': {
+          name: 'Comunidades Negras',
+          description: 'Preguntas sobre comunidades afrodescendientes del Chocó',
+        },
+      },
       results: {
         title: '¡Trivia Completada!',
         correctAnswers: 'Correctas',
@@ -523,6 +572,44 @@ const translations: Record<Language, Translations> = {
       currentQuestionNotFound: 'Current question not found.',
       restartTrivia: 'Restart Trivia',
       bestScore: 'Best: {score} pts',
+      sections: {
+        geografia: {
+          name: 'Geography',
+          description: 'Questions about location, geographic features and cities of the Chocó biogeographic region',
+        },
+        fauna: {
+          name: 'Fauna',
+          description: 'Questions about animals, birds, mammals and other species of the Chocó',
+        },
+        flora: {
+          name: 'Flora',
+          description: 'Questions about plants, trees and vegetation of the Chocó',
+        },
+        conservacion: {
+          name: 'Conservation',
+          description: 'Questions about protection, threats and conservation of the Chocó',
+        },
+        cultura: {
+          name: 'Culture',
+          description: 'Questions about communities, traditions and institutions of the Chocó',
+        },
+        runap: {
+          name: 'National Parks',
+          description: 'Questions about protected areas and national parks of the Chocó',
+        },
+        'admin-boundaries': {
+          name: 'Municipalities',
+          description: 'Questions about administrative divisions and municipalities of the Chocó',
+        },
+        'resguardos-indigenas': {
+          name: 'Indigenous Territories',
+          description: 'Questions about territories and indigenous communities of the Chocó',
+        },
+        'comunidades-negras': {
+          name: 'Afro-Descendant Communities',
+          description: 'Questions about Afro-descendant communities of the Chocó',
+        },
+      },
       results: {
         title: 'Trivia Completed!',
         correctAnswers: 'Correct',
