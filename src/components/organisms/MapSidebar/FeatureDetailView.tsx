@@ -40,7 +40,7 @@ export function FeatureDetailView({ layerId, featureId }: FeatureDetailViewProps
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   
-  const { exitFeatureDrillDown } = useUIStore()
+  const { exitFeatureDrillDown, featureDrillDown } = useUIStore()
   const config = getLayerFeatureConfig(layerId)
 
   // Cargar feature
@@ -51,7 +51,9 @@ export function FeatureDetailView({ layerId, featureId }: FeatureDetailViewProps
       try {
         setLoading(true)
         setError(null)
-        const loadedFeature = await getFeatureById(layerId, featureId)
+        // Usar el nombre del featureDrillDown si está disponible para evitar colisiones de ID
+        const featureName = featureDrillDown?.featureName
+        const loadedFeature = await getFeatureById(layerId, featureId, featureName)
         if (mounted) {
           if (loadedFeature) {
             setFeature(loadedFeature)
@@ -75,7 +77,7 @@ export function FeatureDetailView({ layerId, featureId }: FeatureDetailViewProps
     return () => {
       mounted = false
     }
-  }, [layerId, featureId])
+  }, [layerId, featureId, featureDrillDown?.featureName])
 
   if (!config) {
     return (

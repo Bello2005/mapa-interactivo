@@ -165,6 +165,8 @@ export function MapView({ fullHeight = false }: MapViewProps) {
 
   const mapRef = useRef<L.Map | null>(null)
   const userLocationMarkerRef = useRef<L.CircleMarker | null>(null)
+  // Ref para almacenar las capas por featureId para poder aplicar estilos dinámicamente
+  const featureLayersRef = useRef<Map<string, L.Layer>>(new Map())
 
   const activeLayersList = useMemo(
     () =>
@@ -389,17 +391,39 @@ export function MapView({ fullHeight = false }: MapViewProps) {
     if (layerId) {
       const config = getLayerFeatureConfig(layerId)
       
-      if (config) {
-        const featureId = props[config.idProperty]?.toString()
-        const featureName = props[config.nameProperty] || 'Sin nombre'
-        
-        // Verificar si el feature tiene nombre válido
-        const isValid = hasValidFeatureName(props, config)
+        if (config) {
+          const featureId = props[config.idProperty]?.toString()
+          const featureName = props[config.nameProperty] || 'Sin nombre'
+          
+          // Verificar si el feature tiene nombre válido
+          const isValid = hasValidFeatureName(props, config)
 
-        // Solo agregar interactividad si tiene nombre válido
-        if (isValid) {
-          // Hover effect
+          // Solo agregar interactividad si tiene nombre válido
+          if (isValid && featureId && featureName !== 'Sin nombre') {
+            // Almacenar la capa usando el nombre como clave principal (más único)
+            // Normalizar el nombre para evitar problemas con espacios/acentos/mayúsculas
+            // Usar la misma normalización que cuando se busca
+            const normalizedName = featureName.toLowerCase().trim().replace(/\s+/g, '-').normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+            
+            // Clave principal: usar nombre normalizado (más único)
+            const layerKeyByName = `${layerId}-${normalizedName}`
+            featureLayersRef.current.set(layerKeyByName, layer)
+            
+            // Clave secundaria: ID + nombre normalizado (para búsqueda alternativa)
+            const layerKeyByIdAndName = `${layerId}-${featureId}-${normalizedName}`
+            featureLayersRef.current.set(layerKeyByIdAndName, layer)
+            
+            // Debug: verificar qué se está almacenando
+            console.log('📦 Almacenando capa:', { layerId, featureId, featureName, normalizedName, layerKeyByName })
+
+          // Hover effect - solo si no está seleccionado
           layer.on('mouseover', function(this: L.Path) {
+            // No aplicar hover si este feature está seleccionado
+            const currentFeature = useUIStore.getState().featureDrillDown
+            if (currentFeature?.layerId === layerId && currentFeature?.featureId === featureId) {
+              return
+            }
+            
             this.setStyle({
               fillOpacity: 0.7,
               weight: 3
@@ -411,6 +435,12 @@ export function MapView({ fullHeight = false }: MapViewProps) {
           })
 
           layer.on('mouseout', function(this: L.Path) {
+            // No restaurar estilo si este feature está seleccionado
+            const currentFeature = useUIStore.getState().featureDrillDown
+            if (currentFeature?.layerId === layerId && currentFeature?.featureId === featureId) {
+              return
+            }
+            
             const currentLayer = availableLayers.find(l => l.id === layerId)
             const currentOpacity = layerOpacities[layerId] ?? currentLayer?.opacity ?? 0.5
             this.setStyle({
@@ -426,9 +456,23 @@ export function MapView({ fullHeight = false }: MapViewProps) {
           // Click handler - solo si tiene nombre válido
           layer.on('click', (e) => {
             if (featureId && isValid) {
+              // Obtener el nombre directamente del feature clickeado para asegurar que sea correcto
+              const clickedFeatureName = props[config.nameProperty] || 'Sin nombre'
+              
+              // Debug: verificar que estamos seleccionando el feature correcto
+              console.log('🔵 Click en feature:', { 
+                layerId, 
+                featureId, 
+                featureName: clickedFeatureName, 
+                originalFeatureName: featureName,
+                props: props[config.nameProperty],
+                allProps: props
+              })
+              
               // Abrir sidebar primero para asegurar que esté visible
               setSidebarOpen(true)
-              enterFeatureDrillDown(layerId, featureId, featureName)
+              // Usar el nombre del feature clickeado, no el que se capturó en el closure
+              enterFeatureDrillDown(layerId, featureId, clickedFeatureName)
 
               // Hacer zoom al feature
               const bounds = (layer as any).getBounds()
@@ -773,6 +817,95 @@ export function MapView({ fullHeight = false }: MapViewProps) {
     window.addEventListener('feature-selected', handleFeatureSelected as EventListener)
     return () => window.removeEventListener('feature-selected', handleFeatureSelected as EventListener)
   }, [])
+
+  // Aplicar estilo destacado al feature seleccionado
+  useEffect(() => {
+    // Validar que availableLayers sea un array antes de usar
+    if (!availableLayers || !Array.isArray(availableLayers) || availableLayers.length === 0) {
+      return
+    }
+
+    // Capturar availableLayers al inicio para evitar cambios durante la ejecución
+    const layers = [...availableLayers] // Crear copia para evitar mutaciones
+    
+    const currentLayer = layers.find(l => l?.id === featureDrillDown?.layerId)
+    const currentOpacity = featureDrillDown?.layerId 
+      ? (layerOpacities[featureDrillDown.layerId] ?? currentLayer?.opacity ?? 0.5)
+      : 0.5
+
+    // Restaurar estilo de todas las capas primero
+    featureLayersRef.current.forEach((layer, key) => {
+      if (!layer || typeof (layer as any).setStyle !== 'function') return
+      
+      const [layerId] = key.split('-')
+      const layerConfig = Array.isArray(layers) ? layers.find(l => l?.id === layerId) : null
+      const layerOpacity = layerOpacities[layerId] ?? layerConfig?.opacity ?? 0.5
+      
+      // Restaurar estilo normal
+      try {
+        (layer as L.Path).setStyle({
+          fillOpacity: layerOpacity,
+          weight: 2,
+          color: layerConfig?.color || '#059669',
+          opacity: 0.9,
+        })
+      } catch (error) {
+        console.warn('Error setting layer style:', error)
+      }
+    })
+
+    // Aplicar estilo destacado al feature seleccionado
+    if (featureDrillDown?.layerId && featureDrillDown?.featureId && featureDrillDown?.featureName) {
+      // Normalizar el nombre para buscar la clave correcta (igual que cuando se almacena)
+      const normalizedName = featureDrillDown.featureName.toLowerCase().trim().replace(/\s+/g, '-').normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      
+      // Buscar usando el nombre normalizado como clave principal (más único)
+      const selectedKeyByName = `${featureDrillDown.layerId}-${normalizedName}`
+      const selectedKeyByIdAndName = `${featureDrillDown.layerId}-${featureDrillDown.featureId}-${normalizedName}`
+      
+      let selectedLayer = featureLayersRef.current.get(selectedKeyByName) || featureLayersRef.current.get(selectedKeyByIdAndName)
+      
+      // Debug: verificar qué se está seleccionando
+      if (!selectedLayer) {
+        console.warn('⚠️ No se encontró la capa para:', { 
+          layerId: featureDrillDown.layerId, 
+          featureId: featureDrillDown.featureId,
+          featureName: featureDrillDown.featureName,
+          normalizedName,
+          searchedKeys: [selectedKeyByName, selectedKeyByIdAndName],
+          availableKeys: Array.from(featureLayersRef.current.keys()).filter(k => 
+            k.startsWith(`${featureDrillDown.layerId}-`) && 
+            (k.includes(normalizedName) || k.includes(featureDrillDown.featureId))
+          )
+        })
+      } else {
+        const foundKey = selectedLayer === featureLayersRef.current.get(selectedKeyByName) ? selectedKeyByName : selectedKeyByIdAndName
+        console.log('✅ Aplicando estilo a:', { 
+          layerId: featureDrillDown.layerId, 
+          featureId: featureDrillDown.featureId,
+          featureName: featureDrillDown.featureName,
+          normalizedName,
+          foundWithKey: foundKey
+        })
+      }
+      
+      if (selectedLayer && typeof (selectedLayer as any).setStyle === 'function') {
+        const layerConfig = Array.isArray(layers) ? layers.find(l => l?.id === featureDrillDown.layerId) : null
+        // Estilo destacado: contorno grueso, color vibrante, relleno más claro
+        try {
+          (selectedLayer as L.Path).setStyle({
+            fillColor: layerConfig?.color || '#059669',
+            fillOpacity: Math.max(0.2, currentOpacity * 0.4), // Relleno más transparente
+            color: '#3b82f6', // Azul vibrante para el contorno
+            weight: 4, // Contorno más grueso
+            opacity: 1, // Contorno completamente opaco
+          })
+        } catch (error) {
+          console.warn('Error setting selected layer style:', error)
+        }
+      }
+    }
+  }, [featureDrillDown, availableLayers, layerOpacities])
 
   // Resetear vista del mapa cuando se presiona "volver" (featureDrillDown se vuelve null)
   const prevFeatureDrillDownRef = useRef<typeof featureDrillDown>(null)

@@ -25,7 +25,18 @@ export function parseLayerFeatures(
 }
 
 /**
- * Filtrar features por término de búsqueda
+ * Normalizar texto para búsqueda (case-insensitive y sin acentos)
+ */
+function normalizeSearchText(text: string): string {
+  return text
+    .toLowerCase()
+    .normalize('NFD') // Descomponer caracteres con acentos
+    .replace(/[\u0300-\u036f]/g, '') // Remover diacríticos (acentos)
+    .trim()
+}
+
+/**
+ * Filtrar features por término de búsqueda (case-insensitive y sin acentos)
  */
 export function filterFeatures(
   features: LayerFeature[],
@@ -34,11 +45,16 @@ export function filterFeatures(
 ): LayerFeature[] {
   if (!searchTerm.trim()) return features
   
-  const term = searchTerm.toLowerCase()
+  const normalizedTerm = normalizeSearchText(searchTerm)
+  
   return features.filter(feature => 
-    config.searchableProperties.some(prop => 
-      feature.properties[prop]?.toString().toLowerCase().includes(term)
-    )
+    config.searchableProperties.some(prop => {
+      const propertyValue = feature.properties[prop]
+      if (!propertyValue) return false
+      
+      const normalizedValue = normalizeSearchText(propertyValue.toString())
+      return normalizedValue.includes(normalizedTerm)
+    })
   )
 }
 

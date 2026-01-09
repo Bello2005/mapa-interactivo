@@ -86,13 +86,25 @@ export async function loadGeoJSON(
 }
 
 /**
- * Obtener un feature específico por ID
+ * Obtener un feature específico por ID y opcionalmente por nombre
  */
 export async function getFeatureById(
   layerId: string,
-  featureId: string
+  featureId: string,
+  featureName?: string
 ): Promise<LayerFeature | null> {
   const features = await loadLayerFeatures(layerId)
+  
+  // Si se proporciona el nombre, buscar por ID y nombre para evitar colisiones
+  if (featureName) {
+    const normalizedName = featureName.toLowerCase().trim()
+    const found = features.find(f => 
+      f.id === featureId && f.name.toLowerCase().trim() === normalizedName
+    )
+    if (found) return found
+  }
+  
+  // Fallback: buscar solo por ID (puede haber colisiones)
   return features.find(f => f.id === featureId) || null
 }
 
