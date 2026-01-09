@@ -875,7 +875,7 @@ export function MapView({ fullHeight = false }: MapViewProps) {
           searchedKeys: [selectedKeyByName, selectedKeyByIdAndName],
           availableKeys: Array.from(featureLayersRef.current.keys()).filter(k => 
             k.startsWith(`${featureDrillDown.layerId}-`) && 
-            (k.includes(normalizedName) || k.includes(featureDrillDown.featureId))
+            (k.includes(normalizedName) || (featureDrillDown.featureId && k.includes(featureDrillDown.featureId)))
           )
         })
       } else {

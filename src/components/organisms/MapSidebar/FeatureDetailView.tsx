@@ -52,7 +52,7 @@ export function FeatureDetailView({ layerId, featureId }: FeatureDetailViewProps
         setLoading(true)
         setError(null)
         // Usar el nombre del featureDrillDown si está disponible para evitar colisiones de ID
-        const featureName = featureDrillDown?.featureName
+        const featureName = featureDrillDown?.featureName || undefined
         const loadedFeature = await getFeatureById(layerId, featureId, featureName)
         if (mounted) {
           if (loadedFeature) {
