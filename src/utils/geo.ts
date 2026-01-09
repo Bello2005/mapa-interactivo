@@ -5,20 +5,14 @@ import * as turf from '@turf/turf'
 import type { GeoJSONFeatureCollection, SpeciesRange, GeoJSONFeature } from '../types'
 import type { LatLngBoundsExpression } from 'leaflet'
 
-// Tipos GeoJSON inline para evitar dependencia externa
-type PolygonGeometry = { type: 'Polygon'; coordinates: [number, number][][] }
-type MultiPolygonGeometry = { type: 'MultiPolygon'; coordinates: [number, number][][][] }
-
-type Feature<T = PolygonGeometry | MultiPolygonGeometry> = {
-  type: 'Feature'
-  geometry: T
-  properties?: Record<string, any>
-}
-
-type FeatureCollection<T = PolygonGeometry | MultiPolygonGeometry> = {
-  type: 'FeatureCollection'
-  features: Feature<T>[]
-}
+// Tipos GeoJSON - usando tipos del paquete @types/geojson
+import type { 
+  Polygon, 
+  MultiPolygon, 
+  Feature, 
+  FeatureCollection, 
+  GeoJsonProperties 
+} from 'geojson'
 
 /**
  * Obtiene los límites (bounds) de un GeoJSON para hacer fitBounds
@@ -49,7 +43,7 @@ export function isPointInPolygon(
       continue
     }
 
-    const poly = turf.feature(feature.geometry) as Feature<Polygon | MultiPolygon>
+    const poly = turf.feature(feature.geometry) as Feature<Polygon | MultiPolygon, GeoJsonProperties>
     if (turf.booleanPointInPolygon(point, poly)) {
       return true
     }
@@ -78,17 +72,17 @@ export function clipRangeToRegion(
       return null
     }
 
-    const rangePolygon = turf.feature(range.geometry) as Feature<Polygon | MultiPolygon>
+    const rangePolygon = turf.feature(range.geometry) as Feature<Polygon | MultiPolygon, GeoJsonProperties>
     const bioregionCollection = turf.featureCollection(
-      polygonFeatures.map((f) => turf.feature(f.geometry) as Feature<Polygon | MultiPolygon>)
-    ) as FeatureCollection<Polygon | MultiPolygon>
+      polygonFeatures.map((f) => turf.feature(f.geometry) as Feature<Polygon | MultiPolygon, GeoJsonProperties>)
+    ) as FeatureCollection<Polygon | MultiPolygon, GeoJsonProperties>
     
     const bioregionUnion = turf.union(bioregionCollection)
 
     if (!bioregionUnion) return null
 
     const intersection = turf.intersect(
-      turf.featureCollection([rangePolygon, bioregionUnion]) as FeatureCollection<Polygon | MultiPolygon>
+      turf.featureCollection([rangePolygon, bioregionUnion]) as FeatureCollection<Polygon | MultiPolygon, GeoJsonProperties>
     )
 
     if (!intersection) return null

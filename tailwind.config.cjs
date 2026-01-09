@@ -24,10 +24,6 @@ module.exports = {
     'z-[1100]',
     'z-[1150]',
     'z-[1200]',
-    // Clases dinámicas comunes
-    {
-      pattern: /^(md|sm|lg|xl):(hidden|flex|block|absolute|fixed)/,
-    },
   ],
   theme: {
     extend: {

@@ -48,6 +48,9 @@ importers:
       '@eslint/js':
         specifier: ^9.36.0
         version: 9.39.2
+      '@types/geojson':
+        specifier: ^7946.0.16
+        version: 7946.0.16
       '@types/howler':
         specifier: ^2.2.12
         version: 2.2.12
