@@ -21,6 +21,7 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     sourcemap: true,
+    cssCodeSplit: false, // Asegurar que todo el CSS se incluya en un solo archivo
     rollupOptions: {
       output: {
         manualChunks: {

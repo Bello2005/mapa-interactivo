@@ -8,6 +8,27 @@ module.exports = {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  // Asegurar que todas las clases se incluyan en el build
+  safelist: [
+    // Clases responsive críticas
+    'md:hidden',
+    'md:flex',
+    'md:block',
+    'sm:hidden',
+    'sm:flex',
+    'sm:block',
+    'lg:hidden',
+    'lg:flex',
+    'lg:block',
+    // Z-index values
+    'z-[1100]',
+    'z-[1150]',
+    'z-[1200]',
+    // Clases dinámicas comunes
+    {
+      pattern: /^(md|sm|lg|xl):(hidden|flex|block|absolute|fixed)/,
+    },
+  ],
   theme: {
     extend: {
       colors: {

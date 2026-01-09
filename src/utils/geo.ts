@@ -4,7 +4,21 @@
 import * as turf from '@turf/turf'
 import type { GeoJSONFeatureCollection, SpeciesRange, GeoJSONFeature } from '../types'
 import type { LatLngBoundsExpression } from 'leaflet'
-import type { Feature, Polygon, MultiPolygon, FeatureCollection } from 'geojson'
+
+// Tipos GeoJSON inline para evitar dependencia externa
+type PolygonGeometry = { type: 'Polygon'; coordinates: [number, number][][] }
+type MultiPolygonGeometry = { type: 'MultiPolygon'; coordinates: [number, number][][][] }
+
+type Feature<T = PolygonGeometry | MultiPolygonGeometry> = {
+  type: 'Feature'
+  geometry: T
+  properties?: Record<string, any>
+}
+
+type FeatureCollection<T = PolygonGeometry | MultiPolygonGeometry> = {
+  type: 'FeatureCollection'
+  features: Feature<T>[]
+}
 
 /**
  * Obtiene los límites (bounds) de un GeoJSON para hacer fitBounds
