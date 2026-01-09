@@ -138,14 +138,22 @@
         {
           "id": "geo-4",
           "question": "¿Qué tipo de relieve predomina en el Chocó biogeográfico?",
+          "questionEn": "What type of relief predominates in the Chocó biogeographic region?",
           "options": [
             "Montañas altas de más de 5000 msnm",
             "Llanuras aluviales y colinas bajas",
             "Desiertos y mesetas",
             "Volcanes activos"
           ],
+          "optionsEn": [
+            "High mountains over 5000 masl",
+            "Alluvial plains and low hills",
+            "Deserts and plateaus",
+            "Active volcanoes"
+          ],
           "correctAnswer": 1,
           "explanation": "El Chocó se caracteriza por llanuras aluviales, colinas bajas y serranías que no superan los 1000 msnm en su mayoría.",
+          "explanationEn": "The Chocó is characterized by alluvial plains, low hills and mountain ranges that mostly do not exceed 1000 masl.",
           "category": "geografia",
           "difficulty": "medio",
           "points": 15
