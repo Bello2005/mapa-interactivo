@@ -18,6 +18,7 @@ import { useUIStore } from '@stores/uiStore'
 import { useGameProgress } from '@hooks/useGameProgress'
 import { thematicLayers } from '@config/layers'
 import { getLayers as getLayersFromAPI, checkBackendHealth } from '@services/api'
+import { fetchStaticJson } from '@services/staticData'
 import { getLayerFeatureConfig } from '@config/layerFeatures'
 import { hasValidFeatureName } from '@utils/layerFeatures'
 
@@ -208,13 +209,7 @@ export function MapView({ fullHeight = false }: MapViewProps) {
   useEffect(() => {
     async function loadSpecies() {
       try {
-        const timestamp = Date.now()
-        const response = await fetch(`/data/species.json?t=${timestamp}`, { 
-          cache: 'no-store',
-          headers: { 'Cache-Control': 'no-cache' }
-        })
-        if (!response.ok) throw new Error(`Failed to load species: ${response.status}`)
-        const data = await response.json()
+        const data = await fetchStaticJson<Species[]>('/data/species.json')
         setSpecies(data)
       } catch (error) {
         console.error('❌ Error loading species:', error)
@@ -241,17 +236,8 @@ export function MapView({ fullHeight = false }: MapViewProps) {
       loadingRef.current.add(layer.id)
       setLoadingLayers(prev => new Set(prev).add(layer.id))
       
-      const timestamp = Date.now()
-      fetch(`${layer.geojsonPath}?t=${timestamp}`, {
-        cache: 'no-store',
-        headers: { 'Cache-Control': 'no-cache' }
-      })
-        .then(async response => {
-          if (!response.ok) {
-            throw new Error(`HTTP ${response.status}`)
-          }
-          return response.json()
-        })
+      // Comparte petición con loadInitialData() si ya hay una en vuelo.
+      fetchStaticJson<GeoJSONFeatureCollection>(layer.geojsonPath!)
         .then(data => {
           setLayerDataMap(prev => {
             const newMap = new Map(prev)
@@ -329,45 +315,43 @@ export function MapView({ fullHeight = false }: MapViewProps) {
     async function loadInitialData() {
       try {
         setLoading(true)
-        const timestamp = Date.now()
 
         // Cargar límites administrativos por defecto
         const adminLayer = availableLayers.find(l => l.id === 'admin-boundaries')
         if (adminLayer?.geojsonPath) {
-          const response = await fetch(`${adminLayer.geojsonPath}?t=${timestamp}`, {
-            cache: 'no-store',
-            headers: { 'Cache-Control': 'no-cache' }
-          })
-          
-          if (response.ok) {
-            const data = await response.json()
-            setLayerDataMap(prev => {
-              const newMap = new Map(prev)
-              newMap.set('admin-boundaries', data)
-              loadedRef.current.add('admin-boundaries') // Marcar como cargado
-              return newMap
-            })
+          // Misma URL que el efecto de capas visibles: el que llegue segundo
+          // reutiliza la petición en vuelo en lugar de descargar otra vez los
+          // 18 MB de municipios.
+          const data = await fetchStaticJson<GeoJSONFeatureCollection>(
+            adminLayer.geojsonPath
+          )
 
-            // Calcular bounds iniciales
-            if (data.features && data.features.length > 0) {
-              const bounds = getBounds(data)
-              const boundsArray = bounds as [[number, number], [number, number]]
-              const leafletBounds = L.latLngBounds(boundsArray[0], boundsArray[1])
-              
-              // Expandir bounds: más horizontal (30%) para permitir mayor movimiento lateral
-              const south = leafletBounds.getSouth()
-              const north = leafletBounds.getNorth()
-              const west = leafletBounds.getWest()
-              const east = leafletBounds.getEast()
-              
-              const latPadding = (north - south) * 0.15  // 15% vertical
-              const lngPadding = (east - west) * 0.3     // 30% horizontal (más movimiento lateral)
-              
-              setMapBounds([
-                [south - latPadding, west - lngPadding],
-                [north + latPadding, east + lngPadding]
-              ])
-            }
+          setLayerDataMap(prev => {
+            const newMap = new Map(prev)
+            newMap.set('admin-boundaries', data)
+            loadedRef.current.add('admin-boundaries') // Marcar como cargado
+            return newMap
+          })
+
+          // Calcular bounds iniciales
+          if (data.features && data.features.length > 0) {
+            const bounds = getBounds(data)
+            const boundsArray = bounds as [[number, number], [number, number]]
+            const leafletBounds = L.latLngBounds(boundsArray[0], boundsArray[1])
+
+            // Expandir bounds: más horizontal (30%) para permitir mayor movimiento lateral
+            const south = leafletBounds.getSouth()
+            const north = leafletBounds.getNorth()
+            const west = leafletBounds.getWest()
+            const east = leafletBounds.getEast()
+
+            const latPadding = (north - south) * 0.15  // 15% vertical
+            const lngPadding = (east - west) * 0.3     // 30% horizontal (más movimiento lateral)
+
+            setMapBounds([
+              [south - latPadding, west - lngPadding],
+              [north + latPadding, east + lngPadding]
+            ])
           }
         }
       } catch (error) {

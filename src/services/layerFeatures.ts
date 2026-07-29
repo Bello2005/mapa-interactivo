@@ -5,12 +5,10 @@ import type { LayerFeature, GeoJSONFeatureCollection } from '../types'
 import { getLayerFeatureConfig } from '@config/layerFeatures'
 import { getLayerById } from '@config/layers'
 import { parseLayerFeatures, sortFeaturesByName, isValidFeature } from '@utils/layerFeatures'
+import { fetchStaticJson, clearStaticJson, getCachedStaticPaths } from '@services/staticData'
 
 // Cache de features cargados
 const featuresCache = new Map<string, LayerFeature[]>()
-
-// Cache de GeoJSON raw
-const geojsonCache = new Map<string, GeoJSONFeatureCollection>()
 
 /**
  * Cargar features de una capa específica
@@ -50,38 +48,27 @@ export async function loadLayerFeatures(
 
 /**
  * Cargar GeoJSON de una capa
- * Usa cache para evitar cargas repetidas
+ *
+ * Delega en `fetchStaticJson`, que comparte petición y resultado con el mapa:
+ * abrir el listado de features de una capa ya pintada no vuelve a descargar ni
+ * a parsear el archivo.
  */
 export async function loadGeoJSON(
   layerId: string
 ): Promise<GeoJSONFeatureCollection> {
-  // Verificar cache
-  if (geojsonCache.has(layerId)) {
-    return geojsonCache.get(layerId)!
-  }
-  
   // Obtener capa
   const layer = getLayerById(layerId)
   if (!layer?.geojsonPath) {
     throw new Error(`No se encontró ruta de GeoJSON para la capa: ${layerId}`)
   }
-  
-  // Cargar desde servidor
-  const response = await fetch(layer.geojsonPath)
-  if (!response.ok) {
-    throw new Error(`Error al cargar GeoJSON: ${response.statusText}`)
-  }
-  
-  const geojson = await response.json() as GeoJSONFeatureCollection
-  
+
+  const geojson = await fetchStaticJson<GeoJSONFeatureCollection>(layer.geojsonPath)
+
   // Validar estructura
   if (!geojson.features || !Array.isArray(geojson.features)) {
     throw new Error(`GeoJSON inválido para la capa: ${layerId}`)
   }
-  
-  // Guardar en cache
-  geojsonCache.set(layerId, geojson)
-  
+
   return geojson
 }
 
@@ -167,10 +154,10 @@ function extractCoordinates(geometry: any): number[][] {
 export function clearCache(layerId?: string) {
   if (layerId) {
     featuresCache.delete(layerId)
-    geojsonCache.delete(layerId)
+    clearStaticJson(getLayerById(layerId)?.geojsonPath)
   } else {
     featuresCache.clear()
-    geojsonCache.clear()
+    clearStaticJson()
   }
 }
 
@@ -193,7 +180,7 @@ export async function hasNamedFeatures(layerId: string): Promise<boolean> {
 export function getCacheStats() {
   return {
     featuresLayers: Array.from(featuresCache.keys()),
-    geojsonLayers: Array.from(geojsonCache.keys()),
+    geojsonPaths: getCachedStaticPaths(),
     totalFeaturesCached: Array.from(featuresCache.values()).reduce((sum, features) => sum + features.length, 0)
   }
 }

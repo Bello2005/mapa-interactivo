@@ -2,6 +2,7 @@
 // Generador de preguntas de trivia desde datos GeoJSON
 
 import type { TriviaQuestion, GeoJSONFeatureCollection } from '../types'
+import { fetchStaticJson } from '@services/staticData'
 
 interface GeoJSONLayerConfig {
   layerId: string
@@ -51,12 +52,11 @@ const LAYER_CONFIGS: GeoJSONLayerConfig[] = [
 
 /**
  * Carga un GeoJSON desde una ruta
+ * Comparte descarga y cache con el mapa a través de `fetchStaticJson`
  */
 async function loadGeoJSON(path: string): Promise<GeoJSONFeatureCollection | null> {
   try {
-    const response = await fetch(path)
-    if (!response.ok) return null
-    return await response.json()
+    return await fetchStaticJson<GeoJSONFeatureCollection>(path)
   } catch (error) {
     console.error(`Error loading GeoJSON from ${path}:`, error)
     return null
