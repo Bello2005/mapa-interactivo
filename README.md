@@ -461,6 +461,45 @@ npm i -g gh-pages
 gh-pages -d dist
 ```
 
+### Opción 4: Docker (autohospedado)
+
+Build multi-stage: Node compila el bundle y nginx sirve el estático con fallback
+SPA. No requiere Node en el servidor destino.
+
+```bash
+# Levantar en http://localhost:8080
+docker compose up -d --build
+```
+
+```bash
+# Sin compose
+docker build -t choco-biogeografico:latest .
+docker run -d -p 8080:8080 --name choco-web choco-biogeografico:latest
+```
+
+Desarrollo con hot reload dentro del contenedor (puerto 3000):
+
+```bash
+docker compose --profile dev up dev
+```
+
+**Notas:**
+
+- **Tamaño de imagen.** Las capas de `public/data/` suman ~320 MB de GeoJSON y
+  viajan dentro de la imagen porque el frontend las pide por HTTP. El build las
+  pre-comprime con gzip y nginx las entrega con `gzip_static`, sin recomprimir
+  en cada request.
+- **`VITE_API_URL` es build-time, no runtime.** Vite la inlina en el bundle, así
+  que definirla en el contenedor ya arrancado no tiene efecto. Hay que pasarla al
+  construir:
+  ```bash
+  docker compose build --build-arg VITE_API_URL=https://api.ejemplo.org/api
+  ```
+  Si se omite, el frontend cae al catálogo estático de `src/config/layers.ts`.
+- **Puerto.** El contenedor escucha en 8080; se cambia el puerto del host con
+  `PORT=3000 docker compose up -d`.
+- Healthcheck disponible en `/healthz`.
+
 ### Configuraciones Importantes
 
 **Variables de Entorno (si usas APIs futuras):**

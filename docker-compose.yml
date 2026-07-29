@@ -1,0 +1,36 @@
+services:
+  # Producción: build estático servido por nginx.
+  #   docker compose up -d --build
+  web:
+    build:
+      context: .
+      target: runtime
+      args:
+        VITE_API_URL: ${VITE_API_URL:-}
+    image: choco-biogeografico:latest
+    container_name: choco-web
+    ports:
+      - "${PORT:-8080}:8080"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8080/healthz"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+
+  # Desarrollo con hot reload:
+  #   docker compose --profile dev up dev
+  dev:
+    profiles: ["dev"]
+    build:
+      context: .
+      target: dev
+    container_name: choco-dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      # Volumen anónimo: conserva los node_modules de la imagen en vez de
+      # dejar que el bind mount del host los tape.
+      - /app/node_modules
