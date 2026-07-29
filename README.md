@@ -167,6 +167,27 @@ npm run preview  # Preview del build de producción
 npm run lint     # Ejecutar linter
 ```
 
+### Recortar precisión de los GeoJSON
+
+Las fuentes oficiales entregan las coordenadas con 14-16 decimales (precisión
+de nanómetro) en un mapa donde un píxel son ~60 cm en el mejor de los casos.
+Recortarlas a 6 decimales (~11 cm) reduce ~60% lo que viaja por la red sin
+cambio visible alguno.
+
+```bash
+# Ver qué cambiaría, sin escribir nada
+node --max-old-space-size=8192 scripts/trim-geojson-precision.mjs --check
+```
+
+```bash
+# Aplicar
+node --max-old-space-size=8192 scripts/trim-geojson-precision.mjs
+```
+
+Solo toca `geometry.coordinates`; las `properties` (áreas, códigos, cifras
+oficiales) se dejan intactas. Hay que volver a ejecutarlo cada vez que se
+reemplace una capa por datos nuevos del IIAP.
+
 ---
 
 ## 📁 Estructura del Proyecto
