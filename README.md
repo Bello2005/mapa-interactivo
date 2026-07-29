@@ -188,6 +188,34 @@ Solo toca `geometry.coordinates`; las `properties` (áreas, códigos, cifras
 oficiales) se dejan intactas. Hay que volver a ejecutarlo cada vez que se
 reemplace una capa por datos nuevos del IIAP.
 
+### Generar vector tiles (PMTiles)
+
+Convierte cada capa a un `.pmtiles`, que el navegador descarga por trozos
+(HTTP range requests) en lugar de entero. Requiere `brew install tippecanoe`.
+
+```bash
+./scripts/build-pmtiles.sh public/tiles
+```
+
+Sobre los datos ya recortados: **216.5 MB → 64.6 MB (-70%)** en disco, y una
+vista concreta descarga solo los tiles visibles en vez de la capa completa.
+
+**El frontend todavía NO consume estos tiles.** `MapView.tsx` usa el
+componente `<GeoJSON>` de react-leaflet; migrarlo exige cambiar de librería de
+render y rehacer estilos, popups y selección de features. Dos cosas a tener en
+cuenta antes de dar ese paso:
+
+- **Las capas pequeñas empeoran.** PMTiles tiene una cabecera y un directorio
+  de tamaño fijo, así que `boundaries_admin` (2.7 KB) pasa a ~100 KB y
+  `species_ranges` crece ~119x. Esas conviene dejarlas como GeoJSON.
+- **`triviaGenerator.ts` necesita los GeoJSON completos** para construir
+  preguntas a partir de las properties de todas las features. Los tiles sirven
+  por viewport, así que esa ruta no puede alimentarse de ellos: habría que
+  mantener ambos formatos o extraer las properties a un JSON aparte.
+
+El nginx del contenedor ya sirve range requests (`Accept-Ranges: bytes`,
+respuestas `206`), así que no hace falta tocar la configuración para servirlos.
+
 ---
 
 ## 📁 Estructura del Proyecto
